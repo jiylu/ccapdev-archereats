@@ -26,6 +26,10 @@
     align-self: flex-start;
 }
 
+.app-name .title {
+    color: white;
+}
+
 .searchbar-wrapper {
     display: flex;
     align-items: center;
