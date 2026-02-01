@@ -9,14 +9,19 @@
 *   Component css imports
 */
 @import url('components/navbar.css');
-
+@import url('components/restaurant-card.css');
 
 /*
 *   Global styles
 */
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: #fffcf5;
     margin: 0;
+}
+
+button {
+    font-family: 'Roboto', sans-serif;
 }
 
 a {
