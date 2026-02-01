@@ -33,6 +33,25 @@ body {
     line-height: 1.1; 
 }
 
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.edit-profile-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    color: #123524;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-profile-btn:hover {
+    background-color: rgba(18, 53, 36, 0.05);
+}
+
 .profile-info .username {
     font-size: 20px;
     font-weight: 500;

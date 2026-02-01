@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/edit-profile.css">
+    <title>Edit Profile</title>
+</head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="app-name-container">
+                <span class="app-name">
+                <a href="landing-page.html" class="title">ArcherEats.</a>
+                </span>
+            </div>
+            <div class="searchbar-wrapper">
+                <img src="../img/search-icon.svg" class="search-icon">
+                <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="review">Review</a>
+                <a href="profile.html" class="sign-in">Sign In</a>
+                <a href="profile.html" class="sign-up">Sign Up</a>
+                <img src="../img/menu-icon.svg" class="menu-icon">
+            </div>
+        </div>
+    </nav>
+    <!-- end of navbar -->
+    <div class="edit-profile-container">
+        <div class="avatar-column">
+            <img src="../img/default-avatar.svg" class="edit-profile-pic">
+            <button class="change-avatar-btn">Change Avatar</button>
+        </div>
+        <div class="edit-profile-info">
+            <h1 class="edit-profile-title">Edit Profile</h1>
+            <p class="edit-profile-desc">Manage your account's information and make sure 
+                it's true to keep the reviews more reliable to students, workers, and other users.</p>
+            <h2 class="username-label">Username*</h2>
+            <p class="username-desc">Customize and check your username availability.</p>
+            <div class="username-input-row">
+                <input type="text" class="username-input" placeholder="juandelacruz">
+                <button class="check-avail-btn">Check</button>
+            </div>
+            <div class="name-labels">
+                <h2 class="first-name">First Name*</h2>
+                <h2 class="last-name">Last Name*</h2>
+            </div>
+            <div class="name-input">
+                <input type="text" class="first-name-input" placeholder="Juan">
+                <input type="text" class="last-name-input" placeholder="Dela Cruz">
+            </div>
+            <h2 class="status-label">Status</h2>
+            <p class="status-desc">What is your status right now? (Worker, Professor, Student, etc.)</p>
+            <input type="text" class="status-input" placeholder="Student">
+            <h2 class="biography-label">Biography</h2>
+            <p class="biography-desc">Write a short description about yourself.</p>
+            <textarea class="biography-input" placeholder="I love food!"></textarea>
+            <div class="save-changes">
+                <button class="save-changes-btn" onclick="location.href='profile.html'">Save Changes</button>
+                <button class="reset-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
