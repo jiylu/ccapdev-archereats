@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/directory.css">
     <title>Directory</title>
 </head>
 <body>
@@ -25,6 +26,259 @@
             </div>
         </div>
     </nav>
+
     <!-- end of navbar -->
+    
+    <div class="content">
+        <aside class="filter-container">
+            <div class="header-container">
+                <img src="../img/filter.svg" class="filter-img">
+                <span class="header">SEARCH FILTER</span>
+            </div>
+            
+            <!-- cuisine filters -->
+            <div class="filters">
+                <span class="header">Cuisine</span>
+                <label>
+                    <input type="checkbox" name="cuisine-filter" value="filipino">
+                    Filipino
+                </label>
+                <label>
+                    <input type="checkbox" name="cuisine-filter" value="chinese">
+                    Chinese
+                </label>
+                <label>
+                    <input type="checkbox" name="cuisine-filter" value="korean">
+                    Korean
+                </label>
+                <label>
+                    <input type="checkbox" name="cuisine-filter" value="thai">
+                    Thai
+                </label>
+            </div>
+
+            <!-- tag filters -->
+            <div class="filters">
+                <span class="header">Tags</span>
+                <label>
+                    <input type="checkbox" name="tag-filter" value="free-wifi">
+                    Free WiFi
+                </label>
+                <label>
+                    <input type="checkbox" name="tag-filter" value="vegetarian">
+                    Vegetarian
+                </label>
+                <label>
+                    <input type="checkbox" name="tag-filter" value="halal">
+                    Halal
+                </label>
+                <label>
+                    <input type="checkbox" name="tag-filter" value="student-friendly">
+                    Student Friendly
+                </label>
+                <label>
+                    <input type="checkbox" name="tag-filter" value="24-hours">
+                    24-Hours
+                </label>
+                <label>
+                    <input type="checkbox" name="tag-filter" value="fast-food">
+                    Fast Food
+                </label>
+            </div>
+
+            <!-- rating filters -->
+            <div class="filters">
+                <span class="header">Rating</span>
+            </div>
+        </aside>
+
+        <div class=directory>
+            <span class="directory-header">Directory</span>
+            
+            <!-- toolbar -->
+            <div class="toolbar-container">
+                <div class="sort-by-container">
+                    <span class="sort-by-text">Sort By</span>
+                    <button class="btn-popularity" id="btn-popularity">Popularity</button>
+                    <label>
+                        Price
+                        <select>
+                            <option value="high-to-low">Low to High</option>
+                            <option value="high-to-low">High to Low</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="page-container">
+                    <div class="page-num">
+                        <span id="current-page">1</span>/<span id="total-pages">45</span>
+                    </div>
+                    <div class="page-btn">
+                        <button class="arrow-btn" id="left-arrow-btn">
+                            <img src="../img/arrow-left-circle.svg" class="arrow-icon">
+                        </button>
+                        <button class="arrow-btn" id="right-arrow-btn">
+                            <img src="../img/arrow-right-circle.svg" class="arrow-icon">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cards -->
+            <div class="result-container">
+                <div class="restaurant-card">
+                    <div class="card-top">
+                        <img src="/img/barn.jpg" class ="restaurant-img" alt="barn">
+                        <button class="review-btn" id="review-btn">Write a Review!</button>
+                        <div class="res-rating-container">
+                            <span class="rating">4.9 ★</span>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <span class="restaurant-title">The Barn</span>
+                        <div class="cuisines">
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">Filipino</span>
+                            </div>
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">American</span>
+                            </div>
+                        </div>
+                        <span class="res-address">
+                            <img src="../img/location-icon.svg" class="loc-icon" alt="location">
+                            <span id="full-address">2226 Fidel Reyes St., Malate, Manila, 1004 Metro Manila, Philippines</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="restaurant-card">
+                    <div class="card-top">
+                        <img src="/img/barn.jpg" class ="restaurant-img" alt="barn">
+                        <button class="review-btn" id="review-btn">Write a Review!</button>
+                        <div class="res-rating-container">
+                            <span class="rating">4.9 ★</span>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <span class="restaurant-title">The Barn</span>
+                        <div class="cuisines">
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">Filipino</span>
+                            </div>
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">American</span>
+                            </div>
+                        </div>
+                        <span class="res-address">
+                            <img src="../img/location-icon.svg" class="loc-icon" alt="location">
+                            <span id="full-address">2226 Fidel Reyes St., Malate, Manila, 1004 Metro Manila, Philippines</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="restaurant-card">
+                    <div class="card-top">
+                        <img src="/img/barn.jpg" class ="restaurant-img" alt="barn">
+                        <button class="review-btn" id="review-btn">Write a Review!</button>
+                        <div class="res-rating-container">
+                            <span class="rating">4.9 ★</span>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <span class="restaurant-title">The Barn</span>
+                        <div class="cuisines">
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">Filipino</span>
+                            </div>
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">American</span>
+                            </div>
+                        </div>
+                        <span class="res-address">
+                            <img src="../img/location-icon.svg" class="loc-icon" alt="location">
+                            <span id="full-address">2226 Fidel Reyes St., Malate, Manila, 1004 Metro Manila, Philippines</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="restaurant-card">
+                    <div class="card-top">
+                        <img src="/img/barn.jpg" class ="restaurant-img" alt="barn">
+                        <button class="review-btn" id="review-btn">Write a Review!</button>
+                        <div class="res-rating-container">
+                            <span class="rating">4.9 ★</span>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <span class="restaurant-title">The Barn</span>
+                        <div class="cuisines">
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">Filipino</span>
+                            </div>
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">American</span>
+                            </div>
+                        </div>
+                        <span class="res-address">
+                            <img src="../img/location-icon.svg" class="loc-icon" alt="location">
+                            <span id="full-address">2226 Fidel Reyes St., Malate, Manila, 1004 Metro Manila, Philippines</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="restaurant-card">
+                    <div class="card-top">
+                        <img src="/img/barn.jpg" class ="restaurant-img" alt="barn">
+                        <button class="review-btn" id="review-btn">Write a Review!</button>
+                        <div class="res-rating-container">
+                            <span class="rating">4.9 ★</span>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <span class="restaurant-title">The Barn</span>
+                        <div class="cuisines">
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">Filipino</span>
+                            </div>
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">American</span>
+                            </div>
+                        </div>
+                        <span class="res-address">
+                            <img src="../img/location-icon.svg" class="loc-icon" alt="location">
+                            <span id="full-address">2226 Fidel Reyes St., Malate, Manila, 1004 Metro Manila, Philippines</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="restaurant-card">
+                    <div class="card-top">
+                        <img src="/img/barn.jpg" class ="restaurant-img" alt="barn">
+                        <button class="review-btn" id="review-btn">Write a Review!</button>
+                        <div class="res-rating-container">
+                            <span class="rating">4.9 ★</span>
+                        </div>
+                    </div>
+                    <div class="card-bottom">
+                        <span class="restaurant-title">The Barn</span>
+                        <div class="cuisines">
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">Filipino</span>
+                            </div>
+                            <div class="cuisine-container">
+                                <span class="cuisine-type">American</span>
+                            </div>
+                        </div>
+                        <span class="res-address">
+                            <img src="../img/location-icon.svg" class="loc-icon" alt="location">
+                            <span id="full-address">2226 Fidel Reyes St., Malate, Manila, 1004 Metro Manila, Philippines</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 </body>
 </html>

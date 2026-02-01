@@ -1,0 +1,112 @@
+.content {
+    display: flex;
+    margin: 2em;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 27%;
+    max-width: 60em;
+}
+
+.header-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+.header {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.filter-img {
+    height: 27px;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.directory {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 63.5%;
+    max-width: 62.5em;
+}
+
+.directory-header {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.toolbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    padding: 0.5em 1em;
+    border: 2px solid #006937;
+    border-radius: 15px;
+    background-color: white;
+}
+.toolbar-container .sort-by-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.8em;
+}
+
+.sort-by-container .btn-popularity {
+    border-radius: 32px;
+    background-color: #00b25d;
+    outline: none;
+    border: none;
+    cursor: pointer;
+
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0.5em 1em;
+}
+
+.sort-by-container .sort-by-text {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.page-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.arrow-icon {
+    height: 20px;
+}
+
+.page-btn {
+    padding: 0px;
+}
+
+.arrow-btn {
+    background: transparent;
+    outline: none;
+    padding: 0px;
+    cursor: pointer;
+    border: none;
+}
+
+.result-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.9rem;
+}
