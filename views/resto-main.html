@@ -1,0 +1,119 @@
+<!-- Has clickable images -->
+
+<!DOCTYPE htmL>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="short description" />
+  <title>Mamou</title>
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<!-- main navbar -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="app-name-container">
+        <span class="app-name">
+          <a href="landing-page.html" class="title">ArcherEats.</a>
+        </span>
+      </div>
+
+      <div class="searchbar-wrapper">
+        <img src="../img/search-icon.svg" class="search-icon">
+        <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
+      </div>
+      
+      <div class="nav-actions">
+        <a href="#" class="review">Review</a>
+        <a href="profile.html" class="sign-in">Sign In</a>
+        <a href="profile.html" class="sign-up">Sign Up</a>
+        <img src="../img/menu-icon.svg" class="menu-icon">
+      </div>
+    </div>
+  </nav>
+
+<!-- Big Images - Optional -->
+
+<!-- Resturant's Main Info-->
+  <div class="main-info">
+    <div class="header-cluster"> <!-- Header Cluster: Title, Stars, Category, Hours -->
+      <div class="title-section">
+        <h1># Resturant Name</h1>
+
+      <div class="quick-info">
+        <div class="star-review">
+          <a href="review-page.html">
+            <img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star">
+          </a>
+          <span class="rating">4.5 (245 reviews)</span>
+        </div>
+
+        <span class="separator">•</span>
+
+        <div class="categories">
+          <span>$$$ (Php 500-2,000)</span>
+        </div>
+
+        <span class="separator">•</span>
+          
+        <div class="cuisine-type">
+          <span>Italian, Filipino</span>
+        </div>
+        <span class="separator">•</span>
+          
+        <div class="operational-hours">
+        <span class="status-open">Open</span> 11:00 AM - 10:00 PM
+        <a href="review-page.html">See Hours</a>
+        </div>
+
+      </div>
+      </div>
+    </div>
+
+    <!-- Contact & Location Info -->
+    <div class="details-section">
+      <div class="contact-info">
+        <h3>📱 +63 123 456 7890</h3>
+        <h3>📘 @ToniAndSergio</h3>
+      </div>
+      <div class="directions">
+        <strong>📍 Location:</strong> 123 Taft Avenue, Manila, Philippines
+      </div>
+    </div>
+  </div>
+    
+
+<!-- Restaurant's Reviewer Navigation -->
+  <nav class="reviewer-navbar">  
+      <div class="write-review">
+        <button class="write-review" onclick="window.location.href='review-page.html'">
+          <span class="icon">⭐</span> Write a Review
+        </button>
+      </div>
+      
+      <div class="add-photo"> <!-- optional; adding of additional Photos-->
+        <button class="add-photo">
+          <span class="icon">📷</span> Add Photos/Videos
+        </button>
+      </div>
+
+      <div class="share">
+        <button class="share"> <!--There will be a pop-up showing the link and a copy url button-->
+          <span class="icon">🔗</span> Share
+        </button>
+      </div>
+
+      <div class="save"> <!-- optional; adding of additional Photos-->
+        <button class="save">
+          <span class="icon">🔖</span> Save
+        </button>
+      </div>
+  </nav>
+
+</body>
+
+</html>

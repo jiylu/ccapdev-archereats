@@ -1,0 +1,293 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+.sign-up {
+  background-color: #ffffff;
+  color: rgba(18, 53, 36) !important;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  transition: background-color 0.5s;
+}
+
+.sign-up:hover {
+  background-color: #000000;
+  color: #fff !important;
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Main Info Section */
+.main-info {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Cluster */
+.header-cluster {
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.title-section h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.quick-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.quick-info .separator {
+  color: #999;
+  font-weight: bold;
+}
+
+/* Star Review in Quick Info */
+.quick-info .star-review {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.quick-info .star-review a {
+  display: flex;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.quick-info .star-review img {
+  width: 18px;
+  height: 18px;
+}
+
+.quick-info .rating {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Categories in Quick Info */
+.quick-info .categories {
+  margin: 0;
+}
+
+.quick-info .categories span {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* Cuisine Type */
+.cuisine-type span {
+  color: #4f2e00;
+  font-style: italic;
+}
+
+/* Operational Hours in Quick Info */
+.quick-info .operational-hours {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: #555;
+}
+
+.status-open {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.status-closed {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.operational-hours a{
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #6666667c;
+    border-radius:5px;
+    padding: 2px;
+    gap: 16px;
+    
+}
+
+/* Details Section - Contact & Location */
+.details-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Contact Info */
+.contact-info {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.contact-info h3 {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+}
+
+/* Directions */
+.directions {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #555;
+}
+
+/* Reviewer Navbar */
+.reviewer-navbar {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 16px 32px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.reviewer-navbar > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.reviewer-navbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.reviewer-navbar button {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgb(0, 0, 0);;
+  background-color: rgb(30, 91, 61);;
+  color: #ffffff;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reviewer-navbar button:hover {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.reviewer-navbar button .icon {
+  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .navbar-content {
+    flex-wrap: wrap;
+  }
+
+  .searchbar-wrapper {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-actions a:not(.sign-up) {
+    display: none;
+  }
+
+  .main-info {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .title-section h1 {
+    font-size: 2rem;
+  }
+
+  .quick-info {
+    font-size: 0.85rem;
+  }
+
+  .details-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .reviewer-navbar {
+    padding: 1rem;
+    margin: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .title-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .quick-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .quick-info .separator {
+    display: none;
+  }
+
+  .reviewer-navbar {
+    flex-direction: column;
+  }
+}
