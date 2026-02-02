@@ -23,6 +23,20 @@
   flex-shrink: 0;
 }
 
+.app-name {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 32px;
+    width: auto;
+    transform: translateY(2px);
+    margin-top: -10px;
+}
+
 .app-name .title{
     font-family: "League Spartan", sans-serif;
     font-size: 32px;
