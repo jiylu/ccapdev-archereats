@@ -224,7 +224,7 @@ body {
   align-items: center;
 }
 
-/* Responsive Design */
+/* Responsive Design - OPTIONAL */
 @media screen and (max-width: 768px) {
   .navbar-content {
     flex-wrap: wrap;
