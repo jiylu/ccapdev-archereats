@@ -24,17 +24,22 @@
 }
 
 .app-name {
+    margin-top: 10px;
     display: flex;
     align-items: baseline;
     gap: 2px;
     text-decoration: none;
+    transition: transform 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.app-name:hover {
+  transform: translateY(-3px);
 }
 
 .logo-img {
     height: 32px;
     width: auto;
-    transform: translateY(2px);
-    margin-top: -10px;
+    transform: translateY(-9px);
 }
 
 .app-name .title{
@@ -45,10 +50,6 @@
     text-decoration: none;
     align-self: flex-start;
     transition: color 0.3s;
-}
-
-.app-name .title:hover {
-  color: #000000;
 }
 
 .searchbar-wrapper {
