@@ -9,7 +9,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f8f9fa;
+  background-color: #fffcf5;
 }
 
 .sign-up {
@@ -107,7 +107,6 @@ body {
 /* Cuisine Type */
 .cuisine-type span {
   color: #4f2e00;
-  font-style: italic;
 }
 
 /* Operational Hours in Quick Info */

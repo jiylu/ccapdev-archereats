@@ -10,6 +10,7 @@
   <title>Mamou</title>
   <link rel="stylesheet" href="../css/components/navbar.css">
   <link rel="stylesheet" href="../css/pages/resto-style.css">
+  <link rel="stylesheet" href="../css/pages/review-section.css">
 </head>
 
 <body>
@@ -61,7 +62,7 @@
         <span class="separator">•</span>
           
         <div class="cuisine-type">
-          <span>Italian, Filipino</span>
+          <span><strong> Italian, Filipino </strong></span>
         </div>
         <span class="separator">•</span>
           
@@ -86,7 +87,6 @@
     </div>
   </div>
     
-
 <!-- Restaurant's Reviewer Navigation -->
   <nav class="reviewer-navbar">  
       <div class="write-review">
@@ -113,6 +113,124 @@
         </button>
       </div>
   </nav>
+
+<!-- Reviews Section -->
+  <section class="reviews-section">
+    <div class="reviews-header">
+      <h2>Customer Reviews</h2>
+      <div class="review-summary">
+        <span class="average-rating">4.5 out of 5</span>
+        <span class="total-reviews">245 reviews</span>
+      </div>
+    </div>
+
+    <!-- Individual Review Cards -->
+    <div class="reviews-container">
+      
+      <!-- Review Card 1 -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <img src="../img/user-avatar.png" alt="User Avatar" class="reviewer-avatar">
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Gaibril Gregorio</h4>
+              <span class="review-date">January 28, 2026</span>
+            </div>
+          </div>
+          <div class="review-rating">
+            <img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star">
+            <span class="rating-number">5.0</span>
+          </div>
+        </div>
+        <div class="review-content">
+          <p>Amazing food and great ambiance! The pasta was cooked to perfection and the service was exceptional. Highly recommend the truffle pasta and the tiramisu for dessert. Will definitely come back!</p>
+        </div>
+        <div class="review-actions">
+          <button class="helpful-btn">👍 Helpful (12)</button>
+          <button class="share-review-btn">Share</button>
+        </div>
+      </div>
+
+      <!-- Review Card 2 -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <img src="../img/user-avatar.png" alt="User Avatar" class="reviewer-avatar">
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Jeremy Leano</h4>
+              <span class="review-date">January 25, 2026</span>
+            </div>
+          </div>
+          <div class="review-rating">
+            <img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star">
+            <span class="rating-number">4.0</span>
+          </div>
+        </div>
+        <div class="review-content">
+          <p>Good food and reasonable prices. The restaurant has a nice atmosphere and the staff is friendly. The only downside was the wait time during peak hours, but it was worth it.</p>
+        </div>
+        <div class="review-actions">
+          <button class="helpful-btn">👍 Helpful (8)</button>
+          <button class="share-review-btn">Share</button>
+        </div>
+      </div>
+
+      <!-- Review Card 3 -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <img src="../img/user-avatar.png" alt="User Avatar" class="reviewer-avatar">
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Michael Maglente</h4>
+              <span class="review-date">January 20, 2026</span>
+            </div>
+          </div>
+          <div class="review-rating">
+            <img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star">
+            <span class="rating-number">4.0</span>
+          </div>
+        </div>
+        <div class="review-content">
+          <p>Great place for family dinners! The portions are generous and the Filipino-Italian fusion dishes are unique and delicious. The adobo risotto is a must-try!</p>
+        </div>
+        <div class="review-actions">
+          <button class="helpful-btn">👍 Helpful (15)</button>
+          <button class="share-review-btn">Share</button>
+        </div>
+      </div>
+
+      <!-- Review Card 4 -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <img src="../img/user-avatar.png" alt="User Avatar" class="reviewer-avatar">
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Diego Mejia</h4>
+              <span class="review-date">January 15, 2026</span>
+            </div>
+          </div>
+          <div class="review-rating">
+            <img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star"><img src="star.png" alt="star">
+            <span class="rating-number">5.0</span>
+          </div>
+        </div>
+        <div class="review-content">
+          <p>Outstanding experience from start to finish! The chef's special was incredible, and the wine pairing recommendations were spot on. Perfect for date nights or special occasions.</p>
+        </div>
+        <div class="review-actions">
+          <button class="helpful-btn">👍 Helpful (20)</button>
+          <button class="share-review-btn">Share</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Load More Reviews Button -->
+    <div class="load-more-container">
+      <button class="load-more-btn">Load More Reviews</button>
+    </div>
+
+  </section>
 
 </body>
 
