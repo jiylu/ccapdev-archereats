@@ -10,6 +10,51 @@ body {
   background-color: #fffcf5;
 }
 
+/* Hero Banner Section */
+.hero-banner {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hero-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+  background-color: #e0e0e0; /* Fallback color if image doesn't load */
+}
+
+/* Photo Gallery Section */
+.photo-gallery {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #e0e0e0; /* Fallback color if image doesn't load */
+}
+
+.gallery-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .sign-up {
   background-color: #ffffff;
   color: rgba(18, 53, 36) !important;
@@ -49,7 +94,7 @@ body {
 
 .title-section h1 {
   font-size: 2.5rem;
-  color: #123524;
+  color: #000000;
   margin-bottom: 0.75rem;
 }
 
@@ -168,10 +213,16 @@ body {
   border-radius: 8px;
 }
 
-.contact-info h3 {
-  font-size: 1rem;
+.contact-info a {
+  text-decoration: none;
   color: #555;
-  margin-bottom: 0.5rem;
+  font-size: 20px;
+}
+
+.contact-info h3 {
+  font-size: 20px;
+  color: #555;
+  margin-bottom: 8px;
   font-weight: normal;
 }
 
@@ -181,6 +232,12 @@ body {
   background-color: #f8f9fa;
   border-radius: 8px;
   color: #555;
+}
+
+.directions a{
+  font-size: 20px;
+  color: #555;
+  text-decoration: none;
 }
 
 /* Reviewer Navbar */
@@ -256,6 +313,15 @@ body {
     display: none;
   }
 
+  /* Gallery adjustments for tablets */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-image {
+    height: 300px;
+  }
+
   .main-info {
     padding: 1.5rem;
     margin: 1rem;
@@ -283,6 +349,19 @@ body {
 @media screen and (max-width: 480px) {
   .navbar {
     padding: 1rem;
+  }
+
+  /* Gallery adjustments for mobile */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-image {
+    height: 250px;
+  }
+
+  .photo-gallery {
+    padding: 0 1rem;
   }
 
   .title-section h1 {

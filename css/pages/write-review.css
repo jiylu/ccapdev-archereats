@@ -1,21 +1,154 @@
+.restaurant-name-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 40px 20px;
+    background-image: linear-gradient(rgba(197, 197, 197, 0.6), rgba(0, 0, 0, 0.7)), url('../../img/barn.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border-radius: 8px;
+}
+
+.restaurant-name-header h2 {
+    color: white;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+/* Entire Section Box */
+.question {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 3rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.question h3 {
+    color: #123524;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Star Selection Styles */
 .star-selection {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: flex-end;
-  }
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
 
 .star-selection input {
     display: none;
-  }
+}
+
 .star-selection label {
-    font-size: 40px;
-    color: grey;
+    font-size: 3.5rem;
+    color: #d1d5db;
     cursor: pointer;
-    transition: color 0.4s;
-  }
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.star-selection label:hover {
+    transform: scale(1.15);
+}
 
 .star-selection input:checked ~ label,
 .star-selection label:hover,
 .star-selection label:hover ~ label {
-    color: gold;
-  }
+    color: #f5b301;
+}
+
+/* Review Text Input */
+.question input[type="text"],
+.question textarea {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    min-height: 150px;
+}
+
+.question input[type="text"]:focus,
+.question textarea:focus {
+    outline: none;
+    border-color: #123524;
+    box-shadow: 0 0 0 3px rgba(18, 53, 36, 0.1);
+}
+
+.question input[type="text"]::placeholder,
+.question textarea::placeholder {
+    color: #9ca3af;
+}
+
+/* Character Count / Helper Text */
+.question p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+/* Submit Button */
+.post-button,
+.question input[type="submit"],
+.question button[type="submit"] {
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #123524;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.post-button:hover,
+.question input[type="submit"]:hover,
+.question button[type="submit"]:hover {
+    background-color: #0f2a1d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(18, 53, 36, 0.3);
+}
+
+.post-button:active,
+.question input[type="submit"]:active,
+.question button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .question {
+        margin: 2rem 1rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .question h3 {
+        font-size: 1.25rem;
+    }
+
+    .star-selection label {
+        font-size: 2.5rem;
+    }
+
+    .restaurant-name-header h2 {
+        font-size: 1.5rem;
+    }
+}

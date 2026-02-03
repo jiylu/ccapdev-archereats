@@ -23,12 +23,14 @@
                     <span class="title">rcherEats.</span>
                 </a>
             </div>
+
             <div class="searchbar-wrapper">
                 <img src="../img/search-icon.svg" class="search-icon">
                 <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
             </div>
+
             <div class="nav-actions">
-                <a href="write-review.html" class="review">Review</a>
+                <a href="../directory.html" class="review">Review</a>
                 <a href="profile.html" class="sign-in">Sign In</a>
                 <a href="profile.html" class="sign-up">Sign Up</a>
                 <img src="../../img/menu-icon.svg" class="menu-icon">
@@ -38,6 +40,10 @@
 
     <!-- Write Review -->
     <div class="question">
+        <div class="restaurant-name-header">
+            <h2>The Barn</h2>
+        </div>
+
         <h3>How would you rate your experience?</h3>
         <div class="star-selection">
             <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
@@ -48,9 +54,11 @@
         </div>
         
         <h3>Tell us about your experience</h3>
-        <input type="text">
-        <p> Reviews need to be at least 85 characters.</p>
-        <button type="submit" class="post-button">Post a review</button>
+        <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
+        <p>Reviews need to be at least 85 characters.</p>
+        <button type="submit" class="post-button">
+            <span style="margin-right: 0.5rem;">⭐</span>Post Review
+        </button>
     </div>
 </body>
 
