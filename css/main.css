@@ -10,6 +10,7 @@
 */
 @import url('components/navbar.css');
 @import url('components/restaurant-card.css');
+@import url('components/review-modal.css');
 
 /*
 *   Global styles
@@ -26,4 +27,5 @@ button {
 
 a {
     text-decoration: none;
+    color: inherit;
 }

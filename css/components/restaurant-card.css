@@ -1,10 +1,17 @@
 .restaurant-card {
     display: flex;
-    width: 50em;
-    border: 3px solid #cdd0d9;
+    width: 50vw;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
     border-radius: 10px;
     padding: 0.5em;
     overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .restaurant-img-container {
@@ -36,7 +43,6 @@
 .restaurant-title {
     font-weight: bold;
     font-size: 2em;
-    white-space: nowrap;
 }
 
 .header-buttons {
@@ -53,13 +59,14 @@
     background: #006937;
     color: white;
     font-weight: bold;
-    white-space: nowrap;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
+
+
 
 .card-btn:hover {
     background: #37833c;
-
 }
 
 .restaurant-info {
@@ -98,4 +105,46 @@
     margin-top: 0.5em;
     gap: 0.5em;
     font-style: italic;
+}
+
+@media screen and (max-width: 985px){
+    .restaurant-card {
+        width: 45vw;
+        height: 50vh;
+        flex-direction: column;
+    }
+
+    .restaurant-img-container {
+        width: 45vw;
+        height: 20vh;
+    }
+
+    .restaurant-img {
+        width: 45vw;
+        height: 20vh;
+    }
+
+    .card-btn {
+        padding: 0 1.2em;
+        height: 1.5em;
+    }
+
+    .restaurant-title {
+        font-size: 1.7em;
+    }
+
+    .card-header-container {
+        margin-top: 0.5em;
+        width: 45vw;
+        flex-direction: row;
+        padding: 0.1em;
+        font-size: 0.8em;
+    }
+
+    .tag .tag-text {
+        color: white;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
 }
