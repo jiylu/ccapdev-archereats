@@ -1,0 +1,21 @@
+.star-selection {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+
+.star-selection input {
+    display: none;
+  }
+.star-selection label {
+    font-size: 40px;
+    color: grey;
+    cursor: pointer;
+    transition: color 0.4s;
+  }
+
+.star-selection input:checked ~ label,
+.star-selection label:hover,
+.star-selection label:hover ~ label {
+    color: gold;
+  }

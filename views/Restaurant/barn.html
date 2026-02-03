@@ -7,11 +7,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="short description" />
-  <link rel="icon" type="image/png" href="../img/archer-eats-logo.png">
-  <title>Mamou</title>
-  <link rel="stylesheet" href="../css/components/navbar.css">
-  <link rel="stylesheet" href="../css/pages/resto-style.css">
-  <link rel="stylesheet" href="../css/pages/review-section.css">
+  <link rel="icon" type="image/png" href="../../img/archer-eats-logo.png">
+  <title>Barn</title>  <!-- Name of Restaurant-->
+  <link rel="stylesheet" href="../../css/components/navbar.css">
+  <link rel="stylesheet" href="../../css/pages/resto-style.css">
+  <link rel="stylesheet" href="../../css/pages/review-section.css">
 </head>
 
 <body>
@@ -19,8 +19,8 @@
     <nav class="navbar">
         <div class="navbar-content">
             <div class="app-name-container">
-                <a href="landing-page.html" class="app-name">
-                    <img src="../img/archer-eats-logo.png" alt="ArcherEats Logo" class="logo-img">
+                <a href="../landing-page.html" class="app-name">
+                    <img src="../../img/archer-eats-logo.png" alt="ArcherEats Logo" class="logo-img">
                     <span class="title">rcherEats.</span>
                 </a>
             </div>
@@ -29,14 +29,13 @@
                 <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
             </div>
             <div class="nav-actions">
-                <a href="#" class="review">Review</a>
+                <a href="../directory.html" class="review">Review</a>
                 <a href="profile.html" class="sign-in">Sign In</a>
                 <a href="profile.html" class="sign-up">Sign Up</a>
-                <img src="../img/menu-icon.svg" class="menu-icon">
+                <img src="../../img/menu-icon.svg" class="menu-icon">
             </div>
         </div>
     </nav>
-    <!-- end of navbar -->
 
 <!-- Big Images - Optional -->
 
@@ -44,12 +43,12 @@
   <div class="main-info">
     <div class="header-cluster"> <!-- Header Cluster: Title, Stars, Category, Hours -->
       <div class="title-section">
-        <h1># Resturant Name</h1>
+        <h1>Barn</h1>
 
       <div class="quick-info">
         <div class="star-review">
-          <a href="review-page.html">
-            <img src="../img/star.png" alt="star"><img src="../img/star.png" alt="star"><img src="../img/star.png" alt="star"><img src="../img/star.png" alt="star"><img src="../img/star.png" alt="star">
+          <a href="../Restaurant/write-barn-review.html">
+            <img src="../../img/star.png" alt="star"><img src="../../img/star.png" alt="star"><img src="../img/star.png" alt="star"><img src="../img/star.png" alt="star"><img src="../img/star.png" alt="star">
           </a>
           <span class="rating">4.5 (245 reviews)</span>
         </div>
@@ -57,7 +56,7 @@
         <span class="separator">•</span>
 
         <div class="categories">
-          <span>$$$ (Php 500-2,000)</span>
+          <span>₱₱₱ (Php 500-2,000)</span>
         </div>
 
         <span class="separator">•</span>
@@ -69,7 +68,7 @@
           
         <div class="operational-hours">
         <span class="status-open">Open</span> 11:00 AM - 10:00 PM
-        <a href="review-page.html">See Hours</a>
+        <a href="../Restaurant/write-barn-review.html">See Hours</a> <!-- incomplete -->
         </div>
 
       </div>
@@ -91,8 +90,11 @@
 <!-- Restaurant's Reviewer Navigation -->
   <nav class="reviewer-navbar">  
       <div class="write-review">
-        <button class="write-review" onclick="window.location.href='review-page.html'">
-          <span class="icon">⭐</span> Write a Review
+        <button class="write-review"> 
+          <a href="../Restaurant/write-barn-review.html" class="write-review"> 
+            <span class="icon">⭐</span> 
+            Write a Review 
+          </a>
         </button>
       </div>
       

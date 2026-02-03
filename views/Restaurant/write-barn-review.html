@@ -1,0 +1,57 @@
+<!DOCTYPE htmL>
+
+<html lang="en">
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="short description" />
+  <link rel="icon" type="image/png" href="../../img/archer-eats-logo.png">
+  <title>Barn</title>  <!-- Name of Restaurant-->
+  <link rel="stylesheet" href="../../css/components/navbar.css">
+  <link rel="stylesheet" href="../../css/pages/resto-style.css">
+  <link rel="stylesheet" href="../../css/pages/review-section.css">
+</head>
+
+<body>
+<!-- navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="app-name-container">
+                <a href="../landing-page.html" class="app-name">
+                    <img src="../../img/archer-eats-logo.png" alt="ArcherEats Logo" class="logo-img">
+                    <span class="title">rcherEats.</span>
+                </a>
+            </div>
+            <div class="searchbar-wrapper">
+                <img src="../img/search-icon.svg" class="search-icon">
+                <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
+            </div>
+            <div class="nav-actions">
+                <a href="write-review.html" class="review">Review</a>
+                <a href="profile.html" class="sign-in">Sign In</a>
+                <a href="profile.html" class="sign-up">Sign Up</a>
+                <img src="../../img/menu-icon.svg" class="menu-icon">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Write Review -->
+    <div class="question">
+        <h3>How would you rate your experience?</h3>
+        <div class="star-selection">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+        
+        <h3>Tell us about your experience</h3>
+        <input type="text">
+        <p> Reviews need to be at least 85 characters.</p>
+        <button type="submit" class="post-button">Post a review</button>
+    </div>
+</body>
+
+</html>
