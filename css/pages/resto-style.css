@@ -55,26 +55,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.sign-up {
-  background-color: #ffffff;
-  color: rgba(18, 53, 36) !important;
-  padding: 0.5rem 1.5rem;
-  border-radius: 25px;
-  transition: background-color 0.5s;
-}
-
-.sign-up:hover {
-  background-color: #000000;
-  color: #fff !important;
-}
-
-.menu-icon {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  display: none;
-}
-
 /* Main Info Section */
 .main-info {
   max-width: 1200px;
