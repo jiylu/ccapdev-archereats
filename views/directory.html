@@ -119,7 +119,7 @@
                                 </a>
                             </span>
                             <div class="header-buttons">
-                                <button class="card-btn">Write a Review</button>
+                                <button class="card-btn write-review" data-modal="barn-modal">Write a Review</button>
                                 <button class="card-btn"> ❤</button>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                 </a>
                             </span>
                             <div class="header-buttons">
-                                <button class="card-btn">Write a Review</button>
+                                <button class="card-btn write-review" data-modal="latoca-modal">Write a Review</button>
                                 <button class="card-btn"> ❤</button>
                             </div>
                         </div>
@@ -199,7 +199,58 @@
         </div>
     </div>
 
+    <div id="barn-modal" class="write-review-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="restaurant-name-header">
+                <h2>The Barn</h2>
+            </div>
+
+            <h3>How would you rate your experience?</h3>
+            <div class="star-selection">
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+            </div>
+            
+            <h3>Tell us about your experience</h3>
+            <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
+            <p>Reviews need to be at least 85 characters.</p>
+            <button type="submit" class="post-button">
+                Post Review
+            </button>
+        </div>
+    </div>
+
+    <div id="latoca-modal" class="write-review-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="restaurant-name-header">
+                <h2>La Toca Taqueria</h2>
+            </div>
+
+            <h3>How would you rate your experience?</h3>
+            <div class="star-selection">
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+            </div>
+            
+            <h3>Tell us about your experience</h3>
+            <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
+            <p>Reviews need to be at least 85 characters.</p>
+            <button type="submit" class="post-button">
+                Post Review
+            </button>
+        </div>
+    </div>
 
 
+    <script src="../js/jquery-4.0.0.min.js"></script>
+    <script src="../js/review-modal.js"></script>
 </body>
 </html>
