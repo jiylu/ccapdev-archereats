@@ -199,6 +199,13 @@ body {
   font-size: 20px;
 }
 
+.contact-info .fb-logo {
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  margin-right: 2px;
+}
+
 .contact-info h3 {
   font-size: 20px;
   color: #555;
