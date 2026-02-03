@@ -65,7 +65,7 @@
 }
 
 .reviews-header .write-review button:hover {
-  background-color: #e74c3c;
+  background-color: #36ab3e;
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -75,6 +75,9 @@
   font-size: 1.2rem;
   display: inline-flex;
   align-items: center;
+  margin-bottom: 2px;
+  width: 22px;
+  height: 22px;
 }
 
 /* Reviews Container */
