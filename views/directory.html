@@ -201,8 +201,10 @@
 
     <div class="write-review-modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>How would you rate your experience?</h3>
+            <div class="user-info">
+                <img src="../img/blank-pfp.png">
+                <span class="user-name">Juan Dela Cruz</span>
+            </div>
             <div class="star-selection">
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
@@ -211,12 +213,57 @@
                 <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
             </div>
             
-            <h3>Tell us about your experience</h3>
-            <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
-            <p>Reviews need to be at least 85 characters.</p>
-            <button type="submit" class="post-button">
-                Post Review
-            </button>
+            <div class="textarea-container">
+                <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
+            </div>
+            
+            <div class="add-media-container">
+                <button class="modal-button button-add-media">Add Images / Videos</button>
+            </div>
+
+            <div class="feedback-selection">
+                <span class="feedback-header">How was the price?</span>
+                <div class="feedback-buttons">
+                    <input type="radio" id="price-low" name="price_group" value="1">
+                    <label class="feedback-btn" for="price-low">₱</label>
+
+                    <input type="radio" id="price-mid" name="price_group" value="2">
+                    <label class="feedback-btn" for="price-mid">₱₱</label>
+
+                    <input type="radio" id="price-high" name="price_group" value="3">
+                    <label class="feedback-btn" for="price-high">₱₱₱</label>
+                </div>
+            </div>
+
+            <div class="feedback-selection">
+                <span class="feedback-header">Wait Time</span>
+                <div class="feedback-buttons">
+                    <input type="radio" id="no-wait" name="time_group" value="1">
+                    <label class="feedback-btn" for="no-wait">No Wait</label>
+
+                    <input type="radio" id="15-30m" name="time_group" value="2">
+                    <label class="feedback-btn" for="15-30m">15-30m</label>
+
+                    <input type="radio" id="1hr+" name="time_group" value="2">
+                    <label class="feedback-btn" for="1hr+">1hr+</label>
+                </div>
+            </div>
+
+            <div class="feedback-selection">
+                <span class="feedback-header">Would you recommend the place?</span>
+                <div class="feedback-buttons">
+                    <input type="radio" id="yes-btn" name="reco_group" value="1">
+                    <label class="feedback-btn" for="yes-btn">Yes</label>
+
+                    <input type="radio" id="no-btn" name="reco_group" value="2">
+                    <label class="feedback-btn" for="no-btn">No</label>
+                </div>
+            </div>
+
+            <div class="cancel-post-container">
+                <button class="modal-button button-cancel">Cancel</button>
+                <button class="modal-button button-post">Post</button>
+            </div> 
         </div>
     </div>
 
