@@ -119,6 +119,10 @@
     transition: filter 0.2s ease;
 }
 
+.menu-icon:hover {
+    filter: invert(100%) sepia(100%) hue-rotate(180deg) brightness(150%);
+}
+
 #menu-toggle:checked + .menu-icon-btn .menu-icon {
     filter: invert(100%) sepia(100%) hue-rotate(180deg) brightness(150%);
 }
