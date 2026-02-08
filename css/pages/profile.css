@@ -97,6 +97,7 @@ body {
     display: flex;
     flex-direction: column;
     color:#123524;
+    padding-bottom: 500px; /** temporary padding to visualize the section */
 }
 
 .reviews-title {

@@ -3,7 +3,7 @@
     margin: 20px auto;
     padding: 10px 25px 25px 25px;
     max-width: 1000px;
-    background-color: #f8f9f8;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     /* border: 1px solid rgba(65, 65, 65, 0.3); */
@@ -22,7 +22,7 @@
     margin-bottom: 20px;
 }
 
-.add-food-title {
+h2 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 2px;
@@ -75,9 +75,9 @@
 .second-section {
     display: flex;
     gap: 20px;
-    padding: 20px;
     max-width: 1050px;
     margin: 20px auto;
+    padding-top: 10px;
 }
 
 .tags-priceRange, .location-opening-hours {
@@ -87,13 +87,6 @@
     border-radius: 10px;
     padding: 10px 25px 25px 25px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-.second-section h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 2px;
-    color: #123524;
 }
 
 .tags-desc {
@@ -118,15 +111,7 @@
     margin-bottom: 10px;
 }
 
-.second-section .tags-priceRange input[type="text"] {
-    width: 90%;
-    padding: 8px 14px;
-    border-radius: 10px;
-    border: 1px solid rgba(18, 53, 36, 0.3);
-    outline: none;
-}
-
-.second-section .location-input {
+.second-section .tags-priceRange input[type="text"], .location-input {
     width: 90%;
     padding: 8px 14px;
     border-radius: 10px;
@@ -181,3 +166,160 @@
     background-color: #d1d5db;
 }
 
+.third-section {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+    max-width: 1050px;
+    margin: 20px auto;
+}
+
+.description-box, .contact-info-box {
+    flex: 1; 
+    background: white;
+    /* border: 1px solid rgba(65, 65, 65, 0.3); */
+    border-radius: 10px;
+    padding: 10px 25px 25px 25px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.third-section p {
+    font-size: 16px;
+    color: #123524;
+    line-height: 1.1;
+}
+
+.mobile-website-boxes, .web1-web2-boxes {
+    gap: 15px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.third-section .contact-info-box input[type="text"] {
+    width: 90%;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    outline: none;
+}
+
+.desc-input {
+    width: 95%;
+    height: 80px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    outline: none;
+    resize: none;
+    line-height: normal;
+    font-family: inherit;
+    font-size: 14px;
+    vertical-align: top;
+}
+
+.third-section .contact-info-box input[type="text"]:focus, .description-box textarea:focus {
+    border-color: #1f8f4a;
+    box-shadow: 0 0 4px #1f8f4a50;
+}
+
+.photos-section {
+    margin: 20px auto;
+    padding: 10px 25px 25px 25px;
+    max-width: 1000px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photos-section p {
+    font-size: 16px;
+    color: #123524;
+    line-height: 1.1;
+}
+
+.photos-upload-wrapper {
+    position: relative;
+    width: 220px;
+    height: 160px;
+    border: 2px dashed rgba(18, 53, 36, 0.3);
+    border-radius: 10px;
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2 ease;
+}
+
+.photos-upload-wrapper:hover {
+    background-color: #f0f0f0;
+    border-color: #1f8f4a;
+}
+
+.photo-upload-box {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4b5563;
+    pointer-events: none;
+}
+
+.photo-upload-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: #1f8f4a;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.photo-upload-btn:hover {
+    background-color: #16632a;
+}
+
+.add-reset-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 40px;
+}
+
+.add-food-btn {
+    padding: 10px 15px;
+    font-size: 15px;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+    border: none;
+    background-color: #22754d;
+    margin-top: 30px;
+}
+
+.add-food-btn:hover {
+    background-color: #32a970;
+}
+
+.reset-btn {
+    padding: 10px 15px;
+    font-size: 15px;
+    color: #123524;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+    background-color: white;
+    margin-top: 30px;
+}
+
+.reset-btn:hover {
+    background-color: rgba(61, 61, 61, 0.05);
+}
