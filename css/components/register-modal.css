@@ -1,4 +1,4 @@
-.login-modal {
+.register-modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -10,7 +10,7 @@
     background-color: rgba(0,0,0,0.5); 
 }
 
-.login-content {
+.register-content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -24,7 +24,7 @@
     width: 35vw; 
     background-color: #F4F6F5;
     border-radius: 8px;
-    padding: 2.5rem 0.5rem;
+    padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     color: #000000;
@@ -46,32 +46,7 @@
     transition: color 0.2s;
 }
 
-.login-fields {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5em;
-    width: 100%;
-    margin-bottom: 0.2em;
-}
-
-.login-fields input {
-    height: 3em;
-    width: 80%;
-    outline: none;
-    background-color: #E3E8E6; 
-    color: #123524;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    padding: 0.2em 1em;
-    transition: all 0.3s ease-in-out;
-}
-
-.login-fields input:focus {
-    background-color: #FFFFFF;
-}
-
-.login-header {
+.register-header {
     margin-bottom: 2em;
     display: flex;
     align-items: baseline;
@@ -81,17 +56,17 @@
     cursor:pointer;
 }
 
-.login-header:hover {
+.register-header:hover {
   transform: translateY(-3px);
 }
 
-.header-login-logo {
+.header-register-logo {
     height: 2.5em;
     width: auto;
     transform: translateY(-9px);
 }
 
-.login-header .web-name-title{
+.register-header .web-name-title{
     font-family: "League Spartan", sans-serif;
     font-size: 2.5em;
     font-weight: bold;
@@ -101,50 +76,69 @@
     transition: color 0.3s;
 }
 
-.forgot-password-container {
+.register-fields {
     display: flex;
-    justify-content: flex-start;
-    width: 84%;
-    margin-bottom: 1.3em;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    width: 100%;
+    margin-bottom: 1em;
 }
 
-.forgot-password-container span {
-    font-weight: 400;
-    font-size: 0.75em;
+.register-fields input {
+    height: 3em;
+    width: 95%;
+    outline: none;
+    background-color: #E3E8E6; 
+    color: #123524;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 0.2em 1em;
+    transition: all 0.3s ease-in-out;
 }
 
-.login-btn-container {
+.register-fields label {
+    align-self: flex-start;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.register-fields input:focus {
+    background-color: #FFFFFF;
+}
+
+.register-btn-container {
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.8em;
 }
 
-.login-btn {
-    width: 85%;
+.register-btn {
+    width: 100%;
     background-color: #123524;
     color: #E3E8E6;
     outline: transparent;
     border: transparent;
     border-radius: 10px;
     padding: 0.7em 1em;
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.login-btn:hover {
+.register-btn:hover {
     background-color: #1E4D36;
 }
 
-.register-container span {
+.have-account-container span {
     font-weight: 400;
     font-size: 0.85em;
 }
 
-.register-container a{
+.have-account-container a{
     font-weight: bolder;
     color: #123524;
     text-decoration: underline;
