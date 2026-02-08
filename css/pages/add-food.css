@@ -118,7 +118,7 @@
     margin-bottom: 10px;
 }
 
-.second-section input[type="text"] {
+.second-section .tags-priceRange input[type="text"] {
     width: 90%;
     padding: 8px 14px;
     border-radius: 10px;
@@ -126,7 +126,58 @@
     outline: none;
 }
 
+.second-section .location-input {
+    width: 90%;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    outline: none;
+}
+
+.second-section .opening-hours-box {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    outline: none;
+    padding-right: 3.2rem;
+    color: rgb(137, 137, 137);
+    font-size: 14px;
+    box-sizing: border-box;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 92.5%;
+    height: 35px;
+    display: flex;
+}
+
 .second-section input[type="text"]:focus {
     border-color: #1f8f4a;
     box-shadow: 0 0 4px #1f8f4a50;
 }
+
+.hours-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.hours-submit-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 35px;
+    width: 30px;
+    border: none;
+    right: 6px;
+    background-color: #e5e7eb;
+    color: #1b3a1b;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.hours-submit-btn:hover {
+    background-color: #d1d5db;
+}
+
