@@ -1,13 +1,15 @@
 .feat-cards{
     display: flex;
-    gap: 40px;
-    margin-top: 40px;
+    gap: 30px;
+    margin-top: 30px;
+    padding-bottom: 30px;
 }
 
 .feat-card {
     flex: 0 0 340px;
     background: white;
     border-radius: 14px;
+    border: 1px solid #0f3b2e;
     overflow: hidden;
     box-shadow: 0 8px 20px rbga(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
