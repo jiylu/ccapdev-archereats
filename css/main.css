@@ -12,6 +12,8 @@
 @import url('components/restaurant-card.css');
 @import url('components/review-modal.css');
 @import url('components/footer.css');
+@import url('components/login-modal.css');
+@import url('components/register-modal.css');
 
 /*
 *   Global styles

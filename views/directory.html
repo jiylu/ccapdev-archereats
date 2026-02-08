@@ -35,7 +35,7 @@
                     <div class="menu-dropdown">
                         <a href="profile.html">View Profile</a>
                         <a href="add-food.html">Add Food Establishment</a>
-                        <a href="#">Favorites</a>
+                        <a href="">Favorites</a>
                         <hr>
                         <a href="landing-page.html">Log Out</a>
                     </div>
@@ -426,6 +426,62 @@
         </div>
     </div>
 
+    <div class="login-modal">
+        <div class="login-content">
+            <span class="close-btn">&times;</span>
+            <div class="login-header">
+                <img src="../img/archereats-black.png" alt="ArcherEats Logo" class="header-login-logo">
+                <span class="web-name-title">rcherEats.</span>
+            </div>
+            <div class="login-fields">
+                <input type="text" id="username-email" placeholder="Username or Email">
+                <input type="password" id="username-email" placeholder="Password">
+            </div>
+            <div class="forgot-password-container">
+                <a href="#" class="forgot-password">
+                    <span>Forgot Your Password?</span>
+                </a>
+            </div>
+            <div class="login-btn-container">
+                <button class="login-btn" id="login-btn">Login</button>
+            </div>
+            <div class="register-container">
+                <span>New to ArcherEats? <a href="#" class="register">Create an Account</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="register-modal">
+        <div class="register-content">
+            <span class="close-btn">&times;</span>
+            <div class="register-header">
+                <img src="../img/archereats-black.png" alt="ArcherEats Logo" class="header-register-logo">
+                <span class="web-name-title">rcherEats.</span>
+            </div>
+
+            <div class="register-fields">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="">
+
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="">
+
+                <label for="pw-1">Password</label>
+                <input type="password" id="pw-1" placeholder="">
+
+                <label for="pw-2">Confirm Password</label>
+                <input type="password" id="pw-2" placeholder="">
+            </div>
+
+            <div class="register-btn-container">
+                <button class="register-btn" id="register-btn">Create Account</button>
+            </div>
+
+            <div class="have-account-container">
+                <span>Already have an Account? <a href="#" class="login-account">Login to your Account</a></span>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <div class="footer-container">
             <!-- Left Side -->
@@ -458,5 +514,6 @@
 
     <script src="../js/jquery-4.0.0.min.js"></script>
     <script src="../js/review-modal.js"></script>
+    <script src="../js/login-modal.js"></script>
 </body>
 </html>
