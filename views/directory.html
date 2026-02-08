@@ -25,7 +25,7 @@
             </div>
             <div class="nav-actions">
                 <a href="directory.html" class="review">Directory</a>
-                <a href="profile.html" class="sign-in">Log In</a>
+                <a href="#" class="sign-in">Log In</a>
                 <div class="menu-icon-wrapper">
                     <input type="checkbox" id="menu-toggle" hidden>
                     <label for="menu-toggle" class="menu-icon-btn">
@@ -35,7 +35,7 @@
                     <div class="menu-dropdown">
                         <a href="profile.html">View Profile</a>
                         <a href="add-food.html">Add Food Establishment</a>
-                        <a href="#">Favorites</a>
+                        <a href="">Favorites</a>
                         <hr>
                         <a href="landing-page.html">Log Out</a>
                     </div>
@@ -426,7 +426,33 @@
         </div>
     </div>
 
+    <div class="login-modal">
+        <div class="login-content">
+            <span class="close-btn">&times;</span>
+            <div class="login-header">
+                <img src="../img/archereats-black.png" alt="ArcherEats Logo" class="header-login-logo">
+                <span class="web-name-title">rcherEats.</span>
+            </div>
+            <div class="login-fields">
+                <input type="text" id="username-email" name="username-email" placeholder="Username or Email">
+                <input type="password" id="username-email" name="username-email" placeholder="Password">
+            </div>
+            <div class="forgot-password-container">
+                <a href="#" class="forgot-password">
+                    <span>Forgot Your Password?</span>
+                </a>
+            </div>
+            <div class="login-btn-container">
+                <button class="login-btn" id="login-btn">Login</button>
+            </div>
+            <div class="register-container">
+                <span>New to ArcherEats? <a href="#">Create an Account</a></span>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/jquery-4.0.0.min.js"></script>
     <script src="../js/review-modal.js"></script>
+    <script src="../js/login-modal.js"></script>
 </body>
 </html>

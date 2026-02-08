@@ -20,7 +20,7 @@ $(document).ready(function (){
 
         if (radioState[groupName] === this) {
             $(this).prop('checked', false); 
-            radioState[groupName] = null;   // Clear the memory
+            radioState[groupName] = null;  
         } else {
             radioState[groupName] = this;
         }
