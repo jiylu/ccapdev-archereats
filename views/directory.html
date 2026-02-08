@@ -24,10 +24,21 @@
                 <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
             </div>
             <div class="nav-actions">
-                <a href="directory.html" class="review">Review</a>
+                <a href="directory.html" class="review">Directory</a>
                 <a href="profile.html" class="sign-in">Log In</a>
-                <a href="profile.html" class="sign-up">Sign Up</a>
-                <img src="../img/menu-icon.svg" class="menu-icon">
+                <div class="menu-icon-wrapper">
+                    <input type="checkbox" id="menu-toggle" hidden>
+                    <label for="menu-toggle" class="menu-icon-btn">
+                        <img src="../img/menu-icon.svg" class="menu-icon">
+                    </label>
+
+                    <div class="menu-dropdown">
+                        <a href="#">Add Food Establishment</a>
+                        <a href="#">Favorites</a>
+                        <hr>
+                        <a href="landing-page.html">Log Out</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -111,21 +122,23 @@
                         <img src="../img/barn.jpg" class="restaurant-img" alt="barn">
                     </div>
 
-                    <div class="card-header-container">
-                        <div class="card-header">
-                            <span class="restaurant-title">
-                                <a href="../views/Restaurant/barn.html" target="_blank">
-                                The Barn
-                                </a>
-                            </span>
-                            <div class="header-buttons">
-                                <button class="card-btn write-review">Write a Review</button>
-                                <button class="card-btn"> ❤</button>
+                    <div class="card-content">
+                        <div class="card-header-container">
+                            <div class="card-header">
+                                <span class="restaurant-title">
+                                    <a href="../views/Restaurant/barn.html" target="_blank">
+                                    The Barn
+                                    </a>
+                                </span>
+                                <div class="header-buttons">
+                                    <button class="card-btn write-review">Write a Review</button>
+                                    <button class="card-btn"> ❤</button>
+                                </div>
                             </div>
                         </div>
 
                         <div class="restaurant-info">
-                            <span class="ratings">5.0 (67) <span class="stars">★★★★★</span></span>
+                            <span class="ratings">4.7 (30) <span class="stars">★★★★</span></span>
                             <div class="tag-container">
                                 <div class="tag">
                                     <span class="tag-text">Filipino</span>
@@ -153,56 +166,195 @@
 
                 <div class="restaurant-card">
                     <div class="restaurant-img-container">
-                        <img src="../img/latoca.jpg" class="restaurant-img" alt="La Toca Taqueria"> <!-- Change Image -->
+                        <img src="../img/latoca.jpg" class="restaurant-img" alt="La Toca Taqueria"> 
                     </div>
-
-                    <div class="card-header-container">
-                        <div class="card-header">
-                            <span class="restaurant-title">
-                                <a href="../views/Restaurant/LaToca.html" target="_blank">
-                                La Toca Taqueria
-                                </a>
-                            </span>
-                            <div class="header-buttons">
-                                <button class="card-btn write-review">Write a Review</button>
-                                <button class="card-btn"> ❤</button>
+                    
+                    <div class="card-content">
+                        <div class="card-header-container">
+                            <div class="card-header">
+                                <span class="restaurant-title">
+                                    <a href="../views/Restaurant/LaToca.html" target="_blank">
+                                    La Toca Taqueria
+                                    </a>
+                                </span>
+                                <div class="header-buttons">
+                                    <button class="card-btn write-review">Write a Review</button>
+                                    <button class="card-btn"> ❤</button>
+                                </div>
                             </div>
                         </div>
 
-                    <div class="restaurant-info">
-                        <span class="ratings">5.0 (67) <span class="stars">★★★★★</span></span>
-                        <div class="tag-container">
-                            <div class="tag">
-                                <span class="tag-text">Mexican</span>
+                        <div class="restaurant-info">
+                            <span class="ratings">4.9 (15) <span class="stars">★★★★</span></span>
+                            <div class="tag-container">
+                                <div class="tag">
+                                    <span class="tag-text">Mexican</span>
+                                </div>
+                                <div class="tag">
+                                    <span class="tag-text">Alcoholic Drinks</span>
+                                </div>
+                                <div class="tag">
+                                    <span class="tag-text">Bar</span>
+                                </div>
                             </div>
-                            <div class="tag">
-                                <span class="tag-text">Alcoholic Drinks</span>
+                            <div class="pricing-time">
+                                <span class="price">₱₱₱</span>
+                                <span class="divider">•</span>
+                                <span class="time">🕓 11AM - 2AM (the next day)</span>
                             </div>
-                            <div class="tag">
-                                <span class="tag-text">Bar</span>
+                            <div class="featured-reviews">
+                                <span>"Awesome tacos!"</span>
+                                <span>"The place was clean.."</span>
+                                <span>"..... best tacos in Taft!"</span>
                             </div>
                         </div>
-                        <div class="pricing-time">
-                            <span class="price">₱₱₱</span>
-                            <span class="divider">•</span>
-                            <span class="time">🕓 11AM - 2AM (the next day)</span>
-                        </div>
-                        <div class="featured-reviews">
-                            <span>"Awesome tacos!"</span>
-                            <span>"The place was clean.."</span>
-                            <span>"..... best tacos in Taft!"</span>
-                        </div>
-                    </div>
                     </div>
                 </div>
+
+                <div class="restaurant-card">
+                    <div class="restaurant-img-container">
+                        <img src="../img/tinuhog-benny.jpg" class="restaurant-img" alt="barn">
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-header-container">
+                            <div class="card-header">
+                                <span class="restaurant-title">
+                                    <a href="../views/Restaurant/barn.html" target="_blank">
+                                    Tinuhog ni Benny
+                                    </a>
+                                </span>
+                                <div class="header-buttons">
+                                    <button class="card-btn write-review">Write a Review</button>
+                                    <button class="card-btn"> ❤</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="restaurant-info">
+                            <span class="ratings">5.0 (6) <span class="stars">★★★★★</span></span>
+                            <div class="tag-container">
+                                <div class="tag">
+                                    <span class="tag-text">Filipino</span>
+                                </div>
+                                <div class="tag">
+                                    <span class="tag-text">Casual Dining</span>
+                                </div>
+                                <div class="tag">
+                                    <span class="tag-text">Student Friendly</span>
+                                </div>
+                            </div>
+                            <div class="pricing-time">
+                                <span class="price">₱</span>
+                                <span class="divider">•</span>
+                                <span class="time">🕓 10PM - 12AM (the next day)</span>
+                            </div>
+                            <div class="featured-reviews">
+                                <span>"Must try!"</span>
+                                <span>"Very affordable for students like me."</span>
+                                <span>"Cheap and amazing food!"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="restaurant-card">
+                    <div class="restaurant-img-container">
+                        <img src="../img/elpoco.jpg" class="restaurant-img" alt="barn">
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-header-container">
+                            <div class="card-header">
+                                <span class="restaurant-title">
+                                    <a href="../views/Restaurant/barn.html" target="_blank">
+                                    El Poco Cantina
+                                    </a>
+                                </span>
+                                <div class="header-buttons">
+                                    <button class="card-btn write-review">Write a Review</button>
+                                    <button class="card-btn"> ❤</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="restaurant-info">
+                            <span class="ratings">5.0 (67) <span class="stars">★★★★★</span></span>
+                            <div class="tag-container">
+                                <div class="tag">
+                                    <span class="tag-text">Mexican</span>
+                                </div>
+                                <div class="tag">
+                                    <span class="tag-text">Casual Dining</span>
+                                </div>
+                            </div>
+                            <div class="pricing-time">
+                                <span class="price">₱</span>
+                                <span class="divider">•</span>
+                                <span class="time">🕓 10PM - 12AM (the next day)</span>
+                            </div>
+                            <div class="featured-reviews">
+                                <span>"The food was great!"</span>
+                                <span>".... the service was fantastic."</span>
+                                <span>"The ambiance was awesome!"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-card">
+                    <div class="restaurant-img-container">
+                        <img src="../img/tagpuanberde.jpg" class="restaurant-img" alt="barn">
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-header-container">
+                            <div class="card-header">
+                                <span class="restaurant-title">
+                                    <a href="../views/Restaurant/barn.html" target="_blank">
+                                    Tagpuan Berde
+                                    </a>
+                                </span>
+                                <div class="header-buttons">
+                                    <button class="card-btn write-review">Write a Review</button>
+                                    <button class="card-btn"> ❤</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="restaurant-info">
+                            <span class="ratings">5.0 (67) <span class="stars">★★★★★</span></span>
+                            <div class="tag-container">
+                                <div class="tag">
+                                    <span class="tag-text">Filipino</span>
+                                </div>
+                                <div class="tag">
+                                    <span class="tag-text">Casual Dining</span>
+                                </div>
+                            </div>
+                            <div class="pricing-time">
+                                <span class="price">₱</span>
+                                <span class="divider">•</span>
+                                <span class="time">🕓 10PM - 12AM (the next day)</span>
+                            </div>
+                            <div class="featured-reviews">
+                                <span>"The food was great!"</span>
+                                <span>".... the service was fantastic."</span>
+                                <span>"The ambiance was awesome!"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <div class="write-review-modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>How would you rate your experience?</h3>
+            <div class="user-info">
+                <img src="../img/blank-pfp.png">
+                <span class="user-name">Juan Dela Cruz</span>
+            </div>
             <div class="star-selection">
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
@@ -211,12 +363,57 @@
                 <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
             </div>
             
-            <h3>Tell us about your experience</h3>
-            <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
-            <p>Reviews need to be at least 85 characters.</p>
-            <button type="submit" class="post-button">
-                Post Review
-            </button>
+            <div class="textarea-container">
+                <textarea placeholder="What did you love? What could be better? Share the details of your visit..."></textarea>
+            </div>
+            
+            <div class="add-media-container">
+                <button class="modal-button button-add-media">Add Images / Videos</button>
+            </div>
+
+            <div class="feedback-selection">
+                <span class="feedback-header">How was the price?</span>
+                <div class="feedback-buttons">
+                    <input type="radio" id="price-low" name="price_group" value="1">
+                    <label class="feedback-btn" for="price-low">₱</label>
+
+                    <input type="radio" id="price-mid" name="price_group" value="2">
+                    <label class="feedback-btn" for="price-mid">₱₱</label>
+
+                    <input type="radio" id="price-high" name="price_group" value="3">
+                    <label class="feedback-btn" for="price-high">₱₱₱</label>
+                </div>
+            </div>
+
+            <div class="feedback-selection">
+                <span class="feedback-header">Wait Time</span>
+                <div class="feedback-buttons">
+                    <input type="radio" id="no-wait" name="time_group" value="1">
+                    <label class="feedback-btn" for="no-wait">No Wait</label>
+
+                    <input type="radio" id="15-30m" name="time_group" value="2">
+                    <label class="feedback-btn" for="15-30m">15-30m</label>
+
+                    <input type="radio" id="1hr+" name="time_group" value="2">
+                    <label class="feedback-btn" for="1hr+">1hr+</label>
+                </div>
+            </div>
+
+            <div class="feedback-selection">
+                <span class="feedback-header">Would you recommend the place?</span>
+                <div class="feedback-buttons">
+                    <input type="radio" id="yes-btn" name="reco_group" value="1">
+                    <label class="feedback-btn" for="yes-btn">Yes</label>
+
+                    <input type="radio" id="no-btn" name="reco_group" value="2">
+                    <label class="feedback-btn" for="no-btn">No</label>
+                </div>
+            </div>
+
+            <div class="cancel-post-container">
+                <button class="modal-button button-cancel">Cancel</button>
+                <button class="modal-button button-post">Post</button>
+            </div> 
         </div>
     </div>
 
