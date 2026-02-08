@@ -68,3 +68,32 @@
     flex-direction: column;
     gap: 0.5rem;
 }
+
+.star-filter {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.star-filter input {
+    display: none;
+}
+
+.star-filter label {
+    font-size: 1.5rem;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.star-filter label:hover {
+    transform: scale(1.15);
+}
+
+.star-filter input:checked ~ label,
+.star-filter label:hover,
+.star-filter label:hover ~ label {
+    color: #f5b301;
+}
