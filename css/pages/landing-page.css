@@ -72,6 +72,13 @@
     padding-top: 100px;
 }
 
+.divider{
+    width: 75%;
+    margin-top: 70px;
+    padding-bottom: 0;
+    border: 2px solid #123c2f;
+}
+
 .feature-section{
     padding: 60px 80px;
 }
