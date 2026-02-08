@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Food Establishment - ArcherEats</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/add-food.css">
+    <link rel="icon" type="image/png" href="../img/archer-eats-logo.png">
+</head>
+<body>
+     <!-- navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="app-name-container">
+                <a href="landing-page.html" class="app-name">
+                    <img src="../img/archer-eats-logo.png" alt="ArcherEats Logo" class="logo-img">
+                    <span class="title">rcherEats.</span>
+                </a>
+            </div>
+            <div class="searchbar-wrapper">
+                <img src="../img/search-icon.svg" class="search-icon">
+                <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
+            </div>
+            <div class="nav-actions">
+                <a href="directory.html" class="review">Directory</a>
+                <a href="profile.html" class="sign-in">Log In</a>
+                <div class="menu-icon-wrapper">
+                    <input type="checkbox" id="menu-toggle" hidden>
+                    <label for="menu-toggle" class="menu-icon-btn">
+                        <img src="../img/menu-icon.svg" class="menu-icon">
+                    </label>
+
+                    <div class="menu-dropdown">
+                        <a href="add-food.html">Add Food Establishment</a>
+                        <a href="#">Favorites</a>
+                        <hr>
+                        <a href="landing-page.html">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- end of navbar -->
+    <div class="header-section">
+        <h1 class="header-title">Add Food Establishment</h1>
+        <p class="header-desc">Before adding this food establishment, please ensure
+            the food establishment is not already listed in the website.
+        </p>
+        <h2 class="add-food-title">Food Establishment Full Name *</h2>
+        <p class="add-food-desc">Customize and check if your food establishment in the website.</p>
+        <div class="add-food-input-row">
+                <input type="text" class="add-food-input" placeholder="The Barn By Borro">
+                <button class="check-avail-btn">Check</button>
+        </div>
+    </div>
+    <div class="second-section">
+        <div class="tags-priceRange">
+            <h2 class="tags-title">Food Establishment Tags *</h2>
+            <p class="tags-desc">Input your food establishment's tags (cuisine type, ambiance, 
+                dining type, etc.)</p>
+            <div class=first-tags-boxes>
+                <input type="text" class="tags1-input" placeholder="Tag 1">
+                <input type="text" class="tags2-input" placeholder="Tag 2">
+            </div>
+            <div class="second-tags-boxes">
+                <input type="text" class="tags3-input" placeholder="Tag 3">
+                <input type="text" class="tags4-input" placeholder="Tag 4">
+            </div>
+            <h2 class="price-range-title">Price Range *</h2>
+            <div class="price-range-boxes">
+                <input type="text" class="min-price-input" placeholder="Min. Price">
+                <input type="text" class="max-price-input" placeholder="Max. Price">
+            </div>
+        </div>
+        <div class="location-opening-hours">
+            <h2 class="location-title">Location *</h2>
+            <p class="location-desc">Pinpoint your food establishment's location from the Maps.</p>
+            <input type="text" class="location-input" placeholder="Address">
+            <h2 class="opening-hours-title">Opening Hours *</h2>
+            <p class="opening-hours-desc">Set your food establishment's opening hours per day.</p>
+            <div class="hours-input-wrapper">
+                <input type="text" class="opening-hours-input" placeholder="Hours">
+                <button class="hours-submit-btn">&gt;</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
