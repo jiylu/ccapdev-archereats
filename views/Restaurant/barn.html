@@ -32,7 +32,19 @@
                 <a href="../directory.html" class="review">Review</a>
                 <a href="../profile.html" class="sign-in">Log In</a>
                 <a href="../profile.html" class="sign-up">Sign Up</a> <!-- change link -->
-                <img src="../../img/menu-icon.svg" class="menu-icon">
+                <div class="menu-icon-wrapper">
+                    <input type="checkbox" id="menu-toggle" hidden>
+                    <label for="menu-toggle" class="menu-icon-btn">
+                        <img src="../img/menu-icon.svg" class="menu-icon">
+                    </label>
+
+                    <div class="menu-dropdown">
+                        <a href="#">Add Food Establishment</a>
+                        <a href="#">Favorites</a>
+                        <hr>
+                        <a href="landing-page.html">Log Out</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
