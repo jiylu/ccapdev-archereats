@@ -1,0 +1,132 @@
+
+.header-section {
+    margin: 20px auto;
+    padding: 10px 25px 25px 25px;
+    max-width: 1000px;
+    background-color: #f8f9f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    /* border: 1px solid rgba(65, 65, 65, 0.3); */
+}
+
+.header-title {
+    font-size: 25px;
+    font-weight: 750;
+    color: #123524;
+    margin-bottom: 10px;
+}
+
+.header-desc {
+    font-size: 16px;
+    color: #123524;
+    margin-bottom: 20px;
+}
+
+.add-food-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: #123524;
+}
+
+.add-food-desc {
+    font-size: 16px;
+    color: #123524;
+    line-height: 1.1;
+}
+
+.add-food-input-row {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+}
+
+.add-food-input {
+    width: 50%;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    outline: none;
+}
+
+.add-food-input:focus {
+    border-color: #1f8f4a;
+    box-shadow: 0 0 4px #1f8f4a50;
+}
+
+.check-avail-btn {
+    padding: 5px 25px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #123524;
+    border-radius: 10px;
+    cursor: pointer;
+    width: fit-content;
+    border: none;
+    background-color: #00b25d;
+    color: #ffffff; 
+    margin-left: 10px;
+}
+
+.check-avail-btn:hover {
+    background-color: #0e2a1d;
+}
+
+.second-section {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1050px;
+    margin: 20px auto;
+}
+
+.tags-priceRange, .location-opening-hours {
+    flex: 1; 
+    background: white;
+    /* border: 1px solid rgba(65, 65, 65, 0.3); */
+    border-radius: 10px;
+    padding: 10px 25px 25px 25px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.second-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: #123524;
+}
+
+.tags-desc {
+    font-size: 13px;
+    color: #123524;
+    line-height: 1.1;
+}
+
+.price-range-boxes {
+    margin-top: 10px;
+}
+
+.second-section .location-opening-hours p {
+    font-size: 16px;
+    color: #123524;
+    line-height: 1.1;
+}
+
+.first-tags-boxes, .second-tags-boxes, .price-range-boxes {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.second-section input[type="text"] {
+    width: 90%;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(18, 53, 36, 0.3);
+    outline: none;
+}
+
+.second-section input[type="text"]:focus {
+    border-color: #1f8f4a;
+    box-shadow: 0 0 4px #1f8f4a50;
+}
