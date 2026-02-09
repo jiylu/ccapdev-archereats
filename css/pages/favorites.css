@@ -21,7 +21,10 @@
     margin-right: auto;
 }
 
-
+.favorites-cards {
+    display: flex;
+    justify-content: center;
+}
 
 
 
