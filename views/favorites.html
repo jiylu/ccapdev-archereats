@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="short description">
+    <link rel="icon" type="image/png" href="../img/archer-eats-logo.png">
+    <link rel="stylesheet" href="../css/components/navbar.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components/footer.css">
+    <link rel="stylesheet" href="../css/pages/favorites.css">
+    <link rel="stylesheet" href="../css/components/home-resto-card.css">
+    <title>Your Favorites</title>
+</head>
+<body>
+    <!-- navbar here -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="app-name-container">
+                <a href="landing-page.html" class="app-name">
+                    <img src="../img/archer-eats-logo.png" alt="ArcherEats Logo" class="logo-img">
+                    <span class="title">rcherEats.</span>
+                </a>
+            </div>
+            <div class="searchbar-wrapper">
+                <img src="../img/search-icon.svg" class="search-icon">
+                <input type="text" class="searchbar" placeholder="Search for Restaurants, Food..">
+            </div>
+            <div class="nav-actions">
+                <a href="directory.html" class="review">Directory</a>
+                <a href="#" class="sign-in">Log In</a>
+                <div class="menu-icon-wrapper">
+                    <input type="checkbox" id="menu-toggle" hidden>
+                    <label for="menu-toggle" class="menu-icon-btn">
+                        <img src="../img/menu-icon.svg" class="menu-icon">
+                    </label>
+
+                    <div class="menu-dropdown">
+                        <a href="profile.html">View Profile</a>
+                        <a href="add-food.html">Add Food Establishment</a>
+                        <a href="">Favorites</a>
+                        <hr>
+                        <a href="landing-page.html">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- main section -->
+     <section class="favorites-section">
+        <div class="favorites-header">
+            <h1>Your Favorites</h1>
+            <hr>
+        </div>
+        <div class="favorites-container">
+            <div class="feat-cards" id="featCards">
+                <div class="feat-card">
+                    <!-- Restaurants go Here -->
+                    <div class="card-image">
+                        <img src="../img/latoca.jpg" alt="La Toca">
+                        <button class="review-button"> Write a Review</button>
+                        <div class="heart"><img src="../img/heart.svg" alt="heart"></div>
+                    </div>
+                    <div class="card-content">
+                        <a href="../views/restaurants/LaToca.html">
+                        <h3>La Toca</h3>
+
+                        <div class="rating">
+                            <div class="stars">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                            </div>
+                            <span class="score">4.67</span>
+                        </div>
+                        <p>Mexican place near Razon</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="feat-card">
+                    <!-- Restaurants go Here -->
+                    <div class="card-image">
+                        <img src="../img/barn.jpg" alt="The Barn by Borro">
+                        <button class="review-button"> Write a Review</button>
+                        <div class="heart"><img src="../img/heart.svg" alt="heart"></div>
+                    </div>
+                    <div class="card-content">
+                        <a href="../views/restaurants/barn.html">
+                        <h3>The Barn</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                            </div>
+                            <span class="score">4.5</span>
+                        </div>
+                        <p>Casual Dining Place</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="feat-card">
+                    <!-- Restaurants go Here -->
+                    <div class="card-image">
+                        <img src="../img/elpoco.jpg" alt="El Poco Cantina">
+                        <button class="review-button"> Write a Review</button>
+                        <div class="heart"><img src="../img/heart.svg" alt="heart"></div>
+                    </div>
+                    <div class="card-content">
+                        <a href="../views/restaurants/elpoco.html">
+                        <h3>El Poco Cantina</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                            </div>
+                            <span class="score">4.5</span>
+                        </div>
+                        <p>Good Taco Place</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="feat-card">
+                    <!-- Restaurants go Here -->
+                    <div class="card-image">
+                        <img src="../img/tagpuanberde-hero.jpg" alt="Tagpuan Berde">
+                        <button class="review-button"> Write a Review</button>
+                        <div class="heart"><img src="../img/heart.svg" alt="heart"></div>
+                    </div>
+                    <div class="card-content">
+                        <a href="../views/restaurants/tagpuan-berde.html">
+                        <h3>Tagpuan Berde</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                            </div>
+                            <span class="score">4.5</span>
+                        </div>
+                        <p>Filipino Diner near Razon</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="feat-card">
+                    <!-- Restaurants go Here -->
+                    <div class="card-image">
+                        <img src="../img/tinuhog-benny.jpg" alt="Tinuhog ni Benny">
+                        <button class="review-button"> Write a Review</button>
+                        <div class="heart"><img src="../img/heart.svg" alt="heart"></div>
+                    </div>
+                    <div class="card-content">
+                        <a href="../views/restaurants/tinuhog-ni-benny.html">
+                        <h3>Tinuhog ni Benny</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                                <img src="../img/star.png" alt="star">
+                            </div>
+                            <span class="score">4.5</span>
+                        </div>
+                        <p>Barbecue House across DLSU</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+     </section>
+
+    <!-- footer here -->
+    <footer class="footer">
+        <div class="footer-bg">
+            <img src="../img/archer-eats-logo.png" alt="ArcherEats logo" class="footer-bg-logo">
+            <span class="footer-bg-title">rcherEats.</span>
+        </div>
+        <div class="footer-container">
+            <!-- Left Side -->
+             <div class="footer-left">
+                <div class="footer-logo">
+                    <img src="../img/archer-eats-logo.png" alt="ArcherEats logo" class="logo-img">
+                    <span class="title">rcherEats.</span>
+                </div>
+                <p class="tagline">
+                    Discover Taft Avenue's treats at your fingertips.
+                </p>
+                <button class="back-to-top">
+                    Back to Top
+                </button>
+             </div>
+
+             <!-- Middle Side -->
+              <div class="footer-links">
+                <a href="landing-page.html">Home</a>
+                <a href="#">Github</a>
+                <a href="#">Contact Us</a>
+              </div>
+            <!-- Right Side -->
+             <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+             </div>
+        </div>
+     </footer>
+     <script src="../js/featured-scroll-landing-page.js"></script>
+</body>
+</html>
