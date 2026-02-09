@@ -1,13 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 .favorites-section{
-    padding: 40px 100px;
+    padding: 40px 120px;
 }
 
 .favorites-header{
     color: #123c2f;
-    font-size: 24px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'League Spartan', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.favorites-header h1 {
+    text-align: center;
+    font-size: 42px;
+    margin: 0;
+}
+.favorites-header hr{
+    width: 95%;
+    margin-right: auto;
 }
 
 

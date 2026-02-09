@@ -1,0 +1,21 @@
+
+.favorites-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-bottom: 80px;
+}
+
+.favorites-cards{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding-bottom: 30px;
+    overflow-x: auto;
+    scroll-behavior: auto;
+    padding: 20px 10px;
+
+    scrollbar-width: none;
+}
