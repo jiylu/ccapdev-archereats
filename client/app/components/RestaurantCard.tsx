@@ -20,9 +20,9 @@ import TagList from "./TagList"
 export default function RestaurantCard({ url, resName, ratings, tags } : { url : string, resName : string, ratings : number, tags: string[]}) {
     return (
         <>
-            <div className="flex w-[50vw] bg-white border border-gray-200 rounded-lg p-2 overflow-hidden">
-                <div className="shrink w-[15vw] h-[32vh] mr-[1em]">
-                    <img src={url} className="w-[15vw] h-[32vh] rounded-lg object-cover"/>
+            <div className="flex w-200 bg-white border border-gray-200 rounded-lg p-2 overflow-hidden">
+                <div className="shrink w-60 h-50 mr-[1em]">
+                    <img src={url} className="w-60 h-50 rounded-lg object-cover"/>
                 </div>
                 
                 <div className="flex w-full flex-col pl-0.5 pr-0.5 gap-1">
