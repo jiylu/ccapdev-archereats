@@ -14,13 +14,12 @@
 
 @layer base {
     body {
-        background-color: #fffcf5;
         margin: 0;
-    @apply bg-background text-foreground;
+        @apply bg-background text-foreground;
     }
   * {
     @apply border-border outline-ring/50;
-  }
+    }
 
     button:not(:disabled),
     [role="button"]:not(:disabled) {
@@ -71,7 +70,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #fffcf5;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
