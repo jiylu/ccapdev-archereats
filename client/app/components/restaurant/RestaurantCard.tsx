@@ -1,6 +1,6 @@
 import { Button } from "./ui/button"
-import StarRating from "./StarRating"
-import TagList from "./TagList"
+import StarRating from "./ui/StarRating"
+import TagList from "./ui/TagList"
 import { Heart } from "lucide-react"
 
 type RestaurantCardProps = {

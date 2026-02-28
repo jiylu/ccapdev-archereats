@@ -1,4 +1,4 @@
-import { Badge } from "./ui/badge"
+import { Badge } from "./badge"
 
 
 // gagawa lang to ng capsule for each tag sa array
