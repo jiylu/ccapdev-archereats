@@ -1,8 +1,8 @@
 //import { useState } from 'react'
 
 import { Route, Routes } from "react-router-dom"
-import Landing from "./pages/Landing"
-import Directory from "./pages/Directory"
+import Landing from "./pages/landing"
+import Directory from "./pages/directory"
 
 
 
