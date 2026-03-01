@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Searchbar from "./searchbar";
 import { LoginModal } from "../auth/login-modal";
+import MenuButton from "./menu-button";
 
 export default function Navbar () {
     
@@ -15,6 +16,7 @@ export default function Navbar () {
                 <div className="flex items-center gap-6 shrink-0 text-white text-[1.15rem] font-medium">
                     <Link to='/directory'>Directory</Link>
                     <LoginModal />
+                    <MenuButton />
                 </div>
             </div>
         </nav>
