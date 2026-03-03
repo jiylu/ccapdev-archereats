@@ -9,7 +9,7 @@ export default function Searchbar() {
         const handleSubmit = (e : FormEvent<HTMLFormElement>) => {
             e.preventDefault();
 
-            if(query.trim()) navigate(`/search?q=${encodeURIComponent(query)}`)
+            if (query.trim()) navigate(`/search?q=${encodeURIComponent(query)}`)
         }
     
         return (
