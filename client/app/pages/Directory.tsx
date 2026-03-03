@@ -1,6 +1,6 @@
 import Navbar from "../components/layout/Navbar";
 
-export default function Landing () {
+export default function Directory () {
     return (
         <Navbar />
     )
