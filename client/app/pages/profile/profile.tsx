@@ -5,8 +5,8 @@ import ReviewsSection from "./reviews-section";
 export default function Profile () {
     return (
         <>
-            <Navbar />
             <div className="min-h-screen bg-[#fffcf5]">
+                <Navbar />
                 <ProfileHeader      // Temporary hardcoded data, will be replaced with dynamic data from backend
                     name="Juan Dela Cruz"
                     username="@juandelacruz"

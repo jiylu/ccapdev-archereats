@@ -24,6 +24,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({ name, username, status, bio, av
                     <Button 
                         size = "sm"
                         variant = "outline"
+                        className = "text-[#123524] border-[#123524]/30 hover:bg-[#123524]/5"
                         onClick={() => navigate('/edit-profile')}> Edit Profile </Button>
                 </div>
                 <h2 className="text-lg md:text-xl opacity-75">{username}</h2>
