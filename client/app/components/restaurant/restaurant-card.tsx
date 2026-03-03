@@ -3,18 +3,19 @@ import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
 import { Heart } from "lucide-react"
 
-type RestaurantCardProps = {
-    name : string,
-    imgURL : string,
-    imgAlt : string,
-    ratings : number,
-    amtRatings : number,
-    tags : string[]
-    lowerBoundPrice : number,
-    upperBoundPrice : number,
-    openingHour : string,
-    closingHour : string, 
-    featuredReviews : string[];
+interface RestaurantCardProps {
+    _id: string,
+    name: string,
+    imgURL: string,
+    imgAlt: string,
+    ratings: number,
+    amtRatings: number,
+    tags: string[]
+    lowerBoundPrice: number,
+    upperBoundPrice: number,
+    openingHour: string,
+    closingHour: string, 
+    featuredReviews: string[];
 }
 
 export default function RestaurantCard(props : RestaurantCardProps ) {
@@ -22,11 +23,12 @@ export default function RestaurantCard(props : RestaurantCardProps ) {
     function determinePricing (upperBoundPrice : number) {
         if (upperBoundPrice <= 200) return '₱';
         if (upperBoundPrice <= 500) return '₱₱';
-        if (upperBoundPrice >= 501) return '₱₱₱';
+        
+        return '₱₱₱';
     }
     
     return (
-        <div className="flex w-200 bg-white border border-gray-200 rounded-lg p-2 overflow-hidden">
+        <div className="flex w-200 bg-white border border-gray-200 rounded-lg p-2 overflow-hidden" id={props._id}>
             <div className="shrink w-60 h-50 mr-[1em]">
                 <img src={props.imgURL} className="w-60 h-50 rounded-lg object-cover" alt={props.imgAlt}/>
             </div>
