@@ -8,7 +8,6 @@ import Landing from "./pages/landing"
 import Directory from "./pages/directory/directory"
 
 
-
 function App() {
 	return (
 		<Routes>
