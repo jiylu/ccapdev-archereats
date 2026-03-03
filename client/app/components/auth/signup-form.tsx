@@ -1,17 +1,13 @@
 
-import { useState } from "react";
 import { Button } from "../ui/button";
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Separator } from "../ui/separator";
-import { Switch } from "../ui/switch";
+import { Checkbox } from "../ui/checkbox";
 
 export default function SignupForm () {
-    const [isStudent, setIsStudent] = useState(false);
     
     return (
-
         <Card className="w-full max-w-150">
             <CardContent>
                 <form>
@@ -21,6 +17,7 @@ export default function SignupForm () {
                                 <Label htmlFor="firstname">First Name</Label>
                                 <Input
                                     id="firstname"
+                                    name="firstName"
                                     type="text"
                                     placeholder="Juan"
                                     required
@@ -31,6 +28,7 @@ export default function SignupForm () {
                                 <Label htmlFor="firstname">Last Name</Label>
                                 <Input
                                     id="lastname"
+                                    name="lastName"
                                     type="text"
                                     placeholder="Dela Cruz"
                                     required
@@ -42,6 +40,7 @@ export default function SignupForm () {
                             <Label htmlFor="username">Username</Label>
                             <Input
                                     id="username"
+                                    name="username"
                                     type="text"
                                     placeholder="juandelacruz"
                                     required
@@ -52,6 +51,7 @@ export default function SignupForm () {
                             <Label htmlFor="email">Email Address</Label>
                             <Input
                                     id="email"
+                                    name="email"
                                     type="email"
                                     placeholder="juandelacruz@sampleemail.com"
                                     required
@@ -63,6 +63,7 @@ export default function SignupForm () {
                             <Label htmlFor="password">Password</Label>
                             <Input
                                     id="password"
+                                    name="password"
                                     type="password"
                                     placeholder="Enter your password"
                                     required
@@ -73,35 +74,22 @@ export default function SignupForm () {
                             <Label htmlFor="confirmpassword">Confirm Password</Label>
                             <Input
                                     id="confirmpassword"
+                                    name="confirmpassword"
                                     type="password"
                                     placeholder="Confirm your password"
                                     required
                             />
                         </div>
 
-                        <Separator />
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Are you a student around Taft?</CardTitle>
-                                <CardAction>
-                                    <Switch 
-                                        checked={isStudent}
-                                        onCheckedChange={setIsStudent}
-                                    />
-                                </CardAction>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex flex-col gap-2 w-50">
-                                <Label htmlFor="idnumber">ID Number (First 3 Digits)</Label>
-                                <Input
-                                    id="idnumber"
-                                    type="text"
-                                    placeholder="123"
-                                    disabled={!isStudent}
+                        <div className="flex gap-2 flex-1">
+                            <Label htmlFor="student">Are you a student around Taft?</Label>
+                            <Checkbox 
+                                id="student" 
+                                name="isStudent"
+                                className="border-2 border-[#1E4D36] data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]" 
                                 />
-                                </div>
-                            </CardContent>
-                        </Card>
+                        </div>
+
                         <Button 
                             type="submit" 
                             className="h-10 bg-[#1E4D36]  hover:bg-[#006937] transition-colors duration-200"

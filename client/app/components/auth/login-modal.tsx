@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogFooter } from "../ui/dialog";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
@@ -43,7 +44,12 @@ export function LoginModal () {
                         <DialogClose asChild>
                             <Button variant="outline" className="w-115 bg-[#1E4D36] text-white  hover:bg-[#006937] hover:text-white  transition-colors duration-200">Continue</Button>
                         </DialogClose>
-                        <span className="flex items-center justify-center text-[0.75em]">Don't have an account? Sign In</span>
+                        <span className="flex items-center justify-center text-xs">
+                            Don't have an account?
+                            <DialogClose asChild>
+                                <Link to="/signup" className="ml-1 underline font-semibold">Sign In</Link>
+                            </DialogClose>
+                        </span>
                     </DialogFooter>
                 </DialogContent>   
             </form>             
