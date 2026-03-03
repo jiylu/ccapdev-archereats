@@ -2,6 +2,7 @@ import Navbar from "../components/layout/navbar";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
+import { Link } from "react-router-dom";
 
 export default function EditProfile () {
     return (
@@ -60,13 +61,16 @@ export default function EditProfile () {
 
                         {/* save changes button */}
                         <div className="flex gap-3 mt-8 pb-10">
-                            <Button className="bg-[#22754d] hover:bg-[#32a970] text-white rounded-xl px-6">Save Changes</Button>
-                            <Button variant="outline" className="text-[#123524] border-[#123524]/30 hover:bg-gray-100 rounded-lg px-5">Cancel</Button>
+                            <Button asChild className="bg-[#22754d] hover:bg-[#32a970] text-white rounded-xl px-6">
+                                <Link to="/profile">Save Changes</Link>
+                            </Button>
+                            <Button asChild variant="outline" className="text-[#123524] border-[#123524]/30 hover:bg-gray-100 rounded-lg px-5">
+                                <Link to="/profile">Cancel</Link>
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-        
     )
 }

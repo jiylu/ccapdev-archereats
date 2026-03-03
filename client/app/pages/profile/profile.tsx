@@ -12,7 +12,7 @@ export default function Profile () {
                     username="@juandelacruz"
                     status="Student"
                     bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    avatarUrl="/public/default-avatar.svg"
+                    avatarUrl="/default-avatar.svg"
                 />
                 <hr className="my-10 mx-6 md:mx-20 border-0 h-[2px] bg-gray-200 rounded" />
                 <ReviewsSection />
