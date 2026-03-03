@@ -84,7 +84,7 @@ export default function Filters () {
                         </FieldGroup>
                     </div>
                     
-                    <span className="text-base underline cursor-pointer">Show More</span>
+                    <span className="underline cursor-pointer">Show More</span>
                 </div>
 
             </div>
