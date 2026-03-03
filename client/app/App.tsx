@@ -2,7 +2,7 @@
 
 import { Route, Routes } from "react-router-dom"
 import Landing from "./pages/landing"
-import Directory from "./pages/directory"
+import Directory from "./pages/directory/directory"
 
 
 
