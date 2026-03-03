@@ -8,7 +8,7 @@ import { Field, FieldGroup } from "../../components/ui/field";
 
 export default function Filters () {
     return (
-        <aside className="border-r border-gray w-3xs shadow-[1px_0_4px_rgba(0,0,0,0.05)] bg-white">
+        <aside className="border-r border-gray w-3xs shadow-[1px_0_4px_rgba(0,0,0,0.05)] bg-white min-h-screen">
             {/* main container */}
             <div className="flex flex-col p-7">
                 <span className="text-2xl font-bold mb-5">Filters</span>

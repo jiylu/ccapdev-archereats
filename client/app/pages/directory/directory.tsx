@@ -64,32 +64,32 @@ const restaurants: Restaurant[] = [
 
 export default function Directory () {
     return (
-        <>
-        <Navbar />
-        
-        {/* page container */}
-        <div className="flex justify-between">
-            <Filters />
-            <div className="flex flex-col items-center justify-center mt-1.5 gap-2">
-                {restaurants.map((r) => (
-                <RestaurantCard 
-                    _id={r._id} 
-                    name={r.name}
-                    imgURL={r.imgURL}
-                    imgAlt={r.imgAlt}
-                    ratings={r.ratings}
-                    amtRatings={r.amtRatings}
-                    tags={r.tags}
-                    lowerBoundPrice={r.lowerBoundPrice}
-                    upperBoundPrice={r.upperBoundPrice}
-                    openingHour={r.openingHour}
-                    closingHour={r.closingHour}
-                    featuredReviews={r.featuredReviews}
-                />
-                ))}
+        <div className="flex flex-col min-h-screen">
+            <Navbar />
+            
+            {/* page container */}
+            <div className="flex flex-1 justify-between">
+                <Filters />
+                <div className="flex flex-col items-center justify-start mt-10 gap-2">
+                    {restaurants.map((r) => (
+                    <RestaurantCard 
+                        _id={r._id} 
+                        name={r.name}
+                        imgURL={r.imgURL}
+                        imgAlt={r.imgAlt}
+                        ratings={r.ratings}
+                        amtRatings={r.amtRatings}
+                        tags={r.tags}
+                        lowerBoundPrice={r.lowerBoundPrice}
+                        upperBoundPrice={r.upperBoundPrice}
+                        openingHour={r.openingHour}
+                        closingHour={r.closingHour}
+                        featuredReviews={r.featuredReviews}
+                    />
+                    ))}
+                </div>
+                <Filters />
             </div>
-            <Filters />
         </div>
-        </>
     )
 }
