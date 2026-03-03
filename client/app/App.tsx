@@ -6,6 +6,7 @@ import AddFood from "./pages/add-food"
 import Favorites from "./pages/favorites"
 import Landing from "./pages/landing"
 import Directory from "./pages/directory/directory"
+import Signup from "./pages/signup/signup"
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 			<Route path="/profile" element={<Profile />} />
 			<Route path="/add-food" element={<AddFood />} />
 			<Route path="/favorites" element={<Favorites />} />
+			<Route path="/signup" element={<Signup />} />
 		</Routes>
 
   	)
