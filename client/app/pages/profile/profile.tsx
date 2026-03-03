@@ -1,4 +1,4 @@
-import Navbar from "../../components/layout/navbar";
+import Navbar from "../../components/layout/navbars";
 import ProfileHeader from "./profileheader";
 import ReviewsSection from "./reviews-section";
 

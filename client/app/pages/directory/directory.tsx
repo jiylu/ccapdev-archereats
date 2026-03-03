@@ -1,5 +1,5 @@
 import RestaurantCard from "../../components/restaurant/restaurant-card";
-import Navbar from "../../components/layout/navbar";
+import Navbar from "../../components/layout/navbars";
 import Filters from "./filters";
 
 interface Restaurant {
