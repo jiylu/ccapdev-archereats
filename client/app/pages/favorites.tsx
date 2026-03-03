@@ -1,4 +1,4 @@
-import Navbar from "../components/layout/navbars";
+import Navbar from "../components/layout/navbar";
 
 export default function Favorites () {
     return (
