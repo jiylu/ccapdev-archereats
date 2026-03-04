@@ -9,7 +9,7 @@ export function LoginModal () {
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <span className="cursor-pointer text-white">Log In</span>
+                    <span className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer">Log In</span>
                 </DialogTrigger>
 
                 <DialogContent className="flex items-center flex-col">

@@ -10,10 +10,10 @@ export default function MenuButton() {
     return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex flex-col gap-1 p-2">
-            <span className="w-5 h-0.5 bg-white rounded-full" />
-            <span className="w-5 h-0.5 bg-white rounded-full" />
-            <span className="w-5 h-0.5 bg-white rounded-full" />
+        <button className="flex flex-col gap-1 p-2 text-white transition-colors duration-200 hover:text-black">
+            <span className="w-5 h-0.5 bg-current rounded-full transition-colors duration-200" />
+            <span className="w-5 h-0.5 bg-current rounded-full transition-colors duration-200" />
+            <span className="w-5 h-0.5 bg-current rounded-full transition-colors duration-200" />
         </button>
       </DropdownMenuTrigger>
 
