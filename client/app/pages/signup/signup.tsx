@@ -1,7 +1,12 @@
 import SignupForm from "../../components/auth/signup-form";
 import Navbar from "../../components/layout/navbar";
+import { useEffect } from "react";
 
 export default function Signup () {
+
+    useEffect(() => {
+        document.title="Sign-Up | ArcherEats";
+    }, [])
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
