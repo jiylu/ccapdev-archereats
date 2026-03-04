@@ -39,7 +39,7 @@ export default function MenuButton() {
           className="text-green-700 font-medium"
           asChild
         >
-          <a href="/landing-page">Log Out</a>
+          <a href="/">Log Out</a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
