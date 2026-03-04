@@ -3,7 +3,7 @@ import { Button } from "../ui/button"
 import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
 
-import type { Restaurant} from "types/restaurant"
+import type { Restaurant} from "app/types/restaurant"
 
 export default function RestaurantCard(props : Restaurant) {
     const formatPriceRange = (maxPrice : number) => {
