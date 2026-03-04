@@ -1,4 +1,20 @@
 import mongoose from 'mongoose';
+import { Document } from 'mongoose';
+
+export interface IRestaurantInput {
+    restaurantName: string;
+    address: string;
+    googleMapsLink: string;
+    imgUrl: string;
+    amtRatings?: number; 
+    tags?: string[];     
+    minPrice: number;
+    maxPrice: number;
+    openingHour: string;
+    closingHour: string;
+}
+
+export interface IRestaurant extends IRestaurantInput, Document {}
 
 const restaurantSchema = new mongoose.Schema({
     restaurantName: { type: String, required: true},
@@ -11,6 +27,6 @@ const restaurantSchema = new mongoose.Schema({
     maxPrice: { type: Number, required: true},
     openingHour: { type: String, required: true},
     closingHour: { type: String, required: true},
-}, {timeseries: true});
+}, {timestamps: true});
 
-export default mongoose.model('Restaurant', restaurantSchema);
+export default mongoose.model<IRestaurant>('Restaurant', restaurantSchema);
