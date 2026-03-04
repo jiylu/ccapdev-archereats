@@ -2,7 +2,7 @@ import RestaurantCard from "../../components/restaurant/restaurant-card";
 import Navbar from "../../components/layout/navbar";
 import Filters from "./filters";
 import { useEffect } from "react";
-import type { Restaurant } from "types/restaurant";
+import type { Restaurant } from "app/types/restaurant";
 import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectItem, SelectValue } from "../../components/ui/select";
 
 
