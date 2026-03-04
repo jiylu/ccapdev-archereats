@@ -1,8 +1,14 @@
 import Navbar from "../../components/layout/navbar";
 import ProfileHeader from "./profileheader";
 import ReviewsSection from "./reviews-section";
+import { useEffect } from "react"; 
 
 export default function Profile () {
+    
+    useEffect(() => {
+        document.title="Profile | ArcherEats";
+    }, [])
+
     return (
         <>
             <div className="min-h-screen bg-[#fffcf5]">

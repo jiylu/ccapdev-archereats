@@ -1,6 +1,7 @@
 import RestaurantCard from "../../components/restaurant/restaurant-card";
 import Navbar from "../../components/layout/navbar";
 import Filters from "./filters";
+import { useEffect } from "react";
 
 interface Restaurant {
     _id: string,
@@ -63,6 +64,11 @@ const restaurants: Restaurant[] = [
 ]
 
 export default function Directory () {
+
+    useEffect(() => {
+        document.title="Directory | ArcherEats";
+    }, [])
+
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
