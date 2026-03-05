@@ -1,8 +1,25 @@
 import Post, { IPost } from "models/Post.js";
+import Restaurant from "models/Restaurant.js";
 
 export const createPost = async (postDate: Partial<IPost>) => {
-    const post = new Post(postDate);
-    return await post.save();
+    const post = new Post({
+        ...postDate, isAnonymous: postDate.isAnonymous || false, // default to false
+    });
+
+    await post.save();
+
+    const restaurant = await Restaurant.findById(post.restaurant);
+    if (restaurant) {
+        const avgRating = restaurant.avgRating || 0;
+        const amtRatings = restaurant.amtRatings || 0;
+
+        const totalRating = avgRating * amtRatings + post.rating;
+        restaurant.amtRatings = amtRatings + 1;
+        restaurant.avgRating = totalRating / restaurant.amtRatings;
+        await restaurant.save();
+    }
+
+    return post;
 }
 
 export const getPosts = async () => {
@@ -32,7 +49,10 @@ export const likePost = async (postId: string) => {
 }
 
 export const replyToPost = async (postId: string, replyData: any) => {
-    const replyPost = new Post(replyData);
+    const replyPost = new Post({
+        ...replyData,
+        isAnonymous: replyData.isAnonymous || false, // default false
+    });
     await replyPost.save();
 
     const parentPost = await Post.findById(postId);
