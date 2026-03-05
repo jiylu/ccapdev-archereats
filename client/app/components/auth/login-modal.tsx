@@ -47,7 +47,7 @@ export function LoginModal () {
                         <span className="flex items-center justify-center text-xs">
                             Don't have an account?
                             <DialogClose asChild>
-                                <Link to="/signup" className="ml-1 underline font-semibold">Sign In</Link>
+                                <Link to="/signup" className="ml-1 underline font-semibold">Sign Up</Link>
                             </DialogClose>
                         </span>
                     </DialogFooter>
