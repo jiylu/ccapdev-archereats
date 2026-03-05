@@ -3,9 +3,20 @@ import { Button } from "../ui/button"
 import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
 
-import type { Restaurant} from "app/types/restaurant"
+interface RestaurantCardProps {
+    _id: string,
+    restaurantName: string,
+    imgUrl: string,
+    avgRating: number,
+    amtRatings: number,
+    tags: string[],
+    minPrice: number,
+    maxPrice: number,
+    openingHour: string,
+    closingHour: string
+}
 
-export default function RestaurantCard(props : Restaurant) {
+export default function RestaurantCard(props : RestaurantCardProps) {
     const formatPriceRange = (maxPrice : number) => {
         if (maxPrice <= 200) return '₱';
         if (maxPrice <= 500) return '₱₱'
@@ -54,8 +65,8 @@ export default function RestaurantCard(props : Restaurant) {
                     <Button 
                         variant="outline" 
                         className="text-black rounded-xl border-[#006937] hover:bg-[#1E4D36] hover:text-white transition-colors duration-200"
-                        onClick={() => toast.success("Restaurant added to favorites!", {
-                            duration: 1000
+                        onClick={() => toast.success(`${props.restaurantName} successfully added to your favorites!`, {
+                            duration: 1500
                         })}
                     >
                         Add to Favorites
