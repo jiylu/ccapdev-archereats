@@ -27,3 +27,12 @@ export const likePost = async (req: Request<{id: string}>, res: Response) => {
         res.status(404).json({ message: (err as Error).message});
     }
 }
+
+export const replyToPost = async (req: Request<{ id: string }>, res:Response) => {
+    try {
+        const reply = await postService.replyToPost(req.params.id, req.body);
+        res.status(201).json(reply);
+    } catch (err) {
+        res.status(400).json({ message: (err as Error).message});
+    }
+}
