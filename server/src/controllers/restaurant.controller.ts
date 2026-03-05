@@ -2,27 +2,39 @@ import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
 import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService } from "services/restaurant.service.js";
+import { logger } from "../utils/logger.js"; // IMPORTANT: relative path + .js for ESM runtime
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
+    logger.info("POST /createRestaurant called", {body: req.body})
+
     try {
         const newRestaurant = await createRestaurantService(req.body);
+        logger.info("Created new restaurant successfully.", { newRestaurant })
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {
+        logger.error("Error creating new restaurant.", { error: err instanceof Error ? err.message : err }); 
         res.status(400).json({ message: err instanceof Error ? err.message: err})
     }
 }
 
 export const getAllRestaurants = async (req: Request, res: Response) => {
+    logger.info("GET /getRestaurants called", {body: req.body})
+
     try {
         const restaurants = await getAllRestaurantService()
+        logger.info("Fetched all restaurants successfully.", { restaurants })
         res.status(200).json(restaurants)
     } catch (err: unknown) {
+        logger.error("Error fetching all restaurants.", { error: err instanceof Error ? err.message : err }); 
         res.status(404).json({ message: err instanceof Error ? err.message : err})
     }
 }   
 
 export const getRestaurantById = async (req: Request<{id: string}>, res: Response) => {
+    logger.info(`GET /getRestaurantById called`, { id: req.params.id });
+
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        logger.warn("Invalid restaurant ID provided", { id: req.params.id });
         return res.status(404).json({ message: "Invalid restaurant ID"})
     }
     
@@ -30,25 +42,32 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
         const restaurant = await getRestaurantByIdService(req.params.id);
         
         if (!restaurant) {
+            logger.warn("Restaurant not found by ID", { id: req.params.id });
             return res.status(404).json({ message: "Restaurant not found" })
         }
 
         res.status(200).json(restaurant)
     } catch (err: unknown) {
+        logger.error("Error fetching restaurant by ID", { error: err instanceof Error ? err.message : err, id: req.params.id });
         res.status(500).json({ message: err instanceof Error ? err.message : err})
     }
 }
 
 export const getRestaurantByName = async(req: Request<{name: string}>, res: Response) => {
+    logger.info("GET /getRestaurantByName called", { name: req.params.name });
+    
     try {
         const restaurants = await getRestaurantByNameService(req.params.name) 
 
         if (restaurants.length === 0) {
+            logger.warn("No restaurants found with given name", { name: req.params.name });
             return res.status(404).json({ message: "Restaurant/s not found" })
         }
 
+        logger.info("Restaurants fetched by name successfully", { name: req.params.name, count: restaurants.length });
         res.status(200).json(restaurants)
     } catch (err: unknown) {
+        logger.error("Error fetching restaurants by name", { error: err instanceof Error ? err.message : err, name: req.params.name });
         res.status(500).json({ message: err instanceof Error ? err.message : err})
     }
 }
