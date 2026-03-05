@@ -7,6 +7,7 @@ export default function Signup () {
     useEffect(() => {
         document.title="Sign-Up | ArcherEats";
     }, [])
+    
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
