@@ -11,6 +11,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Star, X } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
 
 interface WriteReviewModalProps {
     restaurantId: string
@@ -27,6 +28,7 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
     const [recommended, setRecommended] = useState<boolean | null>(null)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const [open, setOpen] = useState(false) // open/close of modal
 
     const handleFiles = (files: FileList | null) => {
         const newFiles = Array.from(files || [])
@@ -60,14 +62,29 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
             })
     }
 
+    const resetForm = () => {
+        setRating(0)
+        setHoverRating(0)
+        setContent("")
+        setPictures([])
+        setIsAnonymous(false)
+        setRatePricing("₱")
+        setWaitTime(null)
+        setRecommended(null)
+    }
+
     return (
-        <Dialog>
+        <Dialog open={open} 
+            onOpenChange={(isOpen) => {
+                if(!isOpen) resetForm()
+                setOpen(isOpen)
+            }}>
             <DialogTrigger asChild>
                 <Button className="bg-[#123524] hover:bg-[#1E4D36] text-[#E3E8E6] font-bold">
                     Write a Review
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm: max-w-[600px] bg-[#F4F6F5] rounded-xl p-6">
+            <DialogContent className="sm:max-w-[600px] bg-[#F4F6F5] rounded-xl p-6 max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold text-center">
                         Write a Review
@@ -75,16 +92,22 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
                 </DialogHeader>
 
                 {/* Rating */}
-                <div className="flex items-center gap-1 mt-4">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                        <Star key={star} size={28} className={`cursor-pointer transition-colors ${
-                            (hoverRating || rating) >= star ? "text-yellow-400" : "text-gray-300"
-                        }`}
-                        onMouseEnter={() => setHoverRating(star)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        onClick={() => setRating(star)}
+                <div className="flex justify-center gap-2 mt-4">
+                    {[1, 2, 3, 4, 5].map((star) => {
+                        const filled = (hoverRating || rating) >= star
+                        return (
+                        <Star
+                            key={star}
+                            size={28}
+                            className={`cursor-pointer transition-transform hover:scale-110 ${
+                            filled ? "text-yellow-400 fill-current" : "text-gray-300"
+                            }`}
+                            onMouseEnter={() => setHoverRating(star)}
+                            onMouseLeave={() => setHoverRating(0)}
+                            onClick={() => setRating(star)}
                         />
-                    ))}
+                        )
+                    })}
                 </div>
                 
                 {/* Review Text */}
@@ -96,12 +119,13 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
                 />
                 {/* Anonymous */}
                 <div className="flex items-center gap-2 mt-2">
-                    <input 
-                        type="checkbox"
+                    <Checkbox 
+                        id="anonymous"
                         checked={isAnonymous}
-                        onChange={(e) => setIsAnonymous(e.target.checked)}
+                        onCheckedChange={(checked) => setIsAnonymous(Boolean(checked))}
+                        className="border-gray-700 hover:border-gray-900 checked:bg-[#123524] checked:border-[#123524] w-4 h-4"
                     />
-                    <label htmlFor="anonymous">Post Anonymously</label>
+                    <label htmlFor="anonymous" className="select-none">Post Anonymously</label>
                 </div>
                 
                 {/* Drag & Drop Image Upload */}
@@ -181,11 +205,11 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
 
                 {/* Cancel and Submit */}
                 <div className="flex justify-end gap-3 mt-6">
-                    <Button variant="outline" onClick={() => console.log("Cancelled")}>
+                    <Button variant="outline" onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
 
-                    <Button onClick={handleSubmit} className="bg-[#123524] hover:bg-[#1E4D36]text-[#E3E8E6]">
+                    <Button onClick={handleSubmit} className="bg-[#123524] hover:bg-[#1E4D36] text-[#E3E8E6]">
                         Submit
                     </Button>
                 </div>
