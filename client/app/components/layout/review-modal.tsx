@@ -192,7 +192,7 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
                 <div className="mt-4">
                     <span className="font-semibold">Would you recommend the place?</span>
                     <div className="flex gap-2 mt-1">
-                        {["Yes", "No"].map((val, idx) => (
+                        {["Yes", "No"].map((val) => (
                             <button key={val} onClick={() => setRecommended(val === "Yes")}
                             className={`px-3 py-1 rounded-md border ${
                                 recommended === (val === "Yes") ? "bg-[#123524] text-[#E3E8E6]" : "bg-gray-200"
