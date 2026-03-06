@@ -9,7 +9,7 @@ export const createRestaurant = async (req: Request<object, object, IRestaurantI
 
     try {
         const newRestaurant = await createRestaurantService(req.body);
-        logger.info("Created new restaurant successfully.", { newRestaurant })
+        logger.info(`Created ${newRestaurant._id} successfully.`)
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {
         logger.error("Error creating new restaurant.", { error: err instanceof Error ? err.message : err }); 
@@ -22,7 +22,10 @@ export const getAllRestaurants = async (req: Request, res: Response) => {
 
     try {
         const restaurants = await getAllRestaurantService()
-        logger.info("Fetched all restaurants successfully.", { restaurants })
+        logger.info("Fetched all restaurants successfully.", {
+            count: restaurants.length, 
+            restaurantNames: restaurants.map(r => r.restaurantName)
+        })
         res.status(200).json(restaurants)
     } catch (err: unknown) {
         logger.error("Error fetching all restaurants.", { error: err instanceof Error ? err.message : err }); 
@@ -46,6 +49,7 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
             return res.status(404).json({ message: "Restaurant not found" })
         }
 
+        logger.info("Restaurant found", {restaurant: restaurant})
         res.status(200).json(restaurant)
     } catch (err: unknown) {
         logger.error("Error fetching restaurant by ID", { error: err instanceof Error ? err.message : err, id: req.params.id });
