@@ -3,7 +3,9 @@ import * as postService from 'services/post.service.js';
 
 export const createPost = async (req: Request, res: Response) => {
     try {
-        const post = await postService.createPost(req.body);
+        const data = req.body;
+        const pictures = (req.files as Express.Multer.File[] | undefined)?.map(file => file.path) || [];
+        const post = await postService.createPost({ ...data, pictures });
         res.status(201).json(post);
     } catch (err) {
         res.status(400).json({ message: (err as Error).message});
