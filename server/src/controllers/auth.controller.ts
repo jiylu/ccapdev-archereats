@@ -18,6 +18,11 @@ export const loginUser = async (req: Request<object, object, AuthData>, res: Res
     try {
         const validatedData = authSchema.parse(req.body);
         const userData = await authService(validatedData);
+        
+        if (!userData) {
+            return res.status(401).json({ message: "Invalid login" });
+        }
+        
         const { password: _, ...user } = userData.toObject();
 
         const token = jwt.sign(
@@ -33,9 +38,9 @@ export const loginUser = async (req: Request<object, object, AuthData>, res: Res
         }
 
         if (err instanceof Error) {
-            res.status(400).json({ message: err.message });
+            return res.status(400).json({ message: err.message });
         }
 
-        res.status(500).json({ message: "Unknown error occured" });
+        return res.status(500).json({ message: "Unknown error occured" });
     }
 }
