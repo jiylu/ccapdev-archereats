@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IUserInput } from "../models/User.js";
 import { createUserService } from "../services/user.service.js";
-import { createUserSchema } from "schemas/userSchemas.js";
+import { createUserSchema } from "../schemas/user.schemas.js";
 import { ZodError } from "zod";  
 
 export const createUser = async (req: Request<object, object, IUserInput>, res: Response) => {

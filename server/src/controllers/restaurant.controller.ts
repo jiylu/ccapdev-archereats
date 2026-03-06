@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
 import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService } from "services/restaurant.service.js";
-import { logger } from "../utils/logger.js"; // IMPORTANT: relative path + .js for ESM runtime
+import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
     logger.info("POST /createRestaurant called", {body: req.body})
