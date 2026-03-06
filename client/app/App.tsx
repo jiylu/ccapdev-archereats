@@ -9,6 +9,7 @@ import Directory from "./pages/directory/directory"
 import Signup from "./pages/signup/signup"
 import EditProfile from "./pages/edit-profile"
 import { Toaster } from "./components/ui/sonner"
+import { PublicRoute } from "./components/routes/public-route"
 
 
 function App() {
@@ -21,7 +22,13 @@ function App() {
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/add-food" element={<AddFood />} />
 				<Route path="/favorites" element={<Favorites />} />
-				<Route path="/signup" element={<Signup />} />
+				<Route 
+					path="/signup" 
+					element={
+						<PublicRoute>
+							<Signup />
+						</PublicRoute>
+					} />
 				<Route path="/edit-profile" element={<EditProfile />} />
 			</Routes>
 		</>

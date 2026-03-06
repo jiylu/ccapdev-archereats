@@ -3,6 +3,7 @@ import Searchbar from "./searchbar";
 import { LoginModal } from "../auth/login-modal";
 import MenuButton from "./menu-button";
 import { useAuth } from "../../hooks/useAuth";
+import { Button } from "../ui/button";
 
 export default function Navbar () {
     const { token } = useAuth();
@@ -18,6 +19,11 @@ export default function Navbar () {
                 <div className="flex items-center gap-6 shrink-0 text-white text-[1.15rem] font-medium">
                     <Link to='/directory' className="transition-colors duration-200 hover:text-black">Directory</Link>
                     {!token && <LoginModal />}
+                    {!token && 
+                        <Link to='/signup' className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer">
+                            Sign Up
+                        </Link>
+                    }
                     {token && <MenuButton />}
                 </div>
             </div>
