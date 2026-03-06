@@ -9,8 +9,7 @@ export const createUserService = async (userData: IUserInput) => {
     
     const newUser = await User.create({
         ...userData,
-        password: hashedPassword,
-        biography: "" 
+        password: hashedPassword
     })
     
     return newUser 

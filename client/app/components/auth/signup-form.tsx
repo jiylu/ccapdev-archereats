@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
+import { useAuth } from "../../hooks/useAuth";
+import { loginUser } from "../../api/auth.api";
 
 const registerSchema = z.object({
     email: z.string().email("Invalid email"),
@@ -29,17 +31,19 @@ type FormData = z.infer<typeof registerSchema>;
 
 export default function SignupForm () {
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, control } = useForm<FormData>({
         resolver: zodResolver(registerSchema)
     })
 
     const onSubmit = async (data: FormData) => {
         const { confirmpassword, ...payload } = data; // remove password confirm
-
         try {
             const user = await registerUser(payload);
-            console.log(user);
+            const { token } = await loginUser({login: user.email, password: data.password})
+            
             reset();
+            setAuth(token, user)
             navigate("/directory");
         } catch (err:unknown) {
             console.error(err);
