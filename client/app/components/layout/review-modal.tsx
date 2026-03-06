@@ -13,6 +13,7 @@ import { Textarea } from "../ui/textarea";
 import { Star, X } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { createPost } from "../../api/post.api";
+import { toast } from "sonner";
 
 interface WriteReviewModalProps {
     restaurantId: string
@@ -40,26 +41,41 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
         setPictures((prev) => prev.filter((_, i) => i !== index))
     }
 
-    const handleSubmit = async () => {
-        try {
-            const post = await createPost({
-                restaurant: restaurantId,
-                rating,
-                content,
-                isAnonymous,
-                ratePricing,
-                waitTime,
-                recommended,
-                pictures
-            })
-
-            console.log(post)
-            resetForm()
-            setOpen(false)
-        } catch (err) {
-            console.error(err)
+    const convertRatePricing = (rate: string) => {
+        switch(rate) {
+            case "₱": return "P";
+            case "₱₱": return "PP";
+            case "₱₱₱": return "PPP";
+            default: return undefined;
         }
     }
+
+    const handleSubmit = async () => {
+        if (!restaurantId) return;
+
+        try {
+            const post = await createPost({
+            restaurant: restaurantId,
+            rating,
+            content,
+            isAnonymous,
+            ratePricing: convertRatePricing(ratePricing ?? ""),
+            waitTime: waitTime ?? undefined,
+            recommended: recommended ?? undefined,
+            pictures,
+            });
+
+            console.log("Post created:", post);
+
+            resetForm();
+            setOpen(false);
+
+            toast.success("Review submitted successfully!", { duration: 2000 });
+        } catch (err: unknown) {
+            console.error("Error creating post:", err);
+            toast.error("Failed to submit review. Please try again.", { duration: 2000 });
+        }
+    };
 
     const resetForm = () => {
         setRating(0)

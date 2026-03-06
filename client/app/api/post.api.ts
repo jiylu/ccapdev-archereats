@@ -5,7 +5,7 @@ export interface CreatePostPayload {
     rating: number
     content: string
     isAnonymous: boolean
-    ratePricing?: "₱" | "₱₱" | "₱₱₱"
+    ratePricing?: "P" | "PP" | "PPP"
     waitTime?: "No Wait" | "15-30m" | "1hr+"
     recommended?: boolean
     pictures?: File[]

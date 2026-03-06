@@ -1,9 +1,11 @@
 import Post, { IPost } from "models/Post.js";
 import Restaurant from "models/Restaurant.js";
+import { PostCreateInput } from "types/post.js";
 
-export const createPost = async (postDate: Partial<IPost>) => {
+export const createPost = async (postData: PostCreateInput): Promise<IPost> => {
     const post = new Post({
-        ...postDate, isAnonymous: postDate.isAnonymous || false, // default to false
+        ...postData,
+        isAnonymous: postData.isAnonymous || false,
     });
 
     await post.save();
@@ -20,7 +22,7 @@ export const createPost = async (postDate: Partial<IPost>) => {
     }
 
     return post;
-}
+};
 
 export const getPosts = async () => {
     const posts = await Post.find()
