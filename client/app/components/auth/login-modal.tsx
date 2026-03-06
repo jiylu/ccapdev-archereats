@@ -33,10 +33,10 @@ export function LoginModal () {
         
         try {
             const { user, token } = await loginUser(data);
-            setAuth(token, user);
             
-            reset();
-            navigate(location.pathname)
+            setAuth(token, user)
+            reset()
+            navigate(location.pathname === "/signup" ? "/directory": location.pathname)
             setOpen(false);
         } catch (err:unknown) {
             console.error(err);
