@@ -12,7 +12,11 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Star, X } from "lucide-react";
 
-export function WriteReviewModal() {
+interface WriteReviewModalProps {
+    restaurantId: string
+}
+
+export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
     const [rating, setRating] = useState(0)
     const [hoverRating, setHoverRating] = useState(0)
     const [content, setContent] = useState("")
@@ -33,17 +37,27 @@ export function WriteReviewModal() {
         setPictures((prev) => prev.filter((_, i) => i !== index))
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        const formData = new FormData()
+        formData.append("restaurant", restaurantId)
+        formData.append("rating", String(rating))
+        formData.append("content", content)
+        formData.append("isAnonymous", String(isAnonymous))
+        if (ratePricing) formData.append("ratePricing", ratePricing)
+        if (waitTime) formData.append("waitTime", waitTime)
+        if (recommended !== null) formData.append("recommended", String(recommended))
+        pictures.forEach((img) => formData.append("pictures", img))
+
         // temp
-        console.log({
+        console.log("Submit review for restaurant:", restaurantId, {
             rating,
-            content, 
+            content,
             pictures,
             isAnonymous,
             ratePricing,
             waitTime,
             recommended,
-        })
+            })
     }
 
     return (
@@ -150,7 +164,31 @@ export function WriteReviewModal() {
                     </div>
                 </div>
                 
-                {}
+                {/* Recommendation */}
+                <div className="mt-4">
+                    <span className="font-semibold">Would you recommend the place?</span>
+                    <div className="flex gap-2 mt-1">
+                        {["Yes", "No"].map((val, idx) => (
+                            <button key={val} onClick={() => setRecommended(val === "Yes")}
+                            className={`px-3 py-1 rounded-md border ${
+                                recommended === (val === "Yes") ? "bg-[#123524] text-[#E3E8E6]" : "bg-gray-200"
+                            }`}>
+                                {val}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Cancel and Submit */}
+                <div className="flex justify-end gap-3 mt-6">
+                    <Button variant="outline" onClick={() => console.log("Cancelled")}>
+                        Cancel
+                    </Button>
+
+                    <Button onClick={handleSubmit} className="bg-[#123524] hover:bg-[#1E4D36]text-[#E3E8E6]">
+                        Submit
+                    </Button>
+                </div>
             </DialogContent>
         </Dialog>
     )

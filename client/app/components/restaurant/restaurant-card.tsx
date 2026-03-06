@@ -2,6 +2,7 @@ import { toast } from "sonner"
 import { Button } from "../ui/button"
 import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
+import { WriteReviewModal } from "../layout/review-modal"
 
 interface RestaurantCardProps {
     _id: string,
