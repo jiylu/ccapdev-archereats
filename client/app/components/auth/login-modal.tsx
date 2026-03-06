@@ -9,7 +9,7 @@ export function LoginModal () {
         <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <span className="cursor-pointer text-white">Log In</span>
+                    <span className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer">Log In</span>
                 </DialogTrigger>
 
                 <DialogContent className="flex items-center flex-col">
@@ -47,7 +47,7 @@ export function LoginModal () {
                         <span className="flex items-center justify-center text-xs">
                             Don't have an account?
                             <DialogClose asChild>
-                                <Link to="/signup" className="ml-1 underline font-semibold">Sign In</Link>
+                                <Link to="/signup" className="ml-1 underline font-semibold">Sign Up</Link>
                             </DialogClose>
                         </span>
                     </DialogFooter>

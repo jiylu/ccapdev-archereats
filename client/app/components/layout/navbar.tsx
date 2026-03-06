@@ -14,7 +14,7 @@ export default function Navbar () {
                 </Link>
                 <Searchbar></Searchbar>
                 <div className="flex items-center gap-6 shrink-0 text-white text-[1.15rem] font-medium">
-                    <Link to='/directory'>Directory</Link>
+                    <Link to='/directory' className="transition-colors duration-200 hover:text-black">Directory</Link>
                     <LoginModal />
                     <MenuButton />
                 </div>

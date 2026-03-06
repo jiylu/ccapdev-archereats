@@ -1,0 +1,24 @@
+{
+  "name": "mco1",
+  "version": "1.0.0",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm run dev --prefix server\" \"npm run dev --prefix client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiylu/ccapdev-archereats.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiylu/ccapdev-archereats/issues"
+  },
+  "homepage": "https://github.com/jiylu/ccapdev-archereats#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
