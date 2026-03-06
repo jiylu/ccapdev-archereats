@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Star, X } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
+import { createPost } from "../../api/post.api";
 
 interface WriteReviewModalProps {
     restaurantId: string
@@ -23,9 +24,9 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
     const [content, setContent] = useState("")
     const [pictures, setPictures] = useState<File[]>([])
     const [isAnonymous, setIsAnonymous] = useState(false)
-    const [ratePricing, setRatePricing] = useState("P")
-    const [waitTime, setWaitTime] = useState<"No Wait" | "15-30m" | "1hr+" | null >(null)
-    const [recommended, setRecommended] = useState<boolean | null>(null)
+    const [ratePricing, setRatePricing] = useState<"₱" | "₱₱" | "₱₱₱" | undefined>()
+    const [waitTime, setWaitTime] = useState<"No Wait" | "15-30m" | "1hr+" | undefined>()
+    const [recommended, setRecommended] = useState<boolean | undefined>()
 
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [open, setOpen] = useState(false) // open/close of modal
@@ -40,26 +41,24 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
     }
 
     const handleSubmit = async () => {
-        const formData = new FormData()
-        formData.append("restaurant", restaurantId)
-        formData.append("rating", String(rating))
-        formData.append("content", content)
-        formData.append("isAnonymous", String(isAnonymous))
-        if (ratePricing) formData.append("ratePricing", ratePricing)
-        if (waitTime) formData.append("waitTime", waitTime)
-        if (recommended !== null) formData.append("recommended", String(recommended))
-        pictures.forEach((img) => formData.append("pictures", img))
-
-        // temp
-        console.log("Submit review for restaurant:", restaurantId, {
-            rating,
-            content,
-            pictures,
-            isAnonymous,
-            ratePricing,
-            waitTime,
-            recommended,
+        try {
+            const post = await createPost({
+                restaurant: restaurantId,
+                rating,
+                content,
+                isAnonymous,
+                ratePricing,
+                waitTime,
+                recommended,
+                pictures
             })
+
+            console.log(post)
+            resetForm()
+            setOpen(false)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     const resetForm = () => {
@@ -69,8 +68,8 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
         setPictures([])
         setIsAnonymous(false)
         setRatePricing("₱")
-        setWaitTime(null)
-        setRecommended(null)
+        setWaitTime("No Wait")
+        setRecommended(true)
     }
 
     return (
