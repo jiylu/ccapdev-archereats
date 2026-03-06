@@ -2,6 +2,7 @@ import { toast } from "sonner"
 import { Button } from "../ui/button"
 import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
+import { WriteReviewModal } from "../layout/review-modal"
 
 interface RestaurantCardProps {
     _id: string,
@@ -54,13 +55,7 @@ export default function RestaurantCard(props : RestaurantCardProps) {
 
 
                 <div className="flex gap-2 align-bottom">
-                    <Button 
-                        variant="outline" 
-                        className="text-black rounded-xl border-[#006937] hover:bg-[#1E4D36] hover:text-white transition-colors duration-200"
-                    >
-                        Write a Review
-                    </Button>  
-
+                    <WriteReviewModal restaurantId={props._id} />
                     
                     <Button 
                         variant="outline" 
