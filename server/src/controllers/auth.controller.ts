@@ -3,6 +3,8 @@ import { authSchema } from "schemas/auth.schemas.js"
 import { authService } from "services/auth.service.js"
 import { logger } from "utils/logger.js";
 import { ZodError } from "zod";
+import jwt from 'jsonwebtoken';
+
 
 export interface AuthData {
     login: string,
@@ -15,11 +17,16 @@ export const loginUser = async (req: Request<object, object, AuthData>, res: Res
 
     try {
         const validatedData = authSchema.parse(req.body);
-        const user = await authService(validatedData);
+        const userData = await authService(validatedData);
+        const { password: _, ...user } = userData.toObject();
 
-        const { password: _, ...safeUser } = user.toObject();
-        logger.info("Auth successful for", { safeUser })
-        res.status(200).json(safeUser)
+        const token = jwt.sign(
+            { id: user._id, login: req.body.login},
+            process.env.JWT_SECRET || 'secret'
+        )
+
+        logger.info("Auth successful for", { user })
+        res.status(200).json({ token, user })
     } catch (err: unknown) {
         if (err instanceof ZodError) {
             return res.status(400).json({ message: err.issues.map(issue => issue.message) });
