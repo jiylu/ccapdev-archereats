@@ -10,6 +10,11 @@ import { loginUser } from "../../api/auth.api";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 
+interface LoginModalProps {
+    open: boolean
+    onOpenChange: (open: boolean) => void
+    onLoginSuccess?: () => void
+}
 
 const loginSchema = z.object({
     login: z.string().min(1, "Enter your email or username"),
@@ -18,8 +23,7 @@ const loginSchema = z.object({
 
 type FormData = z.infer<typeof loginSchema>
 
-export function LoginModal () {
-    const [open, setOpen] = useState(false);
+export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalProps) {
     const { setAuth } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
@@ -37,18 +41,15 @@ export function LoginModal () {
             setAuth(token, user)
             reset()
             navigate(location.pathname === "/signup" ? "/directory": location.pathname)
-            setOpen(false);
+            onOpenChange(false)
+            onLoginSuccess?.()
         } catch (err:unknown) {
             console.error(err);
         }
     }
     
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <span className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer">Log In</span>
-            </DialogTrigger>
-
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="flex items-center flex-col">
                     <DialogHeader>
                         <DialogTitle className="flex">

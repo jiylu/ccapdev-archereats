@@ -3,6 +3,9 @@ import { Button } from "../ui/button"
 import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
 import { WriteReviewModal } from "../layout/review-modal"
+import { LoginModal } from "../auth/login-modal"
+import { useState } from "react"
+
 
 interface RestaurantCardProps {
     _id: string,
@@ -18,11 +21,23 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard(props : RestaurantCardProps) {
+
+    const [openReview, setOpenReview] = useState(false)
+    const [openLogin, setOpenLogin] = useState(false)
     const formatPriceRange = (maxPrice : number) => {
         if (maxPrice <= 200) return '₱';
         if (maxPrice <= 500) return '₱₱'
 
         return '₱₱₱'
+    }
+
+    const handleWriteReview = () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setOpenLogin(true)
+            return
+        }
+        setOpenReview(true)
     }
     
     return (
@@ -55,7 +70,13 @@ export default function RestaurantCard(props : RestaurantCardProps) {
 
 
                 <div className="flex gap-2 align-bottom">
-                    <WriteReviewModal restaurantId={props._id} />
+                    <Button
+                        variant="outline"
+                        className="text-black rounded-xl border-[#006937] hover:bg-[#1E4D36] hover:text-white transition-colors duration-200"
+                        onClick={handleWriteReview}
+                    >
+                        Write a Review
+                    </Button>
                     
                     <Button 
                         variant="outline" 
@@ -68,6 +89,21 @@ export default function RestaurantCard(props : RestaurantCardProps) {
                     </Button>  
                 </div>
             </div>
+
+            <WriteReviewModal 
+                restaurantId={props._id}
+                open={openReview}
+                onOpenChange={setOpenReview}
+            />
+
+            <LoginModal 
+                open={openLogin}
+                onOpenChange={setOpenLogin}
+                onLoginSuccess={() => {
+                    setOpenLogin(false)
+                    setOpenReview(true)
+                }}
+            />
         </div>
     )
 }

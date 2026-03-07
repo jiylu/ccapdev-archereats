@@ -17,9 +17,11 @@ import { toast } from "sonner";
 
 interface WriteReviewModalProps {
     restaurantId: string
+    open: boolean
+    onOpenChange: (open: boolean) => void
 }
 
-export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
+export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteReviewModalProps) {
     const [rating, setRating] = useState(0)
     const [hoverRating, setHoverRating] = useState(0)
     const [content, setContent] = useState("")
@@ -30,7 +32,6 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
     const [recommended, setRecommended] = useState<boolean | undefined>()
 
     const fileInputRef = useRef<HTMLInputElement>(null)
-    const [open, setOpen] = useState(false) // open/close of modal
 
     const handleFiles = (files: FileList | null) => {
         const newFiles = Array.from(files || [])
@@ -68,7 +69,7 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
             console.log("Post created:", post);
 
             resetForm();
-            setOpen(false);
+            onOpenChange(false);
 
             toast.success("Review submitted successfully!", { duration: 2000 });
         } catch (err: unknown) {
@@ -92,13 +93,8 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
         <Dialog open={open} 
             onOpenChange={(isOpen) => {
                 if(!isOpen) resetForm()
-                setOpen(isOpen)
+                onOpenChange(isOpen)
             }}>
-            <DialogTrigger asChild>
-                <Button className="bg-[#123524] hover:bg-[#1E4D36] text-[#E3E8E6] font-bold">
-                    Write a Review
-                </Button>
-            </DialogTrigger>
             <DialogContent className="sm:max-w-[600px] bg-[#F4F6F5] rounded-xl p-6 max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold text-center">
@@ -220,7 +216,7 @@ export function WriteReviewModal({ restaurantId }: WriteReviewModalProps) {
 
                 {/* Cancel and Submit */}
                 <div className="flex justify-end gap-3 mt-6">
-                    <Button variant="outline" onClick={() => setOpen(false)}>
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>
                         Cancel
                     </Button>
 
