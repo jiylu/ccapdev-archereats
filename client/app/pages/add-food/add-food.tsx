@@ -4,16 +4,18 @@ import AddFoodDetails from "./add-food-details";
 import AddFoodDesc from "./add-food-desc";
 import AddFoodPhotos from "./add-food-photos";
 import { useEffect, useState } from "react";
-
-import axios from "axios";
-import { uploadRestaurant } from "../../api/restaurant.api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import axios from "axios";
+import { uploadRestaurant } from "../../api/restaurant.api";
+import type { Restaurant } from "../../types/restaurant";
+
 
 export default function AddFood () {
     const navigate = useNavigate();
-
-    const initialData = {
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    
+    const initialData: Restaurant = {
         restaurantName: "",
         address: "",
         description: "",
@@ -29,14 +31,13 @@ export default function AddFood () {
         mobileNumber: "",
         websites: [],
     };
-
+    
     const [restaurantData, setRestaurantData] = useState(initialData);
 
     useEffect(() => {
         document.title="Add Food Establishment | ArcherEats";
     }, [])
 
-    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validateFields = () => {
         const newErrors: Record<string, string> = {};
@@ -66,39 +67,25 @@ export default function AddFood () {
         return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2,"0")} ${ampm}`;
     };
 
+    const handleReset = () => {
+        setRestaurantData(initialData);
+    };
+
     const handleSubmit = async () => {
         if (!validateFields()) {
             toast.error("Please fill in all required fields.", { duration: 2000 });
-            return; // stop submission
+            return; 
         }
 
         try {
-            const formData = new FormData();
-
-            const dataToSend = {
+            const payload = {
                 ...restaurantData,
                 openingHour: formatTo12Hour(restaurantData.openingHour),
                 closingHour: formatTo12Hour(restaurantData.closingHour),
             };
 
-            Object.entries(dataToSend).forEach(([key, val]) => {
-                if ((key === "tags" || key === "websites") && Array.isArray(val)) {
-                    val.forEach((item) => formData.append(key, item));
-                } 
-                else if (key === "images" && Array.isArray(val)) {
-                    val.forEach((file) => formData.append("images", file));
-                } 
-                else if (val !== undefined && val !== null) {
-                    formData.append(key, val.toString());
-                }
-            });
-
-            for (const pair of formData.entries()) {
-                console.log(pair[0], pair[1]);
-            }
-
-            await uploadRestaurant(formData);
-
+            uploadRestaurant(payload);
+            alert("Food establishment added successfully!");
             toast.success("Food Establishment added successfully!", { duration: 2000 });
 
             setRestaurantData(initialData);
@@ -109,9 +96,6 @@ export default function AddFood () {
         }
     };
 
-    const handleReset = () => {
-        setRestaurantData(initialData);
-    };
 
     return (
         <div className="min-h-screen bg-[#fffcf5]">

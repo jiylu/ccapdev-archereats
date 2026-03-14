@@ -18,16 +18,18 @@ export const createUserService = async (userData: IUserInput) => {
 };
 
 export const addFavoriteRestaurantService = async (userId: string, restaurantId: string) => {
-	if (!await Restaurant.findOne({ _id: restaurantId })) {
+	const user = await User.findById(userId);
+    
+    if (!await Restaurant.findOne({ _id: restaurantId })) {
         throw new Error(`user.service favoriteRestaurant Error finding restaurantId: ${restaurantId}`)
 	}
 
-    if (!await User.findOne({ _id: userId})) {
+    if (!user) {
         throw new Error(`user.service Error finding userId`)
     }
 
-    if (await User.find({ favoriteRestaurants: restaurantId})) {
-        throw new Error(`Restaurant ${restaurantId} already in favorites list`)
+    if (user?.favoriteRestaurants.includes(restaurantId)) {
+        throw new Error(`Restaurant ${restaurantId} already in favorites list`);
     }
 
     await User.findByIdAndUpdate(

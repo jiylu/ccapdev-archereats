@@ -3,7 +3,6 @@ import Searchbar from "./searchbar";
 import { LoginModal } from "../auth/login-modal";
 import MenuButton from "./menu-button";
 import { useAuth } from "../../hooks/useAuth";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
 
 export default function Navbar () {

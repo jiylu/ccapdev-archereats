@@ -55,21 +55,18 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
 
         try {
             const post = await createPost({
-            restaurant: restaurantId,
-            rating,
-            content,
-            isAnonymous,
-            ratePricing: convertRatePricing(ratePricing ?? ""),
-            waitTime: waitTime ?? undefined,
-            recommended: recommended ?? undefined,
-            pictures,
+                restaurant: restaurantId,
+                rating,
+                content,
+                isAnonymous,
+                ratePricing: convertRatePricing(ratePricing ?? ""),
+                waitTime: waitTime ?? undefined,
+                recommended: recommended ?? undefined,
+                pictures,
             });
-
-            console.log("Post created:", post);
 
             resetForm();
             onOpenChange(false);
-
             toast.success("Review submitted successfully!", { duration: 2000 });
         } catch (err: unknown) {
             console.error("Error creating post:", err);

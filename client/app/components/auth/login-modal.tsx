@@ -1,13 +1,12 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogFooter } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogFooter } from "../ui/dialog";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "../../api/auth.api";
-import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 
 interface LoginModalProps {
@@ -33,8 +32,6 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
     })
 
     const onSubmit = async (data: FormData) => {
-        console.log(data);
-        
         try {
             const { user, token } = await loginUser(data);
             

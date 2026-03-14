@@ -5,7 +5,8 @@ import TagList from "../ui/tag-list"
 import { WriteReviewModal } from "../layout/review-modal"
 import { LoginModal } from "../auth/login-modal"
 import { useState } from "react"
-
+import { useAuth } from "../../hooks/useAuth";
+import { favoriteRestaurant } from "../../api/user.api"
 
 interface RestaurantCardProps {
     _id: string,
@@ -21,6 +22,7 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard(props : RestaurantCardProps) {
+    const { user, token } = useAuth();
 
     const [openReview, setOpenReview] = useState(false)
     const [openLogin, setOpenLogin] = useState(false)
@@ -32,12 +34,29 @@ export default function RestaurantCard(props : RestaurantCardProps) {
     }
 
     const handleWriteReview = () => {
-        const token = localStorage.getItem("token");
         if (!token) {
             setOpenLogin(true)
             return
         }
         setOpenReview(true)
+    }
+
+    const handleFavoriteRestaurant = () => {
+        if (!token || !user) {
+            setOpenLogin(true);
+            return;
+        }
+
+        try {
+            favoriteRestaurant(user?._id, props._id);
+            toast.success(`${props.restaurantName} successfully added to your favorites!`, {
+                duration: 1500
+            })
+        } catch (err: unknown) {
+            toast.error("Failed to add restaurant to favorites.")
+            console.error(err);
+        }
+
     }
     
     return (
@@ -85,9 +104,7 @@ export default function RestaurantCard(props : RestaurantCardProps) {
                     <Button 
                         variant="outline" 
                         className="text-black rounded-xl border-[#006937] hover:bg-[#1E4D36] hover:text-white transition-colors duration-200"
-                        onClick={() => toast.success(`${props.restaurantName} successfully added to your favorites!`, {
-                            duration: 1500
-                        })}
+                        onClick={handleFavoriteRestaurant}
                     >
                         Add to Favorites
                     </Button>  

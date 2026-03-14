@@ -36,6 +36,6 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
         logger.info("authMiddleware successfully verified", {header: header, token: token, user: user})
         next();
     } catch (err: unknown) {
-        return res.status(403).json({ message: "Invalid or expired token" })
+        return res.status(403).json({ message: "Invalid or expired token " + err })
     }
 }
