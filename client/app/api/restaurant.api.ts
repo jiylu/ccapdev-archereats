@@ -13,7 +13,7 @@ export const uploadRestaurant = async (restaurantData: Restaurant) => {
         if ((key === "tags" || key === "websites") && Array.isArray(val)) {
             val.forEach((item) => formData.append(key, item));
         } 
-        else if (key === "photos" && Array.isArray(val)) {
+        else if (key === "images" && Array.isArray(val)) {
             val.forEach((file) => {
                 formData.append("images", file); 
             });
