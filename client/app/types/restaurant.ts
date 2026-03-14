@@ -2,8 +2,9 @@ export interface Restaurant {
     _id: string,
     restaurantName: string,
     address: string,
+    description: string,
     googleMapsLink: string,
-    imgUrl: string,
+    images: string[],
     avgRating: number,
     amtRatings: number,
     tags: string[]
@@ -11,4 +12,6 @@ export interface Restaurant {
     maxPrice: number,
     openingHour: string,
     closingHour: string,
+    mobileNumber: string,
+    websites: string[]
 }
