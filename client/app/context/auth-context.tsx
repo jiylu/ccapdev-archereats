@@ -10,13 +10,23 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(() => {
+        const stored = localStorage.getItem("user");
+        return stored ? JSON.parse(stored) : null;
+    });
 
     const setAuth = (newToken: string | null, newUser?: User | null) => {
         if (newToken) localStorage.setItem("token", newToken);
         else localStorage.removeItem("token");
         setToken(newToken);
-        if (newUser) setUser(newUser);
+
+        if (newUser) {
+            localStorage.setItem("user", JSON.stringify(newUser));
+            setUser(newUser);
+        } else {
+            localStorage.removeItem("user");
+            setUser(null);
+        }
     };
 
     return (

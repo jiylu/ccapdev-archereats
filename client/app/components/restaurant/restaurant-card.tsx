@@ -48,7 +48,7 @@ export default function RestaurantCard(props : RestaurantCardProps) {
         }
 
         try {
-            favoriteRestaurant(user?._id, props._id);
+            favoriteRestaurant(user._id, props._id);
             toast.success(`${props.restaurantName} successfully added to your favorites!`, {
                 duration: 1500
             })
