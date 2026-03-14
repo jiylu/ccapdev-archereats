@@ -10,7 +10,11 @@ export interface IUserInput {
     isStudent: boolean
 }
 
-export interface IUser extends IUserInput, Document {}
+export interface IUser extends IUserInput, Document {
+    avatar: string
+    biography: string
+    favoriteRestaurants: string[]
+}
 
 const userSchema = new mongoose.Schema({
     username: { 

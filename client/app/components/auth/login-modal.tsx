@@ -32,8 +32,6 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
     })
 
     const onSubmit = async (data: FormData) => {
-        console.log(data);
-        
         try {
             const { user, token } = await loginUser(data);
             
