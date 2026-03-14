@@ -1,4 +1,4 @@
-import type { Restaurant } from "app/types/restaurant";
+import type { Restaurant } from "../types/restaurant";
 import api from "./axios";
 
 export const getAllRestaurants = async ()  => {
@@ -6,7 +6,27 @@ export const getAllRestaurants = async ()  => {
     return res.data;
 }
 
-export const uploadRestaurant = async (formData: FormData) => {
+export const uploadRestaurant = async (restaurantData: Restaurant) => {
+    const formData = new FormData();
+    
+    Object.entries(restaurantData).forEach(([key, val]) => {
+        if ((key === "tags" || key === "websites") && Array.isArray(val)) {
+            val.forEach((item) => formData.append(key, item));
+        } 
+        else if (key === "photos" && Array.isArray(val)) {
+            val.forEach((file) => {
+                formData.append("images", file); 
+            });
+        } 
+        else if (key !== "images" && val !== undefined && val !== null) {
+            formData.append(key, val.toString());
+        }
+    });
+
+    for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+    }
+    
     await api.post(
         "restaurants/createRestaurant",
         formData,

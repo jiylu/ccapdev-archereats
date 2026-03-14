@@ -7,9 +7,12 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 import { uploadRestaurant } from "../../api/restaurant.api";
+import type { Restaurant } from "../../types/restaurant";
+
+
 
 export default function AddFood () {
-    const [restaurantData, setRestaurantData] = useState({
+    const [restaurantData, setRestaurantData] = useState<Restaurant>({
         restaurantName: "",
         address: "",
         description: "",
@@ -32,28 +35,7 @@ export default function AddFood () {
 
     const handleSubmit = async () => {
         try {
-            const formData = new FormData();
-
-            Object.entries(restaurantData).forEach(([key, val]) => {
-                if ((key === "tags" || key === "websites") && Array.isArray(val)) {
-                    val.forEach((item) => formData.append(key, item));
-                } 
-                else if (key === "photos" && Array.isArray(val)) {
-                    val.forEach((file) => {
-                        formData.append("images", file); 
-                    });
-                } 
-                else if (key !== "images" && val !== undefined && val !== null) {
-                    formData.append(key, val.toString());
-                }
-            });
-
-            for (const pair of formData.entries()) {
-                console.log(pair[0], pair[1]);
-            }
-
-            uploadRestaurant(formData);
-
+            uploadRestaurant(restaurantData);
             alert("Food establishment added successfully!");
         } catch (err) {
             console.error(err);
