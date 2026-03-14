@@ -1,11 +1,13 @@
 import cloudinary from "config/cloudinary.js";
 import Restaurant, { IRestaurant, IRestaurantInput } from "models/Restaurant.js";
+import { logger } from "utils/logger.js";
 
 export const createRestaurantService = async (restaurantData: IRestaurantInput, files?: Express.Multer.File[]) : Promise<IRestaurant> => {
     const imageUrls: string[] = []
 
     if (files && files.length > 0) {
         for (const file of files) {
+            logger.info("File found");
             const base64 = file.buffer.toString("base64");
             const dataUri = `data:${file.mimetype};base64,${base64}`
 

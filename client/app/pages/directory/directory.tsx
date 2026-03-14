@@ -103,7 +103,7 @@ export default function Directory () {
                                 key={r._id}
                                 _id={r._id} 
                                 restaurantName={r.restaurantName}
-                                images={r.images}
+                                imageUrl={r.images[0]}
                                 avgRating={r.avgRating}
                                 amtRatings={r.amtRatings}
                                 tags={r.tags}
