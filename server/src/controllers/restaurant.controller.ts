@@ -5,19 +5,23 @@ import { createRestaurantService, getAllRestaurantService, getRestaurantByIdServ
 import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
-    logger.info("POST /createRestaurant called", {body: req.body})
+    logger.info("POST /createRestaurant called", { body: req.body });
 
     try {
         const files = req.files as Express.Multer.File[] | undefined;
 
-        const newRestaurant = await createRestaurantService(req.body, files);
-        logger.info(`Created ${newRestaurant._id} successfully.`)
+        // attach owner from auth middleware
+        const ownerId = (req as any).user?.id;
+        if (!ownerId) return res.status(401).json({ message: "User not authenticated" });
+
+        const newRestaurant = await createRestaurantService({ ...req.body, owner: ownerId }, files);
+        logger.info(`Created ${newRestaurant._id} successfully.`);
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {
         logger.error("Error creating new restaurant.", { error: err instanceof Error ? err.message : err }); 
-        res.status(400).json({ message: err instanceof Error ? err.message: err})
+        res.status(400).json({ message: err instanceof Error ? err.message : err });
     }
-}
+};
 
 export const getAllRestaurants = async (req: Request, res: Response) => {
     logger.info("GET /getRestaurants called", {body: req.body})
