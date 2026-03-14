@@ -34,14 +34,12 @@ export default function AddFood () {
             const formData = new FormData();
 
             Object.entries(restaurantData).forEach(([key, val]) => {
-                if (key === "photos" && Array.isArray(val)) {
-                    // Append each photo File
+                if (key === "images" && Array.isArray(val)) {
+                    // Append each image File object
                     val.forEach((file) => formData.append("photos", file));
                 } else if ((key === "tags" || key === "websites") && Array.isArray(val)) {
-                    // Append each tag/website individually
                     val.forEach((item) => formData.append(key, item));
                 } else if (val !== undefined && val !== null) {
-                    // Append other fields as string
                     formData.append(key, val.toString());
                 }
             });

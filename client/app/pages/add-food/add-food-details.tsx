@@ -24,6 +24,15 @@ export default function AddFoodDetails({ restaurantData, setRestaurantData }: Pr
         });
     };
 
+    const formatTime = (time: string) => {
+        if (!time) return "";
+        const [hourStr, minute] = time.split(":");
+        let hour = parseInt(hourStr, 10);
+        const ampm = hour >= 12 ? "PM" : "AM";
+        hour = hour % 12 || 12;
+        return `${hour.toString().padStart(2, "0")}:${minute} ${ampm}`;
+    };
+
     return (
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
 
@@ -86,32 +95,26 @@ export default function AddFoodDetails({ restaurantData, setRestaurantData }: Pr
                             Operating Hours *
                         </h2>
 
-                        <div className="grid grid-cols-2 gap-4 mt-3">
-
+                        <div className="grid grid-cols-2 gap-4 mt-2">
                             <Input
                                 type="time"
-                                placeholder="Opening Hours"
-                                value={restaurantData.openingHour}
-                                onChange={(e) =>
-                                    setRestaurantData({
-                                        ...restaurantData,
-                                        openingHour: e.target.value
-                                    })
-                                }
+                                placeholder="Opening Hour"
+                                value={restaurantData.openingHour || ""}
+                                onChange={(e) => updateField("openingHour", e.target.value)}
                             />
-
                             <Input
                                 type="time"
-                                placeholder="Closing Hours"
-                                value={restaurantData.closingHour}
-                                onChange={(e) =>
-                                    setRestaurantData({
-                                        ...restaurantData,
-                                        closingHour: e.target.value
-                                    })
-                                }
+                                placeholder="Closing Hour"
+                                value={restaurantData.closingHour || ""}
+                                onChange={(e) => updateField("closingHour", e.target.value)}
                             />
                         </div>
+                        {/* Optional display in 12-hour format */}
+                        {restaurantData.openingHour && restaurantData.closingHour && (
+                            <p className="text-sm text-gray-600 mt-1">
+                                Display: {formatTime(restaurantData.openingHour)} - {formatTime(restaurantData.closingHour)}
+                            </p>
+                        )}
                     </div>
                 </CardContent>
             </Card>

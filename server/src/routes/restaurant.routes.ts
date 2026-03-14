@@ -5,7 +5,7 @@ import { authMiddleware } from "middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.post('/createRestaurant', authMiddleware, upload.array("images", 6), createRestaurant); // url: localhost:8080/api/restaurants/createRestaurant
+router.post('/createRestaurant', authMiddleware, upload.array("photos", 6), createRestaurant); // url: localhost:8080/api/restaurants/createRestaurant
 router.get('/getRestaurants', getAllRestaurants);  // url: localhost:8080/api/restaurants/getRestaurants
 router.get('/:id', getRestaurantById);  // url: localhost:8080/api/restaurants/:id
 router.get('/restaurantName/:name', getRestaurantByName) // url: http://localhost:8080/api/restaurants/restaurantName/name
