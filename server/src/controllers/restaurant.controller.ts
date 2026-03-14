@@ -8,7 +8,9 @@ export const createRestaurant = async (req: Request<object, object, IRestaurantI
     logger.info("POST /createRestaurant called", {body: req.body})
 
     try {
-        const newRestaurant = await createRestaurantService(req.body);
+        const files = req.files as Express.Multer.File[] | undefined;
+
+        const newRestaurant = await createRestaurantService(req.body, files);
         logger.info(`Created ${newRestaurant._id} successfully.`)
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {
