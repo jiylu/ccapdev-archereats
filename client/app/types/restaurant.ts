@@ -2,7 +2,6 @@ export interface Restaurant {
     _id: string,
     restaurantName: string,
     address: string,
-    description: string,
     googleMapsLink: string,
     images: string[],
     avgRating: number,
