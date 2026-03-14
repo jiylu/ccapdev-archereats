@@ -1,14 +1,16 @@
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import { cn } from "../../lib/utils";
 
 type Props = {
     restaurantData: any;
     setRestaurantData: React.Dispatch<React.SetStateAction<any>>;
-    checkRestaurantName?: (name: string) => void; // optional backend check
+    checkRestaurantName?: (name: string) => void;
+    errors?: Record<string, string>;
 };
 
-export default function AddFoodHeader ({ restaurantData, setRestaurantData, checkRestaurantName }: Props) {
+export default function AddFoodHeader ({ restaurantData, setRestaurantData, checkRestaurantName, errors }: Props) {
     
     const updateField = (field: string, value: any) => {
         setRestaurantData({
@@ -39,7 +41,10 @@ export default function AddFoodHeader ({ restaurantData, setRestaurantData, chec
                     <div className="flex gap-3 mt-4">
                         <Input
                             placeholder="The Barn By Borro"
-                            className="rounded-xl w-1/2"
+                            className={cn(
+                                "rounded-xl w-1/2",
+                                errors?.restaurantName && "border-red-500 focus-visible:ring-red-500"
+                            )}
                             value={restaurantData.restaurantName}
                             onChange={(e) => updateField("restaurantName", e.target.value)}
                         />
@@ -50,6 +55,9 @@ export default function AddFoodHeader ({ restaurantData, setRestaurantData, chec
                             Check
                         </Button>
                     </div>
+                    {errors?.restaurantName && (
+                        <p className="text-sm text-red-500 mt-1">{errors.restaurantName}</p>
+                    )}
                 </div>
             </CardContent>
         </Card>

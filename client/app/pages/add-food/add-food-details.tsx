@@ -1,12 +1,14 @@
 import { Card, CardContent } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
+import { cn } from "../../lib/utils";
 
 type Props = {
     restaurantData: any;
     setRestaurantData: React.Dispatch<React.SetStateAction<any>>;
+    errors?: Record<string, string>;
 }
 
-export default function AddFoodDetails({ restaurantData, setRestaurantData }: Props) {
+export default function AddFoodDetails({ restaurantData, setRestaurantData, errors }: Props) {
     const updateField = (field: string, value: any) => {
         setRestaurantData({
             ...restaurantData,
@@ -47,15 +49,22 @@ export default function AddFoodDetails({ restaurantData, setRestaurantData }: Pr
                         </p>
 
                         <div className="grid grid-cols-2 gap-4 mt-3">
-                            <Input placeholder="Tag 1"
-                                onChange={(e) => updateTag(0, e.target.value)}/>
-                            <Input placeholder="Tag 2"
-                                onChange={(e) => updateTag(1, e.target.value)}/>
-                            <Input placeholder="Tag 3"
-                                onChange={(e) => updateTag(2, e.target.value)}/>
-                            <Input placeholder="Tag 4"
-                                onChange={(e) => updateTag(3, e.target.value)}/>
+                            {[0,1,2,3].map(i => (
+                                <div key={i}>
+                                    <Input
+                                        placeholder={`Tag ${i+1}`}
+                                        value={restaurantData.tags[i] || ""}
+                                        onChange={(e) => updateTag(i, e.target.value)}
+                                        className={cn(
+                                            errors?.tags && !restaurantData.tags[i] && "border-red-500 focus-visible:ring-red-500"
+                                        )}
+                                    />
+                                </div>
+                            ))}
                         </div>
+                        {errors?.tags && (
+                            <p className="text-sm text-red-500 mt-1">{errors.tags}</p>
+                        )}
                     </div>
                     <div>
                         <h2 className="text-lg font-semibold text-[#123524] mt-4">
@@ -63,14 +72,34 @@ export default function AddFoodDetails({ restaurantData, setRestaurantData }: Pr
                         </h2>
 
                         <div className="grid grid-cols-2 gap-4 mt-3">
-                            <Input placeholder="Min. Price"
-                                type="number"
-                                onChange={(e) => updateField('minPrice', Number(e.target.value))}
-                            />
-                            <Input placeholder="Max. Price"
-                                type="number"
-                                onChange={(e) => updateField('maxPrice', Number(e.target.value))}
-                            />
+                            <div>
+                                <Input
+                                    placeholder="Min. Price"
+                                    type="number"
+                                    value={restaurantData.minPrice || ""}
+                                    onChange={(e) => updateField('minPrice', Number(e.target.value))}
+                                    className={cn(
+                                        errors?.minPrice && "border-red-500 focus-visible:ring-red-500"
+                                    )}
+                                />
+                                {errors?.minPrice && (
+                                    <p className="text-sm text-red-500 mt-1">{errors.minPrice}</p>
+                                )}
+                            </div>
+                            <div>
+                                <Input
+                                    placeholder="Max. Price"
+                                    type="number"
+                                    value={restaurantData.maxPrice || ""}
+                                    onChange={(e) => updateField('maxPrice', Number(e.target.value))}
+                                    className={cn(
+                                        errors?.minPrice && "border-red-500 focus-visible:ring-red-500"
+                                    )}
+                                />
+                                {errors?.minPrice && (
+                                    <p className="text-sm text-red-500 mt-1">{errors.minPrice}</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </CardContent>
@@ -85,10 +114,31 @@ export default function AddFoodDetails({ restaurantData, setRestaurantData }: Pr
                         <p className="text-sm text-[#123524]">
                             Pinpoint your food establishment's location
                         </p>
-                        <Input placeholder="Address" className="mt-3"
-                            onChange={(e) => updateField('address', e.target.value)}/>
-                        <Input placeholder="Google Maps Link" className="mt-3"
-                            onChange={(e) => updateField('googleMapsLink', e.target.value)}/>
+                        <Input
+                            placeholder="Address"
+                            className={cn(
+                                "mt-3",
+                                errors?.address && "border-red-500 focus-visible:ring-red-500"
+                            )}
+                            value={restaurantData.address || ""}
+                            onChange={(e) => updateField('address', e.target.value)}
+                        />
+                        {errors?.address && (
+                            <p className="text-sm text-red-500 mt-1">{errors.address}</p>
+                        )}
+                        
+                        <Input
+                            placeholder="Google Maps Link"
+                            className={cn(
+                                "mt-3",
+                                errors?.googleMapsLink && "border-red-500 focus-visible:ring-red-500"
+                            )}
+                            value={restaurantData.googleMapsLink || ""}
+                            onChange={(e) => updateField('googleMapsLink', e.target.value)}
+                        />
+                        {errors?.googleMapsLink && (
+                            <p className="text-sm text-red-500 mt-1">{errors.googleMapsLink}</p>
+                        )}
                     </div>
                     <div>
                         <h2 className="text-lg font-semibold text-[#123524] mt-4">
@@ -96,20 +146,36 @@ export default function AddFoodDetails({ restaurantData, setRestaurantData }: Pr
                         </h2>
 
                         <div className="grid grid-cols-2 gap-4 mt-2">
-                            <Input
-                                type="time"
-                                placeholder="Opening Hour"
-                                value={restaurantData.openingHour || ""}
-                                onChange={(e) => updateField("openingHour", e.target.value)}
-                            />
-                            <Input
-                                type="time"
-                                placeholder="Closing Hour"
-                                value={restaurantData.closingHour || ""}
-                                onChange={(e) => updateField("closingHour", e.target.value)}
-                            />
+                            <div>
+                                <Input
+                                    type="time"
+                                    placeholder="Opening Hour"
+                                    value={restaurantData.openingHour || ""}
+                                    onChange={(e) => updateField("openingHour", e.target.value)}
+                                    className={cn(
+                                        errors?.openingHour && "border-red-500 focus-visible:ring-red-500"
+                                    )}
+                                />
+                                {errors?.openingHour && (
+                                    <p className="text-sm text-red-500 mt-1">{errors.openingHour}</p>
+                                )}
+                            </div>
+                            <div>
+                                <Input
+                                    type="time"
+                                    placeholder="Closing Hour"
+                                    value={restaurantData.closingHour || ""}
+                                    onChange={(e) => updateField("closingHour", e.target.value)}
+                                    className={cn(
+                                        errors?.closingHour && "border-red-500 focus-visible:ring-red-500"
+                                    )}
+                                />
+                                {errors?.closingHour && (
+                                    <p className="text-sm text-red-500 mt-1">{errors.closingHour}</p>
+                                )}
+                            </div>
                         </div>
-                        {/* Optional display in 12-hour format */}
+
                         {restaurantData.openingHour && restaurantData.closingHour && (
                             <p className="text-sm text-gray-600 mt-1">
                                 Display: {formatTime(restaurantData.openingHour)} - {formatTime(restaurantData.closingHour)}
