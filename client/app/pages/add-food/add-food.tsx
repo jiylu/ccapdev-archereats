@@ -7,9 +7,13 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 import { uploadRestaurant } from "../../api/restaurant.api";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function AddFood () {
-    const [restaurantData, setRestaurantData] = useState({
+    const navigate = useNavigate();
+
+    const initialData = {
         restaurantName: "",
         address: "",
         description: "",
@@ -24,26 +28,67 @@ export default function AddFood () {
         closingHour: "",
         mobileNumber: "",
         websites: [],
-    })
+    };
+
+    const [restaurantData, setRestaurantData] = useState(initialData);
 
     useEffect(() => {
         document.title="Add Food Establishment | ArcherEats";
     }, [])
 
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const validateFields = () => {
+        const newErrors: Record<string, string> = {};
+
+        if (!restaurantData.restaurantName.trim()) newErrors.restaurantName = "Restaurant name is required.";
+        if (!restaurantData.address.trim()) newErrors.address = "Address is required.";
+        if (!restaurantData.description.trim()) newErrors.description = "Description is required.";
+        if (!restaurantData.googleMapsLink.trim()) newErrors.googleMapsLink = "Google Maps link is required.";
+        if (!restaurantData.tags || restaurantData.tags.length === 0) newErrors.tags = "At least one tag is required.";
+        if (!restaurantData.images || restaurantData.images.length === 0) newErrors.images = "Upload at least one photo.";
+        if (!restaurantData.minPrice) newErrors.minPrice = "Minimum price is required.";
+        if (!restaurantData.maxPrice) newErrors.maxPrice = "Maximum price is required.";
+        if (!restaurantData.openingHour) newErrors.openingHour = "Opening hour is required.";
+        if (!restaurantData.closingHour) newErrors.closingHour = "Closing hour is required.";
+        if (!restaurantData.mobileNumber.trim()) newErrors.mobileNumber = "Mobile number is required.";
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0; // true if no errors
+    };
+
+    const formatTo12Hour = (time: string) => {
+        if (!time) return "";
+        let [hour, minute] = time.split(":").map(Number);
+        const ampm = hour >= 12 ? "PM" : "AM";
+        hour = hour % 12 || 12;
+        return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2,"0")} ${ampm}`;
+    };
+
     const handleSubmit = async () => {
+        if (!validateFields()) {
+            toast.error("Please fill in all required fields.", { duration: 2000 });
+            return; // stop submission
+        }
+
         try {
             const formData = new FormData();
 
-            Object.entries(restaurantData).forEach(([key, val]) => {
+            const dataToSend = {
+                ...restaurantData,
+                openingHour: formatTo12Hour(restaurantData.openingHour),
+                closingHour: formatTo12Hour(restaurantData.closingHour),
+            };
+
+            Object.entries(dataToSend).forEach(([key, val]) => {
                 if ((key === "tags" || key === "websites") && Array.isArray(val)) {
                     val.forEach((item) => formData.append(key, item));
                 } 
-                else if (key === "photos" && Array.isArray(val)) {
-                    val.forEach((file) => {
-                        formData.append("images", file); 
-                    });
+                else if (key === "images" && Array.isArray(val)) {
+                    val.forEach((file) => formData.append("images", file));
                 } 
-                else if (key !== "images" && val !== undefined && val !== null) {
+                else if (val !== undefined && val !== null) {
                     formData.append(key, val.toString());
                 }
             });
@@ -52,13 +97,20 @@ export default function AddFood () {
                 console.log(pair[0], pair[1]);
             }
 
-            uploadRestaurant(formData);
+            await uploadRestaurant(formData);
 
-            alert("Food establishment added successfully!");
+            toast.success("Food Establishment added successfully!", { duration: 2000 });
+
+            setRestaurantData(initialData);
+            navigate("/");
         } catch (err) {
             console.error(err);
-            alert("Failed to create restaurant.");
+            toast.error("Failed to add food establishment. Please try again.", { duration: 2000 })
         }
+    };
+
+    const handleReset = () => {
+        setRestaurantData(initialData);
     };
 
     return (
@@ -75,32 +127,42 @@ export default function AddFood () {
                             .then(res => console.log("Found:", res.data))
                             .catch(() => console.log("Not found"));
                     }}
+                    errors={errors}
                 />
 
                 <AddFoodDetails
                     restaurantData={restaurantData}
                     setRestaurantData={setRestaurantData}
+                    errors={errors}
                 />
 
                 <AddFoodDesc
                     restaurantData={restaurantData}
                     setRestaurantData={setRestaurantData}
+                    errors={errors}
                 />
 
                 <AddFoodPhotos
                     restaurantData={restaurantData}
                     setRestaurantData={setRestaurantData}
+                    errors={errors}
                 />
 
                 <div className="flex justify-center">
                     <button
                         onClick={handleSubmit}
-                        className="bg-green-500 text-white px-6 py-2 rounded-lg"
+                        className="bg-[#00b25d] hover:bg-[#0e2a1d] text-white px-6 py-2 rounded-lg"
                     >
                         Add Establishment
                     </button>
+                    <button
+                        onClick={handleReset}
+                        className="border border-[#123524]/30 text-[#123524] hover:bg-gray-100 px-6 py-2 rounded-lg ml-4 transition-colors duration-200"
+                    >
+                        Reset
+                    </button>
                 </div>
-
+                
             </div>
         </div>
     );

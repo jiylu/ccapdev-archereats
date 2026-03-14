@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
+import { cn } from "../../lib/utils";
 
 type Props = {
     restaurantData: any;
     setRestaurantData: React.Dispatch<React.SetStateAction<any>>;
+    errors?: Record<string, string>;
 };
 
-export default function AddFoodPhotos({ restaurantData, setRestaurantData }: Props) {
+export default function AddFoodPhotos({ restaurantData, setRestaurantData, errors }: Props) {
     const [previews, setPreviews] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -19,7 +20,7 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData }: Pro
     const handleFiles = (files: FileList | null) => {
         if (!files) return;
 
-        const currentFiles: File[] = restaurantData.photos || [];
+        const currentFiles: File[] = restaurantData.images || [];
         const totalAllowed = 6 - currentFiles.length;
         const newFiles: File[] = [];
         const newPreviews: string[] = [];
@@ -33,19 +34,19 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData }: Pro
         setPreviews(prev => [...prev, ...newPreviews]);
         setRestaurantData({
             ...restaurantData,
-            photos: [...currentFiles, ...newFiles],
+            images: [...currentFiles, ...newFiles],
         });
     };
 
     const removePhoto = (index: number) => {
-        const currentFiles: File[] = restaurantData.photos || [];
+        const currentFiles: File[] = restaurantData.images || [];
         const newFiles = currentFiles.filter((_, i) => i !== index);
         const newPreviews = previews.filter((_, i) => i !== index);
 
         setPreviews(newPreviews);
         setRestaurantData({
             ...restaurantData,
-            photos: newFiles,
+            images: newFiles,
         });
     };
 
@@ -66,7 +67,10 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData }: Pro
                 </div>
 
                 <div 
-                    className="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50"
+                    className={cn(
+                        "border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50",
+                        errors?.images ? "border-red-500" : "border-gray-300"
+                    )}
                     onClick={triggerFileSelect}
                 >
                     <input
@@ -79,9 +83,13 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData }: Pro
                     />
                     <p className="text-gray-500">Click or drag & drop images here</p>
                     <p className="text-gray-400 text-sm mt-1">
-                        {restaurantData.photos?.length || 0}/6 uploaded
+                        {restaurantData.images?.length || 0}/6 uploaded
                     </p>
                 </div>
+
+                {errors?.images && (
+                    <p className="text-sm text-red-500 mt-1">{errors.images}</p>
+                )}
 
                 {previews.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
