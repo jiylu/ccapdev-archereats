@@ -9,7 +9,7 @@ export const createRestaurant = async (req: Request<object, object, IRestaurantI
 
     try {
         const files = req.files as Express.Multer.File[] | undefined;
-
+        console.log("req.files:", req.files);
         // attach owner from auth middleware
         const ownerId = (req as any).user?.id;
         if (!ownerId) return res.status(401).json({ message: "User not authenticated" });

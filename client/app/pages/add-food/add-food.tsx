@@ -4,10 +4,11 @@ import AddFoodDetails from "./add-food-details";
 import AddFoodDesc from "./add-food-desc";
 import AddFoodPhotos from "./add-food-photos";
 import { useEffect, useState } from "react";
+
 import axios from "axios";
+import { uploadRestaurant } from "../../api/restaurant.api";
 
 export default function AddFood () {
-
     const [restaurantData, setRestaurantData] = useState({
         restaurantName: "",
         address: "",
@@ -34,28 +35,25 @@ export default function AddFood () {
             const formData = new FormData();
 
             Object.entries(restaurantData).forEach(([key, val]) => {
-                if (key === "images" && Array.isArray(val)) {
-                    // Append each image File object
-                    val.forEach((file) => formData.append("photos", file));
-                } else if ((key === "tags" || key === "websites") && Array.isArray(val)) {
+                if ((key === "tags" || key === "websites") && Array.isArray(val)) {
                     val.forEach((item) => formData.append(key, item));
-                } else if (val !== undefined && val !== null) {
+                } 
+                else if (key === "photos" && Array.isArray(val)) {
+                    val.forEach((file) => {
+                        formData.append("images", file); 
+                    });
+                } 
+                else if (key !== "images" && val !== undefined && val !== null) {
                     formData.append(key, val.toString());
                 }
             });
 
-            const res = await axios.post(
-                "http://localhost:8080/api/restaurants/createRestaurant",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
+            for (const pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+            }
 
-            console.log("Restaurant created:", res.data);
+            uploadRestaurant(formData);
+
             alert("Food establishment added successfully!");
         } catch (err) {
             console.error(err);

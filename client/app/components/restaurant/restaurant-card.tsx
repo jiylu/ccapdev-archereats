@@ -10,7 +10,7 @@ import { useState } from "react"
 interface RestaurantCardProps {
     _id: string,
     restaurantName: string,
-    images: string[],
+    imageUrl: string,
     avgRating: number,
     amtRatings: number,
     tags: string[],
@@ -44,7 +44,7 @@ export default function RestaurantCard(props : RestaurantCardProps) {
         <div className="flex max-w-120 bg-white border border-gray-200 rounded-lg p-2 overflow-hidden" id={props._id}>
             <div className="shrink w-60 h-50 mr-[1em]">
                 <img 
-                    src={props.images[0]} 
+                    src={props.imageUrl} 
                     className="w-60 h-50 rounded-lg object-cover" 
                     alt={`${props.restaurantName} photo`}
                 />
