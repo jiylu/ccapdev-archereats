@@ -4,7 +4,6 @@ import OwnedCard from "./owned-card";
 import { getOwnedRestaurants } from "../../api/restaurant.api";
 import type { Restaurant } from "app/types/restaurant";
 
-
 export default function OwnedRestaurants () {
 
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -43,11 +42,7 @@ export default function OwnedRestaurants () {
                         restaurants.map((restaurant) => (
                             <OwnedCard
                                 key={restaurant._id}
-                                _id={restaurant._id || ""}
-                                name={restaurant.restaurantName}
-                                image={restaurant.images?.[0]}
-                                rating={restaurant.avgRating}
-                                description={restaurant.description}
+                                restaurant={restaurant}
                             />
                         ))
                     )}

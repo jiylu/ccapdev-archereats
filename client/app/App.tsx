@@ -24,6 +24,7 @@ function App() {
 				<Route path="/review/barn" element={<Barn />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/add-food" element={<AddFood />} />
+				<Route path="/manage-restaurant/:id" element={<AddFood />} />
 				<Route path="/favorites" element={<Favorites />} />
 				<Route path="/owned-restau" element={<OwnedRestaurants />} />
 				<Route 

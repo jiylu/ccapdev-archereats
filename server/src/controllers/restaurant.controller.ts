@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
-import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService } from "services/restaurant.service.js";
+import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService, updateRestaurantService } from "services/restaurant.service.js";
 import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
@@ -103,3 +103,44 @@ export const getOwnedRestaurants = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const updateRestaurant = async (req: Request<{ id: string }>, res: Response) => {
+    logger.info("PUT /updateRestaurant/:id called", { id: req.params.id, body: req.body });
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+        return res.status(404).json({ message: "Invalid restaurant ID" });
+    }
+
+    try {
+        const ownerId = (req as any).user?.id;
+        if (!ownerId) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+
+        const files = req.files as Express.Multer.File[] | undefined;
+
+        const updatedRestaurant = await updateRestaurantService(
+            req.params.id,
+            ownerId,
+            req.body,
+            files
+        );
+
+        if (!updatedRestaurant) {
+            return res.status(404).json({ message: "Restaurant not found or unauthorized" });
+        }
+
+        logger.info("Restaurant updated successfully", { id: req.params.id });
+        res.status(200).json(updatedRestaurant);
+    } catch (err: unknown) {
+        logger.error("Error updating restaurant", {
+            error: err instanceof Error ? err.message : err,
+            id: req.params.id
+        });
+
+        res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
+    }
+};

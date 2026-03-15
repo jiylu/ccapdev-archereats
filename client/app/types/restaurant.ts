@@ -4,7 +4,7 @@ export interface Restaurant {
     address: string,
     description: string,
     googleMapsLink: string,
-    images: string[],
+    images: (File | string)[],
     avgRating: number,
     amtRatings: number,
     tags: string[]
