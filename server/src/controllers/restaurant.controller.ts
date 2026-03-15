@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
-import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService } from "services/restaurant.service.js";
+import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService } from "services/restaurant.service.js";
 import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
@@ -79,5 +79,27 @@ export const getRestaurantByName = async(req: Request<{name: string}>, res: Resp
     } catch (err: unknown) {
         logger.error("Error fetching restaurants by name", { error: err instanceof Error ? err.message : err, name: req.params.name });
         res.status(500).json({ message: err instanceof Error ? err.message : err})
+    }
+}
+
+export const getOwnedRestaurants = async (req: Request, res: Response) => {
+    logger.info("GET /ownedRestaurants called");
+
+    try {
+        const ownerId = (req as any).user?.id;
+
+        if (!ownerId) {
+            return res.status(401).json({ message: "User not authenticated"});
+        }
+
+        const restaurants = await getOwnedRestaurantsService(ownerId);
+        res.status(200).json(restaurants);
+
+    } catch (err: unknown) {
+        logger.error("Error fetching owned restaurants", { error: err instanceof Error ? err.message : err });
+
+        res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
     }
 }

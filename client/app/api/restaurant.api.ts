@@ -38,3 +38,13 @@ export const uploadRestaurant = async (restaurantData: Restaurant) => {
         }
     );
 }
+
+export const getOwnedRestaurants = async () => {
+    const res = await api.get<Restaurant[]>("/restaurants/ownedRestaurants", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    });
+
+    return res.data;
+};

@@ -41,3 +41,7 @@ export const getRestaurantByNameService = async (name: string) => {
         restaurantName: { $regex: `^${name}$`, $options: "i"} 
     })
 }
+
+export const getOwnedRestaurantsService = async (ownerId: string) => {
+    return await Restaurant.find({owner: ownerId});
+}
