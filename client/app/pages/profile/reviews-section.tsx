@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 interface ReviewsSectionProps {
-    title?: String;
-    description?: String;
+    title?: string;
+    description?: string;
 }
 
 const ReviewsSection: FC<ReviewsSectionProps> = ({ 

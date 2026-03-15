@@ -2,9 +2,13 @@ import { Link } from "react-router-dom";
 import Searchbar from "./searchbar";
 import { LoginModal } from "../auth/login-modal";
 import MenuButton from "./menu-button";
+import { useAuth } from "../../hooks/useAuth";
+import { useState } from "react";
 
 export default function Navbar () {
-    
+    const { token } = useAuth();
+    const [openLogin, setOpenLogin] = useState(false)
+
     return (
         <nav className="sticky top-0 z-50 bg-[rgba(18,53,36,1)] py-2 px-20 shadow-md">
             <div className="flex justify-between items-center max-w-7xl m-auto">
@@ -12,11 +16,31 @@ export default function Navbar () {
                     <img src="/archer-eats-logo.png" className="h-8 w-auto" />
                     <span style={{ fontFamily: '"League Spartan", sans-serif' }} className="text-[32px] font-bold text-white">rcherEats.</span>
                 </Link>
-                <Searchbar></Searchbar>
+                <Searchbar />
                 <div className="flex items-center gap-6 shrink-0 text-white text-[1.15rem] font-medium">
                     <Link to='/directory' className="transition-colors duration-200 hover:text-black">Directory</Link>
-                    <LoginModal />
-                    <MenuButton />
+                    {!token && (
+                        <>
+                        <span 
+                            className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer"
+                            onClick={() => setOpenLogin(true)}
+                            >
+                                Log In
+                        </span>
+                        <LoginModal
+                            open={openLogin} 
+                            onOpenChange={setOpenLogin}
+                            onLoginSuccess={() => setOpenLogin(false)}
+                        />
+                        </>
+                    )}
+
+                    {!token && 
+                        <Link to='/signup' className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer">
+                            Sign Up
+                        </Link>
+                    }
+                    {token && <MenuButton />}
                 </div>
             </div>
         </nav>

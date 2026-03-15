@@ -55,8 +55,6 @@ import { getAllRestaurants } from "../../api/restaurant.api";
 export default function Directory () {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
-
-
     useEffect(() => {
         const fetchRestaurants = async () => {
             try {
@@ -105,7 +103,7 @@ export default function Directory () {
                                 key={r._id}
                                 _id={r._id} 
                                 restaurantName={r.restaurantName}
-                                imgUrl={r.imgUrl}
+                                imageUrl={r.images[0]}
                                 avgRating={r.avgRating}
                                 amtRatings={r.amtRatings}
                                 tags={r.tags}

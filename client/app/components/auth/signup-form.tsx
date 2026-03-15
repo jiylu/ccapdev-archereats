@@ -8,6 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
+import { useAuth } from "../../hooks/useAuth";
+import { loginUser } from "../../api/auth.api";
+import { cn } from "../../lib/utils";
+import { toast } from "sonner";
 
 const registerSchema = z.object({
     email: z.string().email("Invalid email"),
@@ -29,20 +33,25 @@ type FormData = z.infer<typeof registerSchema>;
 
 export default function SignupForm () {
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset, control } = useForm<FormData>({
         resolver: zodResolver(registerSchema)
     })
 
     const onSubmit = async (data: FormData) => {
         const { confirmpassword, ...payload } = data; // remove password confirm
-
         try {
             const user = await registerUser(payload);
-            console.log(user);
+            const { token } = await loginUser({login: user.email, password: data.password})
+            
+            toast.success("Sign-Up Successful! Welcome to ArcherEats!");
+
             reset();
+            setAuth(token, user)
             navigate("/directory");
         } catch (err:unknown) {
             console.error(err);
+            toast.error("Sign-Up Failed! Please try again.");
         }
     }
 
@@ -53,71 +62,95 @@ export default function SignupForm () {
                     <div className="flex flex-col gap-5">
                         <div className="flex gap-2">
                             <div className="flex flex-col gap-2 flex-1">
-                                <Label htmlFor="firstname">First Name</Label>
+                                <Label htmlFor="firstname"
+                                    className={cn(errors.firstName && "text-red-500")}>First Name</Label>
                                 <Input
                                     id="firstname"
                                     {...register("firstName")}
                                     type="text"
                                     placeholder="Juan"
-                                    required
+                                    className={cn(errors.firstName && "border-red-500  focus-visible:ring-red-500")}
                                 />
+                                {errors.firstName && (
+                                    <p className="text-sm text-red-500">{errors.firstName.message}</p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-2 w-55">
-                                <Label htmlFor="firstname">Last Name</Label>
+                                <Label htmlFor="firstname"
+                                    className={cn(errors.lastName && "text-red-500")}>Last Name</Label>
                                 <Input
                                     id="lastname"
                                     {...register("lastName")}
                                     type="text"
                                     placeholder="Dela Cruz"
-                                    required
+                                    className={cn(errors.lastName && "border-red-500  focus-visible:ring-red-500")}
                                 />
+                                {errors.lastName && (
+                                    <p className="text-sm text-red-500">{errors.lastName.message}</p>
+                                )}
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-2 flex-1">
-                            <Label htmlFor="username">Username</Label>
+                            <Label htmlFor="username"
+                                className={cn(errors.username && "text-red-500")}>Username</Label>
                             <Input
                                 id="username"
                                 {...register("username")}
                                 type="text"
                                 placeholder="juandelacruz"
-                                required
+                                className={cn(errors.username && "border-red-500  focus-visible:ring-red-500")}
                             />
+                            {errors.username && (
+                                <p className="text-sm text-red-500">{errors.username.message}</p>
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-2 flex-1">
-                            <Label htmlFor="email">Email Address</Label>
+                            <Label htmlFor="email"
+                                className={cn(errors.email && "text-red-500")}>Email Address</Label>
                             <Input
                                 id="email"
                                 {...register("email")}
                                 type="email"
                                 placeholder="juandelacruz@sampleemail.com"
-                                required
+                                className={cn(errors.email && "border-red-500 focus-visible:ring-red-500")}
                             />
+                            {errors.email && (
+                                <p className="text-sm text-red-500">{errors.email.message}</p>
+                            )}
                         </div>
 
                         
                         <div className="flex flex-col gap-2 flex-1">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password"
+                                className={cn(errors.password && "text-red-500")}>Password</Label>
                             <Input
                                 id="password"
                                 {...register("password")}
                                 type="password"
                                 placeholder="Enter your password"
-                                required
+                                className={cn(errors.password && "border-red-500 focus-visible:ring-red-500")}
                             />
+                            {errors.password && (
+                                <p className="text-sm text-red-500">{errors.password.message}</p>
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-2 flex-1">
-                            <Label htmlFor="confirmpassword">Confirm Password</Label>
+                            <Label htmlFor="confirmpassword"
+                                className={cn(errors.confirmpassword && "text-red-500")}>Confirm Password</Label>
                             <Input
                                 id="confirmpassword"
                                 {...register("confirmpassword")}
                                 type="password"
                                 placeholder="Confirm your password"
-                                required
+                                className={cn(errors.confirmpassword && "border-red-500 focus-visible:ring-red-500")}
                             />
+                            {errors.confirmpassword && (
+                                <p className="text-sm text-red-500">{errors.confirmpassword.message}</p>
+                            )}
                         </div>
 
                         <div className="flex gap-2 flex-1">

@@ -5,24 +5,33 @@ import { createRestaurantService, getAllRestaurantService, getRestaurantByIdServ
 import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
-    logger.info("POST /createRestaurant called", {body: req.body})
+    logger.info("POST /createRestaurant called", { body: req.body });
 
     try {
-        const newRestaurant = await createRestaurantService(req.body);
-        logger.info("Created new restaurant successfully.", { newRestaurant })
+        const files = req.files as Express.Multer.File[] | undefined;
+        console.log("req.files:", req.files);
+        // attach owner from auth middleware
+        const ownerId = (req as any).user?.id;
+        if (!ownerId) return res.status(401).json({ message: "User not authenticated" });
+
+        const newRestaurant = await createRestaurantService({ ...req.body, owner: ownerId }, files);
+        logger.info(`Created ${newRestaurant._id} successfully.`);
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {
         logger.error("Error creating new restaurant.", { error: err instanceof Error ? err.message : err }); 
-        res.status(400).json({ message: err instanceof Error ? err.message: err})
+        res.status(400).json({ message: err instanceof Error ? err.message : err });
     }
-}
+};
 
 export const getAllRestaurants = async (req: Request, res: Response) => {
     logger.info("GET /getRestaurants called", {body: req.body})
 
     try {
         const restaurants = await getAllRestaurantService()
-        logger.info("Fetched all restaurants successfully.", { restaurants })
+        logger.info("Fetched all restaurants successfully.", {
+            count: restaurants.length, 
+            restaurantNames: restaurants.map(r => r.restaurantName)
+        })
         res.status(200).json(restaurants)
     } catch (err: unknown) {
         logger.error("Error fetching all restaurants.", { error: err instanceof Error ? err.message : err }); 
@@ -34,7 +43,7 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
     logger.info(`GET /getRestaurantById called`, { id: req.params.id });
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+    logger.warn("Invalid restaurant ID provided", { id: req.params.id });
         return res.status(404).json({ message: "Invalid restaurant ID"})
     }
     
@@ -46,6 +55,7 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
             return res.status(404).json({ message: "Restaurant not found" })
         }
 
+        logger.info("Restaurant found", {restaurant: restaurant})
         res.status(200).json(restaurant)
     } catch (err: unknown) {
         logger.error("Error fetching restaurant by ID", { error: err instanceof Error ? err.message : err, id: req.params.id });
