@@ -8,6 +8,7 @@ import Landing from "./pages/landing"
 import Directory from "./pages/directory/directory"
 import Signup from "./pages/signup/signup"
 import EditProfile from "./pages/edit-profile"
+import OwnedRestaurants from "./pages/owned-restaurants/owned-restau"
 import { Toaster } from "./components/ui/sonner"
 import { PublicRoute } from "./components/routes/public-route"
 
@@ -22,6 +23,7 @@ function App() {
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/add-food" element={<AddFood />} />
 				<Route path="/favorites" element={<Favorites />} />
+				<Route path="/owned-restau" element={<OwnedRestaurants />} />
 				<Route 
 					path="/signup" 
 					element={
