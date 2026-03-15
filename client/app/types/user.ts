@@ -6,4 +6,6 @@ export interface User {
     lastName: string;
     isStudent: boolean;
     biography?: string;
+    avatar: string;
+    favoriteRestaurants: string[]
 }
