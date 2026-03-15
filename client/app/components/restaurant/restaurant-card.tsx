@@ -4,9 +4,10 @@ import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
 import { WriteReviewModal } from "../layout/review-modal"
 import { LoginModal } from "../auth/login-modal"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth";
-import { favoriteRestaurant, fetchUser, unfavoriteRestaurant } from "../../api/user.api"
+import { favoriteRestaurant, unfavoriteRestaurant } from "../../api/user.api"
 
 interface RestaurantCardProps {
     _id: string,
@@ -77,20 +78,22 @@ export default function RestaurantCard(props : RestaurantCardProps) {
 
     }
     
+    const isBarn = props.restaurantName.toLowerCase().includes('barn');
+    const linkTo = isBarn ? '/review/barn' : `/review/${props._id}`;
+
     return (
         <div className="flex max-w-120 bg-white border border-gray-200 rounded-lg p-2 overflow-hidden" id={props._id}>
-            <div className="shrink w-60 h-50 mr-[1em]">
+            <Link to={linkTo} className="shrink w-60 h-50 mr-[1em]">
                 <img 
                     src={props.imageUrl} 
-                    className="w-60 h-50 rounded-lg object-cover" 
+                    className="w-60 h-50 rounded-lg object-cover hover:opacity-80 transition-opacity" 
                     alt={`${props.restaurantName} photo`}
                 />
-                </div>
+            </Link>
             
             <div className="flex w-full flex-col pl-0.5 pr-0.5 gap-1">
                 <div className="flex justify-between w-full">
-                    <span className="font-bold text-2xl">{props.restaurantName}</span>
-
+                    <Link to={linkTo} className="font-bold text-2xl hover:underline hover:text-emerald-700 transition-colors">{props.restaurantName}</Link>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
