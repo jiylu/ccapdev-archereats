@@ -4,9 +4,9 @@ import StarRating from "../ui/star-rating"
 import TagList from "../ui/tag-list"
 import { WriteReviewModal } from "../layout/review-modal"
 import { LoginModal } from "../auth/login-modal"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "../../hooks/useAuth";
-import { favoriteRestaurant } from "../../api/user.api"
+import { favoriteRestaurant, fetchUser, unfavoriteRestaurant } from "../../api/user.api"
 
 interface RestaurantCardProps {
     _id: string,
@@ -23,9 +23,12 @@ interface RestaurantCardProps {
 
 export default function RestaurantCard(props : RestaurantCardProps) {
     const { user, token } = useAuth();
-
+    const { setAuth } = useAuth();
     const [openReview, setOpenReview] = useState(false)
     const [openLogin, setOpenLogin] = useState(false)
+    const isFavorited = user?.favoriteRestaurants?.includes(props._id) ?? false;
+
+
     const formatPriceRange = (maxPrice : number) => {
         if (maxPrice <= 200) return '₱';
         if (maxPrice <= 500) return '₱₱'
@@ -41,21 +44,36 @@ export default function RestaurantCard(props : RestaurantCardProps) {
         setOpenReview(true)
     }
 
-    const handleFavoriteRestaurant = () => {
+    const handleFavoriteRestaurant = async () => {
         if (!token || !user) {
             setOpenLogin(true);
             return;
         }
 
         try {
-            favoriteRestaurant(user._id, props._id);
-            toast.success(`${props.restaurantName} successfully added to your favorites!`, {
-                duration: 1500
-            })
+            let newUser;
+            if (isFavorited) {
+                newUser = await unfavoriteRestaurant(user._id, props._id) 
+
+                toast.success(`${props.restaurantName} successfully removed from your favorites!`, {
+                    duration: 1500
+                })
+
+                console.log(newUser.favoriteRestaurants)
+
+            } else {
+                newUser = await favoriteRestaurant(user._id, props._id);
+                toast.success(`${props.restaurantName} successfully added to your favorites!`, {
+                    duration: 1500
+                })
+            }
+
+            setAuth(token, newUser);
         } catch (err: unknown) {
             toast.error("Failed to add restaurant to favorites.")
             console.error(err);
         }
+
 
     }
     
@@ -103,10 +121,12 @@ export default function RestaurantCard(props : RestaurantCardProps) {
                     
                     <Button 
                         variant="outline" 
-                        className="text-black rounded-xl border-[#006937] hover:bg-[#1E4D36] hover:text-white transition-colors duration-200"
+                        className={`text-black rounded-xl border-[#006937] hover:text-white transition-colors duration-200 ${
+                            isFavorited ? "hover:bg-[#ae3615] pr-8.5 pl-8.5" : "hover:bg-[#1E4D36]"
+                        }`}                        
                         onClick={handleFavoriteRestaurant}
                     >
-                        Add to Favorites
+                        {isFavorited ? "Unfavorite": "Add to Favorites"}
                     </Button>  
                 </div>
             </div>

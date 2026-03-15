@@ -13,6 +13,18 @@ export const registerUser = async (userData: {
     return res.data 
 }
 
-export const favoriteRestaurant = async (userId: string, restaurantId: string) => {
-    await api.post(`/users/${userId}/favorites/${restaurantId}`)
+export const fetchUser = async (userId: string): Promise<User> => {
+    const res = await api.get(`/users/${userId}`);
+    return res.data;
 }
+
+export const favoriteRestaurant = async (userId: string, restaurantId: string): Promise<User>  => {
+    const res = await api.post(`/users/${userId}/favorites/${restaurantId}`)
+    return res.data;
+}
+
+export const unfavoriteRestaurant = async (userId: string, restaurantId: string): Promise<User> => {
+    const res = await api.patch(`/users/${userId}/favorites/${restaurantId}`)
+    return res.data;
+}
+

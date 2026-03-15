@@ -43,7 +43,7 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
     logger.info(`GET /getRestaurantById called`, { id: req.params.id });
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+    logger.warn("Invalid restaurant ID provided", { id: req.params.id });
         return res.status(404).json({ message: "Invalid restaurant ID"})
     }
     
