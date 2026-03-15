@@ -111,7 +111,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
                             }`}
                             onMouseEnter={() => setHoverRating(star)}
                             onMouseLeave={() => setHoverRating(0)}
-                            onClick={() => setRating(star)}
+                        onClick={() => setRating(star)}
                         />
                         )
                     })}
