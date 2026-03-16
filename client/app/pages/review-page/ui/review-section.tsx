@@ -3,15 +3,29 @@ import { Button } from "../../../components/ui/button";
 import type { Post } from "../../../types/post";
 import Comment from "../components/comment";
 import { WriteReviewModal } from "../../../components/layout/review-modal";
+import { useAuth } from "../../../hooks/useAuth";
+import { LoginModal } from "../../../components/auth/login-modal";
 
 interface ReviewSectionProps {
+    restaurantId: string;
     reviews: Post[];
 }
 
 export default function ReviewSection(props: ReviewSectionProps) {
+    const { token } = useAuth();
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [openReview, setOpenReview] = useState(false);
+    const [openLogin, setOpenLogin] = useState(false)
     
+    const handleWriteReview = () => {
+        console.log(props.restaurantId)
+        if (!token) {
+            setOpenLogin(true)
+            return
+        }
+        setOpenReview(true)
+    }
+
     const displayedReviews = useMemo(() => {
         if (showAllReviews) return props.reviews;
 
@@ -20,43 +34,52 @@ export default function ReviewSection(props: ReviewSectionProps) {
 
     return (
         <>
-        <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-2xl font-semibold text-zinc-900">Customer Reviews</h2>
+            <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 className="text-2xl font-semibold text-zinc-900">Customer Reviews</h2>
+                    </div>
+
+                    <Button
+                        className="bg-[#123524] text-white hover:bg-[#1f4d37]"
+                        onClick={() => handleWriteReview()}
+                        >
+                        Write a Review
+                    </Button>
                 </div>
 
-                <Button
-                    className="bg-[#123524] text-white hover:bg-[#1f4d37]"
-                    onClick={() => setOpenReview(true)}
-                    >
-                    Write a Review
-                </Button>
-            </div>
+                <div className="mt-5 space-y-4">
+                    {displayedReviews.map((review) => (
+                        <Comment 
+                        post={review}
+                        />
+                    ))}
+                </div>
 
-            <div className="mt-5 space-y-4">
-                {displayedReviews.map((review) => (
-                    <Comment 
-                    post={review}
-                    />
-                ))}
-            </div>
-
-            <div className="mt-5 flex justify-center">
-                <Button
-                    variant="outline"
-                    className="border-emerald-700 text-emerald-800 hover:bg-emerald-50"
-                    onClick={() => setShowAllReviews((prev) => !prev)}
-                    >
-                    {showAllReviews ? "Show Fewer Reviews" : "Load More Reviews"}
-                </Button>
-            </div>
-        </section>
+                <div className="mt-5 flex justify-center">
+                    <Button
+                        variant="outline"
+                        className="border-emerald-700 text-emerald-800 hover:bg-emerald-50"
+                        onClick={() => setShowAllReviews((prev) => !prev)}
+                        >
+                        {showAllReviews ? "Show Fewer Reviews" : "Load More Reviews"}
+                    </Button>
+                </div>
+            </section>
         
             <WriteReviewModal
-                restaurantId="demo-barn-id"
+                restaurantId={props.restaurantId}
                 open={openReview}
                 onOpenChange={setOpenReview}
+            />
+
+            <LoginModal
+                open={openLogin}
+                onOpenChange={setOpenLogin}
+                onLoginSuccess={() => {
+                    setOpenLogin(false)
+                    setOpenReview(true)
+                }}
             />
         </>
     )

@@ -9,12 +9,14 @@ import ReviewSection from "./ui/review-section";
 import { useParams } from "react-router-dom";
 import { getRestaurantById } from "../../api/restaurant.api";
 import { findRestaurantPosts } from "../../api/post.api";
+import PageLoader from "../../components/ui/loading";
 
 export default function ReviewPage() {
+    const { id } = useParams<{ id: string }>();
     const [restaurant, setRestaurant] = useState<Restaurant>();
     const [reviews, setReviews] = useState<Post[]>([]);
     const [imgUrls, setImgUrls] = useState<string[]>([]);
-    const { id } = useParams<{ id: string }>();
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -22,8 +24,11 @@ export default function ReviewPage() {
             if (!id) return 
 
             try {
-                const restaurantData = await getRestaurantById(id);
-                const postsData = await findRestaurantPosts(id);
+                const [restaurantData, postsData] = await Promise.all([
+                    getRestaurantById(id),
+                    findRestaurantPosts(id),
+                ]);
+
                 if (!restaurantData) return;
 
                 const imgUrls = restaurantData.images.
@@ -34,6 +39,8 @@ export default function ReviewPage() {
                 setReviews(postsData)
             } catch (err) {
                 console.log(err)
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -41,7 +48,9 @@ export default function ReviewPage() {
         document.title = `${restaurant?.restaurantName} | ArcherEats`;
     }, [id, restaurant?.restaurantName]);
 
-    if (!restaurant) {
+    if (loading) return <PageLoader />;
+
+    if (!restaurant || !id) {
         return <div>Restaurant not found</div>;
     }
 
@@ -60,6 +69,7 @@ export default function ReviewPage() {
                 />
 
                 <ReviewSection 
+                    restaurantId={id}
                     reviews={reviews}
                 />
             </main>
