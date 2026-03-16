@@ -1,3 +1,5 @@
+import type { User } from "./user";
+
 export interface Restaurant {
     _id?: string,
     restaurantName: string,
@@ -14,4 +16,5 @@ export interface Restaurant {
     closingHour: string,
     mobileNumber: string,
     websites: string[]
+    owner: string;
 }

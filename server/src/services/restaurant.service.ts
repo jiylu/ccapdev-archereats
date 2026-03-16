@@ -33,7 +33,7 @@ export const getAllRestaurantService = async () => {
 }
 
 export const getRestaurantByIdService = async (id: string) => {
-    return await Restaurant.findById(id);
+    return await Restaurant.findById(id).populate('owner', '_id name');
 }
 
 export const getRestaurantByNameService = async (name: string) => {

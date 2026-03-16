@@ -1,28 +1,33 @@
 import { useMemo, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import type { Post } from "../../../types/post";
-import Comment from "../components/comment";
+import Comment from "./comment";
 import { WriteReviewModal } from "../../../components/layout/review-modal";
 import { useAuth } from "../../../hooks/useAuth";
 import { LoginModal } from "../../../components/auth/login-modal";
+import { toast } from "sonner";
 
 interface ReviewSectionProps {
     restaurantId: string;
+    owner: string;
     reviews: Post[];
 }
 
 export default function ReviewSection(props: ReviewSectionProps) {
-    const { token } = useAuth();
+    const { user, token } = useAuth();
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [openReview, setOpenReview] = useState(false);
     const [openLogin, setOpenLogin] = useState(false)
     
     const handleWriteReview = () => {
         console.log(props.restaurantId)
+        console.log(`current userid: ${user?._id}`)
+        console.log(`owner id: ${props.owner}`)
         if (!token) {
             setOpenLogin(true)
             return
         }
+
         setOpenReview(true)
     }
 
@@ -40,12 +45,16 @@ export default function ReviewSection(props: ReviewSectionProps) {
                         <h2 className="text-2xl font-semibold text-zinc-900">Customer Reviews</h2>
                     </div>
 
-                    <Button
-                        className="bg-[#123524] text-white hover:bg-[#1f4d37]"
-                        onClick={() => handleWriteReview()}
+                    {user?._id !== props.owner ? (
+                        <Button
+                            className="bg-[#123524] text-white hover:bg-[#1f4d37]"
+                            onClick={() => handleWriteReview()}
                         >
-                        Write a Review
-                    </Button>
+                            Write a Review
+                        </Button>
+                    ) : (
+                        <span className="text-sm">You are the owner</span> 
+                    )}  
                 </div>
 
                 <div className="mt-5 space-y-4">
@@ -66,12 +75,14 @@ export default function ReviewSection(props: ReviewSectionProps) {
                     </Button>
                 </div>
             </section>
-        
-            <WriteReviewModal
-                restaurantId={props.restaurantId}
-                open={openReview}
-                onOpenChange={setOpenReview}
-            />
+            
+            {user?._id !== props.owner && (
+                <WriteReviewModal
+                    restaurantId={props.restaurantId}
+                    open={openReview}
+                    onOpenChange={setOpenReview}
+                />
+            )}
 
             <LoginModal
                 open={openLogin}

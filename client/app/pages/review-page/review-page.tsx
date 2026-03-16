@@ -5,7 +5,7 @@ import type { Post } from "../../types/post";
 import RestaurantOverview from "./components/restaurant-overview";
 import HeroImage from "./components/hero-banner";
 import type { Restaurant } from "../../types/restaurant";
-import ReviewSection from "./ui/review-section";
+import ReviewSection from "./components/review-section";
 import { useParams } from "react-router-dom";
 import { getRestaurantById } from "../../api/restaurant.api";
 import { findRestaurantPosts } from "../../api/post.api";
@@ -70,6 +70,7 @@ export default function ReviewPage() {
 
                 <ReviewSection 
                     restaurantId={id}
+                    owner={restaurant.owner._id}
                     reviews={reviews}
                 />
             </main>
