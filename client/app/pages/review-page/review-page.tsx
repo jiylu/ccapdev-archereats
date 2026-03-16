@@ -1,11 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "../../components/ui/button";
+import { useEffect } from "react";
 
-import { Separator } from "../../components/ui/separator";
 import Navbar from "../../components/layout/navbar";
-import { Clock3, Facebook, MapPin, Phone } from "lucide-react";
-import { WriteReviewModal } from "../../components/layout/review-modal";
-import Comment from "./components/comment";
 import type { Post } from "../../types/post";
 import RestaurantOverview from "./components/restaurant-overview";
 import HeroImage from "./components/hero-banner";
@@ -57,6 +52,9 @@ const barn: Restaurant = {
 };
 
 export default function ReviewPage() {
+    const imgUrls = barn.images.
+        filter((img): img is string => typeof img === "string")
+
     useEffect(() => {
         document.title = "The Barn by Borro | ArcherEats";
     }, []);
@@ -68,7 +66,7 @@ export default function ReviewPage() {
             <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-12 pt-4 sm:px-6 lg:px-8">
                 <HeroImage 
                     restaurantName="barn"
-                    photos={barn.images}
+                    photos={imgUrls}
                 />
                 
                 <RestaurantOverview 

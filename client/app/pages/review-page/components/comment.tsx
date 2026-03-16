@@ -27,7 +27,7 @@ export default function Comment (props: CommentProps) {
 
     return (
         <article
-            key={props._id}
+            key={props.post._id}
             className="rounded-xl border border-zinc-200 bg-zinc-50 p-4"
         >
             <CommentHeader 
@@ -35,7 +35,7 @@ export default function Comment (props: CommentProps) {
                 lastName={postUser ? postUser.lastName : ""}
                 rating={props.post.rating}
                 avatar={postUser ? postUser.avatar : ""}
-                date={props.date}
+                date={props.post.date}
                 isAnonymous={props.post.isAnonymous}
             />
             

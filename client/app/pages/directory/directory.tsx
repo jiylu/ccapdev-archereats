@@ -66,6 +66,7 @@ export default function Directory () {
         }
 
         fetchRestaurants();
+        
         document.title="Directory | ArcherEats";
     }, [])
 
@@ -98,21 +99,25 @@ export default function Directory () {
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
-                        {restaurants.map((r) => (
-                            <RestaurantCard 
-                                key={r._id || r.restaurantName}
-                                _id={r._id || "unknown"} 
-                                restaurantName={r.restaurantName}
-                                imageUrl={r.images[0]}
-                                avgRating={r.avgRating}
-                                amtRatings={r.amtRatings}
-                                tags={r.tags}
-                                minPrice={r.minPrice}
-                                maxPrice={r.maxPrice}
-                                openingHour={r.openingHour}
-                                closingHour={r.closingHour}
-                            />
-                        ))}
+                        {restaurants.map((r) => {
+                            const imgUrls = r.images.filter((img): img is string => typeof img === "string");
+
+                            return (
+                                <RestaurantCard
+                                    key={r._id || r.restaurantName}
+                                    _id={r._id || "unknown"}
+                                    restaurantName={r.restaurantName}
+                                    imageUrl={imgUrls[0]} 
+                                    avgRating={r.avgRating}
+                                    amtRatings={r.amtRatings}
+                                    tags={r.tags}
+                                    minPrice={r.minPrice}
+                                    maxPrice={r.maxPrice}
+                                    openingHour={r.openingHour}
+                                    closingHour={r.closingHour}
+                                />
+                            );
+                        })}
                         </div>
                     </div>
                 </div>
