@@ -2,49 +2,53 @@ import cloudinary from "config/cloudinary.js";
 import Restaurant, { IRestaurant, IRestaurantInput } from "models/Restaurant.js";
 import { logger } from "utils/logger.js";
 
-export const createRestaurantService = async (restaurantData: IRestaurantInput, files?: Express.Multer.File[]) : Promise<IRestaurant> => {
-    const imageUrls: string[] = []
+export const createRestaurantService = async (
+    restaurantData: IRestaurantInput,
+    files?: Express.Multer.File[]
+): Promise<IRestaurant> => {
+    const imageUrls: string[] = [];
 
     if (files && files.length > 0) {
         for (const file of files) {
             logger.info("File found");
+
             const base64 = file.buffer.toString("base64");
-            const dataUri = `data:${file.mimetype};base64,${base64}`
+            const dataUri = `data:${file.mimetype};base64,${base64}`;
 
             const result = await cloudinary.uploader.upload(dataUri, {
                 folder: "restaurants",
-                public_id: file.originalname.split(".")[0]
-            })
+                public_id: `restaurant-${Date.now()}-${Math.round(Math.random() * 1e9)}`
+            });
 
-            imageUrls.push(result.secure_url)
+            imageUrls.push(result.secure_url);
         }
     }
-    
+
     const newRestaurant = await Restaurant.create({
         ...restaurantData,
         images: imageUrls
     });
 
     return await newRestaurant.save();
-}
+};
 
 export const getAllRestaurantService = async () => {
     return await Restaurant.find();
-}
+};
 
 export const getRestaurantByIdService = async (id: string) => {
-    return await Restaurant.findById(id).populate('owner', '_id name');
-}
+    return await Restaurant.findById(id).populate("owner", "_id name");
+};
 
 export const getRestaurantByNameService = async (name: string) => {
     return await Restaurant.find({
-        restaurantName: { $regex: `^${name}$`, $options: "i"} 
-    })
-}
+        restaurantName: { $regex: `^${name}$`, $options: "i" }
+    });
+};
 
 export const getOwnedRestaurantsService = async (ownerId: string) => {
-    return await Restaurant.find({owner: ownerId});
-}
+    return await Restaurant.find({ owner: ownerId });
+};
 
 export const updateRestaurantService = async (
     restaurantId: string,
@@ -61,7 +65,23 @@ export const updateRestaurantService = async (
         return null;
     }
 
-    const uploadedImagePaths = files?.map((file) => file.path) || [];
+    const uploadedImageUrls: string[] = [];
+
+    if (files && files.length > 0) {
+        for (const file of files) {
+            logger.info("Uploading updated restaurant image to Cloudinary");
+
+            const base64 = file.buffer.toString("base64");
+            const dataUri = `data:${file.mimetype};base64,${base64}`;
+
+            const result = await cloudinary.uploader.upload(dataUri, {
+                folder: "restaurants",
+                public_id: `restaurant-${restaurantId}-${Date.now()}-${Math.round(Math.random() * 1e9)}`
+            });
+
+            uploadedImageUrls.push(result.secure_url);
+        }
+    }
 
     let existingImages: string[] = [];
     if (updateData.existingImages) {
@@ -94,7 +114,7 @@ export const updateRestaurantService = async (
             : [updateData.websites]
         : restaurant.websites;
 
-    restaurant.images = [...existingImages, ...uploadedImagePaths];
+    restaurant.images = [...existingImages, ...uploadedImageUrls];
 
     await restaurant.save();
     return restaurant;
