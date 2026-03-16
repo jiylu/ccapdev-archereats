@@ -5,12 +5,14 @@ import type { User } from "../../../types/user";
 import { Button } from "../../../components/ui/button";
 import CommentMeta from "../ui/comment-meta";
 import CommentHeader from "../ui/comment-header";
+import { useAuth } from "../../../hooks/useAuth";
 
 interface CommentProps {
     post: Post
 }
 
 export default function Comment (props: CommentProps) {
+    const { user } = useAuth();
     const [postUser, setPostUser] = useState<User | null>(null); 
 
     useEffect(() => {
@@ -39,6 +41,9 @@ export default function Comment (props: CommentProps) {
                 avatar={postUser ? postUser.avatar : ""}
                 date={props.post.creationDate}
                 isAnonymous={props.post.isAnonymous}
+                currentUser={user?._id}
+                commentOwner={props.post.user}
+                postId={props.post._id}
             />
             
             <CommentMeta 
