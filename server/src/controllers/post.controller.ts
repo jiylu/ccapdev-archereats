@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import * as postService from 'services/post.service.js';
 import { AuthenticatedRequest } from 'types/express.js';
 import { PostCreateInput } from "types/post.js"
+import { logger } from 'utils/logger.js';
 
 export const createPost = async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -40,6 +42,33 @@ export const getPosts = async (req: Request, res: Response) => {
         res.status(500).json({ message: (err as Error).message}); 
     }
 };
+
+export const getPostsByRestaurantId = async (req: Request, res: Response) => {
+    logger.info(`GET getPostsByRestaurantId called`, { id: req.params.id})
+
+    try {
+        const { id } = req.params;
+
+        if (!id || Array.isArray(id)) {
+            logger.info(`restaurant id Parameter typeof: ${typeof(id)} `)
+            logger.error("Invalid paramters for getPostsByRestaurantId.")
+            return res.status(400).json({ error: "Invalid parameters." })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+            return res.status(404).json({ message: "Invalid userId" })
+        }
+
+        const posts = await postService.getPostsByRestaurantIdService(id)
+
+        logger.info(`Returning ${posts.length} posts for restaurant ${id}`)
+        res.status(200).json(posts)
+    } catch (err: unknown) {
+        logger.error("Error getting posts by ID", { error: err instanceof Error ? err.message : err, id: req.params.id });
+        res.status(500).json({ message: err instanceof Error ? err.message : err})
+    }
+}
 
 export const likePost = async (req: Request<{id: string}>, res: Response) => {
     try {

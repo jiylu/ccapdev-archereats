@@ -8,15 +8,8 @@ export default function Landing () {
     }, [])
 
     return (
-        <div className="landing-page">
+        <div className="flex flex-col min-h-screen bg-[#fffcf5]">
             <Navbar />
-            <div className="main-section">
-                
-            </div>
-            <div className="feature-section">
-
-            </div>
-            <Footer />
         </div>
     )
 }

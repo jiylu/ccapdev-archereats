@@ -1,10 +1,12 @@
+import type { User } from "./user";
+
 export interface Restaurant {
     _id?: string,
     restaurantName: string,
     address: string,
     description: string,
     googleMapsLink: string,
-    images: string[],
+    images: (File | string)[],
     avgRating: number,
     amtRatings: number,
     tags: string[]
@@ -14,4 +16,5 @@ export interface Restaurant {
     closingHour: string,
     mobileNumber: string,
     websites: string[]
+    owner: string;
 }

@@ -1,3 +1,4 @@
+import type { Post } from "../types/post";
 import api from "./axios";
 
 export interface CreatePostPayload {
@@ -33,5 +34,10 @@ export const createPost = async (postData: CreatePostPayload) => {
         headers: { "Content-Type": "multipart/form-data" }
     })
 
+    return res.data
+}
+
+export const findRestaurantPosts = async (id: string): Promise<Post[]> => {
+    const res = await api.get(`/posts/getPosts/${id}`)
     return res.data
 }

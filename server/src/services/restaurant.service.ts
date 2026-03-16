@@ -33,7 +33,7 @@ export const getAllRestaurantService = async () => {
 }
 
 export const getRestaurantByIdService = async (id: string) => {
-    return await Restaurant.findById(id);
+    return await Restaurant.findById(id).populate('owner', '_id name');
 }
 
 export const getRestaurantByNameService = async (name: string) => {
@@ -41,3 +41,61 @@ export const getRestaurantByNameService = async (name: string) => {
         restaurantName: { $regex: `^${name}$`, $options: "i"} 
     })
 }
+
+export const getOwnedRestaurantsService = async (ownerId: string) => {
+    return await Restaurant.find({owner: ownerId});
+}
+
+export const updateRestaurantService = async (
+    restaurantId: string,
+    ownerId: string,
+    updateData: any,
+    files?: Express.Multer.File[]
+) => {
+    const restaurant = await Restaurant.findOne({
+        _id: restaurantId,
+        owner: ownerId,
+    });
+
+    if (!restaurant) {
+        return null;
+    }
+
+    const uploadedImagePaths = files?.map((file) => file.path) || [];
+
+    let existingImages: string[] = [];
+    if (updateData.existingImages) {
+        existingImages = Array.isArray(updateData.existingImages)
+            ? updateData.existingImages
+            : [updateData.existingImages];
+    }
+
+    restaurant.restaurantName = updateData.restaurantName ?? restaurant.restaurantName;
+    restaurant.address = updateData.address ?? restaurant.address;
+    restaurant.description = updateData.description ?? restaurant.description;
+    restaurant.googleMapsLink = updateData.googleMapsLink ?? restaurant.googleMapsLink;
+    restaurant.avgRating = updateData.avgRating ?? restaurant.avgRating;
+    restaurant.amtRatings = updateData.amtRatings ?? restaurant.amtRatings;
+    restaurant.minPrice = updateData.minPrice ?? restaurant.minPrice;
+    restaurant.maxPrice = updateData.maxPrice ?? restaurant.maxPrice;
+    restaurant.openingHour = updateData.openingHour ?? restaurant.openingHour;
+    restaurant.closingHour = updateData.closingHour ?? restaurant.closingHour;
+    restaurant.mobileNumber = updateData.mobileNumber ?? restaurant.mobileNumber;
+
+    restaurant.tags = updateData.tags
+        ? Array.isArray(updateData.tags)
+            ? updateData.tags
+            : [updateData.tags]
+        : restaurant.tags;
+
+    restaurant.websites = updateData.websites
+        ? Array.isArray(updateData.websites)
+            ? updateData.websites
+            : [updateData.websites]
+        : restaurant.websites;
+
+    restaurant.images = [...existingImages, ...uploadedImagePaths];
+
+    await restaurant.save();
+    return restaurant;
+};

@@ -39,7 +39,7 @@ export const fetchUserById = async (req: Request, res: Response) => {
         }
 
         if (!mongoose.Types.ObjectId.isValid(userId)) {
-            logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+            logger.warn("Invalid user ID provided", { id: req.params.id });
             return res.status(404).json({ message: "Invalid userId" })
         }
 
