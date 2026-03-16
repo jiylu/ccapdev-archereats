@@ -12,15 +12,8 @@ import { Separator } from "../../components/ui/separator";
 import Navbar from "../../components/layout/navbar";
 import { Clock3, Facebook, MapPin, Phone } from "lucide-react";
 import { WriteReviewModal } from "../../components/layout/review-modal";
-
-interface Review {
-    id: string;
-    reviewerName: string;
-    reviewDate: string;
-    rating: number;
-    helpfulCount: number;
-    content: string;
-}
+import Comment from "./comment/review-comment";
+import type { Post } from "../../types/post";
 
 const openingHours = [
     { day: "Monday", hours: "10:00 AM - 12:00 AM" },
@@ -41,42 +34,21 @@ const galleryPhotos = [
 
 const heroImage = "/the-barn-1.jpg";
 
-const reviews: Review[] = [
+const reviews: Post[] = [
     {
-        id: "1",
-        reviewerName: "Gaibril Gregorio",
-        reviewDate: "January 28, 2026",
-        rating: 5,
-        helpfulCount: 12,
-        content:
-            "Amazing food and great ambiance! The pasta was cooked to perfection and the service was exceptional. Highly recommend the truffle pasta and the tiramisu for dessert. Will definitely come back!",
-    },
-    {
-        id: "2",
-        reviewerName: "Jeremy Leano",
-        reviewDate: "January 25, 2026",
-        rating: 4,
-        helpfulCount: 8,
-        content:
-            "Good food and reasonable prices. The restaurant has a nice atmosphere and the staff is friendly. The only downside was the wait time during peak hours, but it was worth it.",
-    },
-    {
-        id: "3",
-        reviewerName: "Michael Maglente",
-        reviewDate: "January 20, 2026",
-        rating: 4,
-        helpfulCount: 15,
-        content:
-            "Great place for family dinners! The portions are generous and the Filipino-Italian fusion dishes are unique and delicious. The adobo risotto is a must-try!",
-    },
-    {
-        id: "4",
-        reviewerName: "Diego Mejia",
-        reviewDate: "January 15, 2026",
-        rating: 5,
-        helpfulCount: 20,
-        content:
-            "Outstanding experience from start to finish! The chef's special was incredible, and the wine pairing recommendations were spot on. Perfect for date nights or special occasions.",
+        _id: "1",
+        userId: "69a99865c6edba9531e09a76",
+        restaurantId: "69a932c633dab442a8b4bb15",
+        rating: 4.3,
+        content: "Amazing food and great ambiance! The pasta was cooked to perfection and the service was exceptional. Highly recommend the truffle pasta and the tiramisu for dessert. Will definitely come back!",
+        likes: 12,
+        pictures: [],
+        replies: [],
+        isAnonymous: true,
+        ratePricing: "PP",
+        waitTime: "15-30m",
+        recommended: true,
+        date: "2026-03-06T12:00:00.000+00:00"
     },
 ];
 
@@ -92,7 +64,7 @@ function RatingStars({ value }: { value: number }) {
     );
 }
 
-export default function Barn() {
+export default function ReviewPage() {
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [openReview, setOpenReview] = useState(false);
 
@@ -107,7 +79,7 @@ export default function Barn() {
     }, [showAllReviews]);
 
     return (
-        <div className="flex min-h-screen flex-col bg-[#f7f8f7]">
+        <div className="flex min-h-screen flex-col">
             <Navbar />
 
             <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-12 pt-4 sm:px-6 lg:px-8">
@@ -230,40 +202,21 @@ export default function Barn() {
 
                     <div className="mt-5 space-y-4">
                         {displayedReviews.map((review) => (
-                            <article
-                                key={review.id}
-                                className="rounded-xl border border-zinc-200 bg-zinc-50 p-4"
-                            >
-                                <div className="flex flex-wrap items-start justify-between gap-3">
-                                    <div className="flex items-center gap-3">
-                                        <img
-                                            src="/default-avatar.svg"
-                                            alt={`${review.reviewerName} avatar`}
-                                            className="h-11 w-11 rounded-full border border-zinc-200"
-                                        />
-                                        <div>
-                                            <h3 className="font-semibold text-zinc-900">{review.reviewerName}</h3>
-                                            <p className="text-xs text-zinc-500">{review.reviewDate}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <RatingStars value={review.rating} />
-                                        <span className="font-semibold text-zinc-700">{review.rating.toFixed(1)}</span>
-                                    </div>
-                                </div>
-
-                                <p className="mt-3 text-sm leading-relaxed text-zinc-700">{review.content}</p>
-
-                                <div className="mt-4 flex gap-2">
-                                    <Button variant="outline" className="border-zinc-300 bg-white">
-                                        Helpful ({review.helpfulCount})
-                                    </Button>
-                                    <Button variant="outline" className="border-zinc-300 bg-white">
-                                        Share
-                                    </Button>
-                                </div>
-                            </article>
+                            <Comment 
+                                _id={review._id}
+                                userId={review.userId}
+                                restaurantId={review.restaurantId}
+                                rating={review.rating}
+                                content={review.content}
+                                likes={review.likes}
+                                pictures={review.pictures}
+                                replies={review.replies}
+                                isAnonymous={review.isAnonymous}
+                                ratePricing={review.ratePricing}
+                                waitTime={review.waitTime}
+                                recommended={review.recommended}
+                                date={review.date}
+                            />
                         ))}
                     </div>
 
