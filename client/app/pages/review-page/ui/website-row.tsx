@@ -6,7 +6,7 @@ interface WebsiteProps {
 
 export function Website(props: WebsiteProps) {
     const secureUrl = props.url.startsWith("http") ? props.url : `https://${props.url}`;
-    const shortUrl = props.url.replace(/^https?:\/\//, "");
+    const websiteName = new URL(secureUrl).hostname.replace(/^www\./, "");
 
     return (
         <a
@@ -17,7 +17,7 @@ export function Website(props: WebsiteProps) {
         >
             <Link className="mt-0.5 h-4 w-4 text-zinc-500" />
                 <span>
-                    <strong>{shortUrl}</strong>
+                    <strong>{websiteName}</strong>
                 </span>
         </a>
     )

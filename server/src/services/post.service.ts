@@ -34,14 +34,33 @@ export const getPosts = async () => {
         });
 
     return posts.map(post => {
-        const p: any = post.toObject();
-        if (p.isAnonymous) p.user = null; // mask post author
+        const p = post.toObject();
+        p.user = p.user?._id || p.user; 
         if (p.replies && p.replies.length > 0) {
             p.replies = p.replies.map((reply: any) => reply.isAnonymous ? { ...reply, user: null } : reply);
         }
         return p;
     });
 };
+
+export const getPostsByRestaurantIdService = async (restaurantId: string) => {
+    const posts = await Post.find({ restaurant: restaurantId})
+        .populate("user", "name")
+        .populate("restaurant", "name")
+        .populate({
+            path: "replies",
+            populate: { path: "user", select: "name" } 
+        });
+
+    return posts.map(post => {
+        const p = post.toObject();
+        p.user = p.user?._id || p.user; 
+        if (p.replies && p.replies.length > 0) {
+            p.replies = p.replies.map((reply: any) => reply.isAnonymous ? { ...reply, user: null } : reply);
+        }
+        return p;
+    });
+}
 
 export const likePost = async (postId: string) => {
     const post = await Post.findById(postId);
