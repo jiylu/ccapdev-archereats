@@ -1,8 +1,4 @@
-import { Menu } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "../../../components/ui/dropdown-menu";
 import StarRating from "../../../components/ui/star-rating";
-import DeleteCommentAlert from "../components/delete-comment-alert";
-import { useState } from "react";
 import CommentActions from "../components/comment-actions";
 
 interface CommentHeaderProps {
@@ -19,7 +15,6 @@ interface CommentHeaderProps {
 }
 
 export default function CommentHeader (props: CommentHeaderProps) {
-    const [isCommentActionsOpen, setIsCommentActionsOpen] = useState(false)
     
     return (
         <div className="flex flex-wrap items-start justify-between gap-3">

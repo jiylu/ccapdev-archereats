@@ -18,7 +18,6 @@ export default function Comment (props: CommentProps) {
     useEffect(() => {
         const fetchUserComment = async () => {
             try {
-                console.log(props.post.user)
                 const userData = await fetchUser(props.post.user);
                 setPostUser(userData); 
             } catch (err) {
