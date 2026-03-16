@@ -3,16 +3,19 @@ import { fetchUser } from "../../../api/user.api";
 import type { Post } from "../../../types/post";
 import type { User } from "../../../types/user";
 import { Button } from "../../../components/ui/button";
-import CommentHeader from "./comment-header";
-import ReviewMeta from "./review-meta";
+import CommentMeta from "../ui/comment-meta";
+import CommentHeader from "../ui/comment-header";
 
+interface CommentProps {
+    post: Post
+}
 
-export default function Comment (props: Post) {
+export default function Comment (props: CommentProps) {
     const [postUser, setPostUser] = useState<User | null>(null); 
     useEffect(() => {
         const fetchUserComment = async () => {
             try {
-                const userData = await fetchUser(props.userId);
+                const userData = await fetchUser(props.post.userId);
                 setPostUser(userData); 
             } catch (err) {
                 console.log(err)
@@ -20,7 +23,7 @@ export default function Comment (props: Post) {
         }
 
         fetchUserComment();
-    }, [props.userId]);
+    }, [props.post.userId]);
 
     return (
         <article
@@ -30,22 +33,23 @@ export default function Comment (props: Post) {
             <CommentHeader 
                 firstName={postUser ? postUser.firstName : ""}
                 lastName={postUser ? postUser.lastName : ""}
-                rating={props.rating}
+                rating={props.post.rating}
                 avatar={postUser ? postUser.avatar : ""}
                 date={props.date}
-                isAnonymous={props.isAnonymous}
-            />
-            <ReviewMeta 
-                ratePricing={props.ratePricing}
-                waitTime={props.waitTime}
-                recommended={props.recommended}
+                isAnonymous={props.post.isAnonymous}
             />
             
-            <p className="mt-3 text-sm leading-relaxed text-zinc-700">{props.content}</p>
+            <CommentMeta 
+                ratePricing={props.post.ratePricing}
+                waitTime={props.post.waitTime}
+                recommended={props.post.recommended}
+            />
+            
+            <p className="mt-3 text-sm leading-relaxed text-zinc-700">{props.post.content}</p>
 
             <div className="mt-4 flex gap-2">
                 <Button variant="outline" className="border-zinc-300 bg-white">
-                    Helpful ({props.likes})
+                    Helpful ({props.post.likes})
                 </Button>
             </div>
         </article>

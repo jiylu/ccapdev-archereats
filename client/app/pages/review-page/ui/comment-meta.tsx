@@ -6,7 +6,7 @@ interface ReviewMetaProps {
     recommended: boolean;
 }
 
-export default function ReviewMeta(props: ReviewMetaProps) {
+export default function CommentMeta(props: ReviewMetaProps) {
     const pricingHandler = () => {
         const pricingSymbol = props.ratePricing.replace(/./g, "₱"); 
         let pricingString;
