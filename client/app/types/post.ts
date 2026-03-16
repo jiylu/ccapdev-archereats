@@ -1,7 +1,7 @@
 export interface Post {
     _id: string;
-    userId: string;
-    restaurantId: string;
+    user: string;
+    restaurant: string;
     rating: number;
     content: string;
     likes: number;
@@ -11,5 +11,5 @@ export interface Post {
     ratePricing: string;
     waitTime: string;
     recommended: boolean;
-    date: string;
+    creationDate: string;
 }

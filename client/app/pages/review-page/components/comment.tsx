@@ -12,10 +12,12 @@ interface CommentProps {
 
 export default function Comment (props: CommentProps) {
     const [postUser, setPostUser] = useState<User | null>(null); 
+
     useEffect(() => {
         const fetchUserComment = async () => {
             try {
-                const userData = await fetchUser(props.post.userId);
+                console.log(props.post.user)
+                const userData = await fetchUser(props.post.user);
                 setPostUser(userData); 
             } catch (err) {
                 console.log(err)
@@ -23,7 +25,7 @@ export default function Comment (props: CommentProps) {
         }
 
         fetchUserComment();
-    }, [props.post.userId]);
+    }, [props.post.user]);
 
     return (
         <article
@@ -35,7 +37,7 @@ export default function Comment (props: CommentProps) {
                 lastName={postUser ? postUser.lastName : ""}
                 rating={props.post.rating}
                 avatar={postUser ? postUser.avatar : ""}
-                date={props.post.date}
+                date={props.post.creationDate}
                 isAnonymous={props.post.isAnonymous}
             />
             

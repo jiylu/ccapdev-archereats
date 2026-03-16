@@ -77,8 +77,7 @@ export default function RestaurantCard(props : RestaurantCardProps) {
 
     }
     
-    const isBarn = props.restaurantName.toLowerCase().includes('barn');
-    const linkTo = isBarn ? '/review/barn' : `/review/${props._id}`;
+    const linkTo = `/reviews/${props._id}`;
 
     return (
         <div className="flex max-w-120 bg-white border border-gray-200 rounded-lg p-2 overflow-hidden" id={props._id}>

@@ -21,7 +21,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Landing />} />
 				<Route path="/directory" element={<Directory />} />
-				<Route path="/reviews" element={<ReviewPage />} />
+				<Route path="/reviews/:id" element={<ReviewPage />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/add-food" element={<AddFood />} />
 				<Route path="/manage-restaurant/:id" element={<AddFood />} />

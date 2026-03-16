@@ -25,6 +25,7 @@ export default function RestaurantOverview (props: RestaurantOverviewProps) {
                 <RestaurantContactInfo 
                     mobileNumber={props.restaurant.mobileNumber}
                     websites={props.restaurant.websites}
+                    googleMapsLink={props.restaurant.googleMapsLink}
                     address={props.restaurant.address}
                 />
             </div>

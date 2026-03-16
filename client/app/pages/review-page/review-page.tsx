@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Navbar from "../../components/layout/navbar";
 import type { Post } from "../../types/post";
@@ -6,58 +6,53 @@ import RestaurantOverview from "./components/restaurant-overview";
 import HeroImage from "./components/hero-banner";
 import type { Restaurant } from "../../types/restaurant";
 import ReviewSection from "./ui/review-section";
-
-const galleryPhotos = [
-    "/the-barn-1.jpg",
-    "/the-barn-2.jpg",
-    "/the-barn-3.jpg",
-    "/the-barn-4.jpg",
-    "/the-barn-5.jpg",
-];
-
-const reviews: Post[] = [
-    {
-        _id: "1",
-        userId: "69a99865c6edba9531e09a76",
-        restaurantId: "69a932c633dab442a8b4bb15",
-        rating: 4.3,
-        content: "Amazing food and great ambiance! The pasta was cooked to perfection and the service was exceptional. Highly recommend the truffle pasta and the tiramisu for dessert. Will definitely come back!",
-        likes: 12,
-        pictures: [],
-        replies: [],
-        isAnonymous: true,
-        ratePricing: "PP",
-        waitTime: "15-30m",
-        recommended: true,
-        date: "2026-03-06T12:00:00.000+00:00"
-    },
-];
-
-const barn: Restaurant = {
-    _id: "12",
-    restaurantName: "barn asdasd as sasad as",
-    address: "ewanko",
-    description: "asdsadsa",
-    googleMapsLink: "googlemaps.com",
-    images: galleryPhotos,
-    avgRating: 4.3,
-    amtRatings: 4,
-    minPrice: 1,
-    maxPrice: 200,
-    tags: ["asd", "asdasd", "asdas"],
-    openingHour: "10:00AM",
-    closingHour: "12:00AM",
-    mobileNumber: "09162574996",
-    websites: ["asd.com", "youtube.com/123as1231"],
-};
+import { useParams } from "react-router-dom";
+import { getRestaurantById } from "../../api/restaurant.api";
+import { findRestaurantPosts } from "../../api/post.api";
+import PageLoader from "../../components/ui/loading";
 
 export default function ReviewPage() {
-    const imgUrls = barn.images.
-        filter((img): img is string => typeof img === "string")
+    const { id } = useParams<{ id: string }>();
+    const [restaurant, setRestaurant] = useState<Restaurant>();
+    const [reviews, setReviews] = useState<Post[]>([]);
+    const [imgUrls, setImgUrls] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
-        document.title = "The Barn by Borro | ArcherEats";
-    }, []);
+        const fetchRestaurant = async () => {
+            if (!id) return 
+
+            try {
+                const [restaurantData, postsData] = await Promise.all([
+                    getRestaurantById(id),
+                    findRestaurantPosts(id),
+                ]);
+
+                if (!restaurantData) return;
+
+                const imgUrls = restaurantData.images.
+                            filter((img): img is string => typeof img === "string")
+
+                setImgUrls(imgUrls);
+                setRestaurant(restaurantData);
+                setReviews(postsData)
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchRestaurant();
+        document.title = `${restaurant?.restaurantName} | ArcherEats`;
+    }, [id, restaurant?.restaurantName]);
+
+    if (loading) return <PageLoader />;
+
+    if (!restaurant || !id) {
+        return <div>Restaurant not found</div>;
+    }
 
     return (
         <div className="flex min-h-screen flex-col">
@@ -70,10 +65,11 @@ export default function ReviewPage() {
                 />
                 
                 <RestaurantOverview 
-                    restaurant={barn} 
+                    restaurant={restaurant} 
                 />
 
                 <ReviewSection 
+                    restaurantId={id}
                     reviews={reviews}
                 />
             </main>

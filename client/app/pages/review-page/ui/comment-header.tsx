@@ -35,7 +35,7 @@ export default function CommentHeader (props: CommentHeaderProps) {
 
             <div className="flex items-center gap-2">
                 <StarRating rating={props.rating} size={15}/>
-                <span className="font-semibold text-zinc-700">{props.rating.toFixed(1)}</span>
+                <span className="font-semibold text-zinc-700">{props.rating}</span>
             </div>
         </div>
     )
