@@ -59,26 +59,7 @@ export default function Directory () {
         const fetchRestaurants = async () => {
             try {
                 const data = await getAllRestaurants();
-                const barnIncluded = data.some((r: any) => r.restaurantName.toLowerCase().includes('barn'));
-
-                let updatedData = data;
-                if (!barnIncluded) {
-                    const barnData = {
-                        _id: "barn-hardcode-id",
-                        restaurantName: "The Barn",
-                        images: ["https://static.where-e.com/Philippines/Metro_Manila/Malate/The-Barn_d37b8917af87015c57f0fe6e360d1b9d.jpg"],
-                        avgRating: 4.9,
-                        amtRatings: 10,
-                        tags: ["Filipino","Casual Dining","Alcoholic Drinks"],
-                        minPrice: 1,
-                        maxPrice: 500,
-                        openingHour: "07:00AM",
-                        closingHour: "02:00AM"
-                    } as any;
-                    updatedData = [barnData, ...data];
-                }
-                
-                setRestaurants(updatedData);
+                setRestaurants(data);
             } catch (err) {
                 console.log(err);
             }

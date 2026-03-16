@@ -29,7 +29,6 @@ export default function RestaurantCard(props : RestaurantCardProps) {
     const [openLogin, setOpenLogin] = useState(false)
     const isFavorited = user?.favoriteRestaurants?.includes(props._id) ?? false;
 
-
     const formatPriceRange = (maxPrice : number) => {
         if (maxPrice <= 200) return '₱';
         if (maxPrice <= 500) return '₱₱'
