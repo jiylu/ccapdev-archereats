@@ -1,4 +1,4 @@
-import type { Restaurant } from "../types/restaurant";
+import type { Restaurant, RestaurantInput } from "../types/restaurant";
 import api from "./axios";
 
 export const getAllRestaurants = async ()  => {
@@ -6,7 +6,7 @@ export const getAllRestaurants = async ()  => {
     return res.data;
 }
 
-export const uploadRestaurant = async (restaurantData: Restaurant) => {
+export const uploadRestaurant = async (restaurantData: RestaurantInput) => {
     const formData = new FormData();
     
     Object.entries(restaurantData).forEach(([key, val]) => {
@@ -28,7 +28,7 @@ export const uploadRestaurant = async (restaurantData: Restaurant) => {
     }
     
     await api.post(
-        "restaurants/createRestaurant",
+        "/restaurants/createRestaurant",
         formData,
         {
             headers: {

@@ -23,14 +23,11 @@ export default function AddFood() {
     const [loading, setLoading] = useState(false);
 
     const initialData: Restaurant = {
-        _id: "",
         restaurantName: "",
         address: "",
         description: "",
         googleMapsLink: "",
         images: [],
-        avgRating: 0,
-        amtRatings: 0,
         tags: [],
         minPrice: 0,
         maxPrice: 0,
@@ -128,18 +125,33 @@ export default function AddFood() {
         }
 
         try {
-            const payload: Restaurant = {
-                ...restaurantData,
-                openingHour: formatTo12Hour(restaurantData.openingHour),
-                closingHour: formatTo12Hour(restaurantData.closingHour),
-            };
-
             if (isEditMode && id) {
-                await updateRestaurant(id, payload);
+                const updatePayload = {
+                    ...restaurantData,
+                    openingHour: formatTo12Hour(restaurantData.openingHour),
+                    closingHour: formatTo12Hour(restaurantData.closingHour),
+                };
+
+                await updateRestaurant(id, updatePayload);
                 toast.success("Restaurant updated successfully!", { duration: 2000 });
                 navigate("/owned-restau");
             } else {
-                await uploadRestaurant(payload);
+                const createPayload = {
+                    restaurantName: restaurantData.restaurantName,
+                    address: restaurantData.address,
+                    description: restaurantData.description,
+                    googleMapsLink: restaurantData.googleMapsLink,
+                    images: restaurantData.images,
+                    tags: restaurantData.tags,
+                    minPrice: restaurantData.minPrice,
+                    maxPrice: restaurantData.maxPrice,
+                    openingHour: formatTo12Hour(restaurantData.openingHour),
+                    closingHour: formatTo12Hour(restaurantData.closingHour),
+                    mobileNumber: restaurantData.mobileNumber,
+                    websites: restaurantData.websites,
+                };
+
+                await uploadRestaurant(createPayload);
                 toast.success("Food Establishment added successfully!", { duration: 2000 });
                 setRestaurantData(initialData);
                 navigate("/");
