@@ -8,6 +8,8 @@ interface ReplyHeaderProps {
     isRestaurantOwner?: boolean;
     replyId: string;
     canEdit?: boolean;
+    onEdit?: () => void;
+    onDelete?: () => Promise<void> | void;
 }
 
 export default function ReplyHeader(props: ReplyHeaderProps) {
@@ -35,7 +37,13 @@ export default function ReplyHeader(props: ReplyHeaderProps) {
                 </div>
             </div>
 
-            {props.canEdit && <ReplyActions replyId={props.replyId} />}
+            {props.canEdit && (
+                <ReplyActions 
+                    replyId={props.replyId} 
+                    onEdit={props.onEdit} 
+                    onDelete={props.onDelete}
+                />
+            )}
         </div>
     );
 }

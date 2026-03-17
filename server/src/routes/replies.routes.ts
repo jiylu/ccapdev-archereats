@@ -8,6 +8,7 @@ router.post("/createReply", authMiddleware, repliesController.createReply); // l
 router.get("/getReplies/:id", repliesController.getRepliesByPostId); // localhost:8080/api/replies/getReplies/:id
 router.post("/:id/like", authMiddleware, repliesController.likeReply); // localhost:8080/api/replies/:id/like
 router.post("/:id/unlike", authMiddleware, repliesController.unlikeReply); // localhost:8080/api/replies/:id/unlike
+router.put("/:id", authMiddleware, repliesController.updateReply);
 router.delete("/:id", authMiddleware, repliesController.deleteReply);
 
 export default router;

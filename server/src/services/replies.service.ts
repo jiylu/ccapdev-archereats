@@ -109,6 +109,94 @@ export const unlikeReply = async (replyId: string, userId: string) => {
     return reply;
 };
 
-export const deleteReply = async (replyId: string) => {
-    return await Reply.findByIdAndUpdate(replyId, { deleted: true }, { new: true });
+export const updateReply = async (
+    replyId: string,
+    userId: string,
+    updateData: {
+        content?: string;
+        isAnonymous?: boolean;
+    }
+) => {
+    const reply = await Reply.findById(replyId).populate({
+        path: "post",
+        populate: {
+            path: "restaurant",
+            model: "Restaurant"
+        }
+    });
+
+    if (!reply) {
+        throw new Error("Reply not found");
+    }
+
+    if (reply.deleted) {
+        throw new Error("Reply has already been deleted");
+    }
+
+    const replyUserId = reply.user?.toString();
+    if (replyUserId !== userId) {
+        throw new Error("Unauthorized");
+    }
+
+    const postObj = reply.post as any;
+    const postId = postObj?._id?.toString?.() || postObj?.toString?.() || "";
+    const restaurant = postObj?.restaurant;
+
+    const isRestaurantOwner =
+        restaurant?.owner?.toString() === reply.user?.toString();
+
+    if (typeof updateData.content === "string") {
+        const trimmedContent = updateData.content.trim();
+
+        if (!trimmedContent) {
+            throw new Error("Reply content is required");
+        }
+
+        reply.content = trimmedContent;
+    }
+
+    if (!isRestaurantOwner && typeof updateData.isAnonymous === "boolean") {
+        reply.isAnonymous = updateData.isAnonymous;
+    }
+
+    await reply.save();
+
+    return {
+        _id: reply._id.toString(),
+        user: reply.isAnonymous && !isRestaurantOwner ? null : reply.user?.toString() || null,
+        post: postId,
+        content: reply.content,
+        isAnonymous: isRestaurantOwner ? false : reply.isAnonymous,
+        likes: reply.likes,
+        likedBy: reply.likedBy.map((id) => id.toString()),
+        creationDate: reply.creationDate,
+        canEdit: true,
+        isRestaurantOwner,
+        displayName: isRestaurantOwner ? restaurant?.restaurantName : undefined,
+        displayAvatar: isRestaurantOwner ? restaurant?.images?.[0] || "/default-avatar.svg" : undefined,
+    };
+};
+
+export const deleteReply = async (replyId: string, userId: string) => {
+    const reply = await Reply.findById(replyId);
+
+    if (!reply) {
+        throw new Error("Reply not found");
+    }
+
+    if (reply.deleted) {
+        throw new Error("Reply has already been deleted");
+    }
+
+    if (reply.user?.toString() !== userId) {
+        throw new Error("Unauthorized");
+    }
+
+    reply.deleted = true;
+    await reply.save();
+
+    return {
+        _id: reply._id.toString(),
+        deleted: true,
+    };
 };

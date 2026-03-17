@@ -31,3 +31,21 @@ export const unlikeReply = async (id: string): Promise<Reply> => {
     const res = await api.post(`/replies/${id}/unlike`);
     return res.data;
 };
+
+export const updateReply = async (
+    replyId: string,
+    data: { content: string; isAnonymous: boolean }
+) => {
+    const res = await api.put(`/replies/${replyId}`, data);
+    return res.data;
+};
+
+export const deleteReply = async (replyId: string) => {
+    const res = await api.delete(`/replies/${replyId}`);
+    return res.data;
+}
+
+export const getRepliesByPostId = async (postId: string) => {
+    const res = await api.get<Reply[]>(`/replies/getReplies/${postId}`);
+    return res.data;
+};
