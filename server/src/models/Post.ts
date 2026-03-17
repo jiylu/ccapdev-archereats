@@ -23,7 +23,7 @@ const PostSchema: Schema = new Schema({
     likes: { type: Number, default: 0 },
     creationDate: { type: Date, default: Date.now },
     pictures: { type: [String], default: [], required: false },
-    replies: [{ type: Schema.Types.ObjectId, ref: "Post" }], // Array of reply IDs
+    replies: [{ type: Schema.Types.ObjectId, ref: "Reply" }], // Array of reply IDs
     isAnonymous: { type: Boolean, default: false, required: true },
     ratePricing: { type: String, enum: ["P", "PP", "PPP"] },
     waitTime: { type: String, enum: ["No Wait", "15-30m", "1hr+"] },
