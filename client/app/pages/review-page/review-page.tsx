@@ -42,10 +42,10 @@ export default function ReviewPage() {
             } finally {
                 setLoading(false)
             }
+            document.title = `${restaurant?.restaurantName} | ArcherEats`;
         }
 
         fetchRestaurant();
-        document.title = `${restaurant?.restaurantName} | ArcherEats`;
     }, [id, restaurant?.restaurantName]);
 
     if (loading) return <PageLoader />;

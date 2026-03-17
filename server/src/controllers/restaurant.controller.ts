@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
+import { createRestaurantSchema } from "schemas/restaurant.schemas.js";
 import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService, updateRestaurantService } from "services/restaurant.service.js";
 import { logger } from "utils/logger.js"; 
 
@@ -9,12 +10,15 @@ export const createRestaurant = async (req: Request<object, object, IRestaurantI
 
     try {
         const files = req.files as Express.Multer.File[] | undefined;
-        console.log("req.files:", req.files);
-        // attach owner from auth middleware
+        // logger.info("req.files:", req.files);
+
+        const validatedData = createRestaurantSchema.parse(req.body);
         const ownerId = (req as any).user?.id;
+        
+        // attach owner from auth middleware
         if (!ownerId) return res.status(401).json({ message: "User not authenticated" });
 
-        const newRestaurant = await createRestaurantService({ ...req.body, owner: ownerId }, files);
+        const newRestaurant = await createRestaurantService({ ...validatedData, owner: ownerId }, files);
         logger.info(`Created ${newRestaurant._id} successfully.`);
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {

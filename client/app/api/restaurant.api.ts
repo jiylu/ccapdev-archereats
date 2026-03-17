@@ -82,5 +82,6 @@ export const updateRestaurant = async (id: string, restaurantData: Restaurant) =
 
 export const getRestaurantById = async (id: string) => {
     const res = await api.get<Restaurant>(`/restaurants/${id}`);
+    console.log(res.data)
     return res.data;
 };
