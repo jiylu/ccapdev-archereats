@@ -1,5 +1,3 @@
-import type { User } from "./user";
-
 export interface Restaurant {
     _id?: string,
     restaurantName: string,

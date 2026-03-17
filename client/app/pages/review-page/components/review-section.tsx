@@ -5,7 +5,6 @@ import Comment from "./comment";
 import { WriteReviewModal } from "../../../components/layout/review-modal";
 import { useAuth } from "../../../hooks/useAuth";
 import { LoginModal } from "../../../components/auth/login-modal";
-import { toast } from "sonner";
 
 interface ReviewSectionProps {
     restaurantId: string;

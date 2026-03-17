@@ -1,4 +1,5 @@
 import StarRating from "../../../components/ui/star-rating";
+import CommentActions from "../components/comment-actions";
 
 interface CommentHeaderProps {
     firstName: string;
@@ -7,10 +8,14 @@ interface CommentHeaderProps {
     avatar: string;
     date: string;
     isAnonymous: boolean;
+    currentUser: string | undefined;
+    commentOwner: string;
+    postId: string;
 
 }
 
 export default function CommentHeader (props: CommentHeaderProps) {
+    
     return (
         <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="flex items-center gap-3">
@@ -32,10 +37,17 @@ export default function CommentHeader (props: CommentHeaderProps) {
 
 
             </div>
-
+   
             <div className="flex items-center gap-2">
                 <StarRating rating={props.rating} size={15}/>
                 <span className="font-semibold text-zinc-700">{props.rating}</span>
+                {props.currentUser === props.commentOwner && (
+                    <CommentActions 
+                        postId={props.postId}
+                    />
+                )} 
+
+
             </div>
         </div>
     )
