@@ -38,10 +38,6 @@ export default function MenuButton() {
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <a href="/favorites">Favorites</a>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
             <a href="/owned-restau">Owned Restaurants</a>
           </DropdownMenuItem>
 
