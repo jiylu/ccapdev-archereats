@@ -1,3 +1,5 @@
+import type { Reply } from "./reply";
+
 export interface Post {
     _id: string;
     user: string;
@@ -5,8 +7,9 @@ export interface Post {
     rating: number;
     content: string;
     likes: number;
+    likedBy: string[];
     pictures: string[];
-    replies: string[];
+    replies: Reply[];
     isAnonymous: boolean;
     ratePricing: string;
     waitTime: string;

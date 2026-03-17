@@ -35,16 +35,16 @@ export const createPost = async (req: AuthenticatedRequest, res: Response) => {
     }
 };
 
-export const getPosts = async (req: Request, res: Response) => {
+export const getPosts = async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const posts = await postService.getPosts();
+        const posts = await postService.getPosts(req.user?.id);
         res.json(posts);
     } catch (err) {
         res.status(500).json({ message: (err as Error).message}); 
     }
 };
 
-export const getPostsByRestaurantId = async (req: Request, res: Response) => {
+export const getPostsByRestaurantId = async (req: AuthenticatedRequest, res: Response) => {
     logger.info(`GET getPostsByRestaurantId called`, { id: req.params.id})
 
     try {
@@ -61,7 +61,7 @@ export const getPostsByRestaurantId = async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Invalid userId" })
         }
 
-        const posts = await postService.getPostsByRestaurantIdService(id)
+        const posts = await postService.getPostsByRestaurantIdService(id, req.user?.id)
 
         logger.info(`Returning ${posts.length} posts for restaurant ${id}`)
         res.status(200).json(posts)
@@ -71,14 +71,32 @@ export const getPostsByRestaurantId = async (req: Request, res: Response) => {
     }
 }
 
-export const likePost = async (req: Request<{id: string}>, res: Response) => {
+export const likePost = async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const post = await postService.likePost(req.params.id);
-        res.json(post);
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const post = await postService.likePost(req.params.id, req.user.id);
+        res.status(200).json(post);
     } catch (err) {
-        res.status(404).json({ message: (err as Error).message});
+        res.status(404).json({ message: (err as Error).message });
     }
-}
+};
+
+export const unlikePost = async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const post = await postService.unlikePost(req.params.id, req.user.id);
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(404).json({ message: (err as Error).message });
+    }
+};
+
 export const deletePost = async (req: Request, res: Response) => {
     logger.info("DELETEPOST CONTROLLER called")
     try {
@@ -130,12 +148,13 @@ export const editPostController = async (req: Request, res: Response) => {
         }
 
         const oldPost = await postService.getPostById(id);
-        const oldRating = oldPost?.rating;
 
         if (!oldPost) {
             logger.error("editPost, oldPost is null")
-            return res.status(404).json( { message: "oldPost is null or not found" })
+            return res.status(404).json({ message: "oldPost is null or not found" })
         }
+
+        const oldRating = oldPost.rating;
 
         const updatedPost = await postService.editPost(id, req.body)
 
@@ -145,7 +164,6 @@ export const editPostController = async (req: Request, res: Response) => {
         }
 
         recalculateRestaurantRating(req.body.restaurant, updatedPost.rating, oldRating)
-
         return res.status(200).json();
     } catch (err) {
         res.status(400).json({ message: (err as Error).message})

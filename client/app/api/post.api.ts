@@ -45,3 +45,13 @@ export const findRestaurantPosts = async (id: string): Promise<Post[]> => {
 export const deletePost = async (id: string) => {
     await api.patch(`/posts/deletePost/${id}`)
 }
+
+export const likePost = async (id: string): Promise<Post> => {
+    const res = await api.post(`/posts/${id}/like`);
+    return res.data;
+};
+
+export const unlikePost = async (id: string): Promise<Post> => {
+    const res = await api.post(`/posts/${id}/unlike`);
+    return res.data;
+};

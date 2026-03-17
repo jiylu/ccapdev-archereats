@@ -6,6 +6,7 @@ export interface IPost extends Document {
     rating: number; 
     content: string;
     likes: number;
+    likedBy: mongoose.Types.ObjectId[];
     creationDate: Date;
     pictures: string[];
     replies: mongoose.Types.ObjectId[]; // Array of reply IDs
@@ -21,9 +22,10 @@ const PostSchema: Schema = new Schema({
     rating: { type: Number, min: 1, max: 5 },
     content: { type: String, required: true },
     likes: { type: Number, default: 0 },
+    likedBy: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     creationDate: { type: Date, default: Date.now },
     pictures: { type: [String], default: [], required: false },
-    replies: [{ type: Schema.Types.ObjectId, ref: "Post" }], // Array of reply IDs
+    replies: [{ type: Schema.Types.ObjectId, ref: "Reply" }], // Array of reply IDs
     isAnonymous: { type: Boolean, default: false, required: true },
     ratePricing: { type: String, enum: ["P", "PP", "PPP"] },
     waitTime: { type: String, enum: ["No Wait", "15-30m", "1hr+"] },
