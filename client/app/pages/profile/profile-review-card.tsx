@@ -10,20 +10,26 @@ interface ReviewCardProps {
 
 export default function ReviewCard(props: ReviewCardProps) {
     return (
-        <div className="flex flex-col max-w-100 h-38 bg-[#f1f2ed] border border-gray-200 rounded-lg p-5">
-            <span className="text-xl text-emerald-900 font-bold">
-                {props.restaurantName}
-            </span>
-            <StarRating 
-                size={20} 
-                rating={3.5}
-            />
-            <p className="mt-2 text-base font-medium line-clamp-1">
+        <div className="flex flex-col max-w-100 h-38 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div className="flex items-start justify-between gap-2">
+                <span className="text-base text-emerald-900 font-bold leading-tight truncate">
+                    {props.restaurantName}
+                </span>
+                <StarRating size={16} rating={3.5} />
+            </div>
+
+            <p className="mt-2 text-sm text-gray-600 font-medium line-clamp-2 leading-relaxed">
                 {props.content}
             </p>
-            
-            <span className="mt-auto text-gray-500 text-sm">
-                {props.date}
+
+            <span className="mt-auto text-xs text-gray-400 tracking-wide">
+                {new Date(props.date).toLocaleString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                })}
             </span>
         </div>
     )

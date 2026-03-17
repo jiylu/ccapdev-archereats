@@ -96,7 +96,7 @@ export default function RestaurantCard(props : RestaurantCardProps) {
 
                 <div className="flex flex-col gap-1.5">
                     <div className="inline-flex flex-row items-center">
-                        <span className="mr-2 text-l font-medium leading-3.75">{props.avgRating} ({props.amtRatings})</span>
+                        <span className="mr-2 text-l font-medium leading-3.75">{props.avgRating.toFixed(2)} ({props.amtRatings})</span>
                         <StarRating rating={props.avgRating} size={15}/>
                     </div>
                     <TagList tags={props.tags}/>

@@ -1,19 +1,22 @@
 import Navbar from "../../components/layout/navbar";
-import ProfileReviewsSection from "./profile-reviews-section";
 import ProfileHeader from "./profileheader";
 import { findRestaurantPosts } from "../../api/post.api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import type { Post } from "../../types/post";
-import ReviewCard from "./profile-review-card";
 import ProfileFooter from "./profile-footer";
+import PageLoader from "../../components/ui/loading";
 
+//TODO: Make this dynamic, make userId as params
+//TODO: Fetch reviews for user only
+//TODO: If logged user === userId in webpage show the edit button
 
+//TODO: Make Restaurants Clickable -> Redirect to its Review Page 
 export default function Profile() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
-    
+     
     useEffect(() => {
         const fetchUserPosts = async () => {
             try {
@@ -34,6 +37,8 @@ export default function Profile() {
         document.title = "Profile | ArcherEats";
     }, []);
 
+    if (loading) return <PageLoader />;
+
     if (!user) {
         return (
             <div className="min-h-screen bg-[#fffcf5]">
@@ -47,15 +52,12 @@ export default function Profile() {
             <Navbar />
 
             <ProfileHeader
-                name={`${user.firstName} ${user.lastName}`}
-                username={`@${user.username}`}
-                status={user.isStudent ? "Student" : "Non-student"}
-                bio={user.biography || "No biography yet."}
-                avatarUrl={user.avatar || "/default-avatar.svg"}
+                user={user}
             />
             
             <ProfileFooter 
                 reviews={posts}
+                user={user}
             />
         </div>
     );
