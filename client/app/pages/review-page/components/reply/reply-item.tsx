@@ -29,6 +29,13 @@ export default function ReplyItem(props: ReplyItemProps) {
     const [replyContent, setReplyContent] = useState(props.reply.content);
     const [replyAnonymous, setReplyAnonymous] = useState(props.reply.isAnonymous);
 
+    const canEdit =
+    !!user &&
+    (
+        props.reply.canEdit === true ||
+        (!!props.reply.user && props.reply.user === user._id)
+    );
+
     useEffect(() => {
         const fetchReplyUser = async () => {
             if (
@@ -139,7 +146,7 @@ export default function ReplyItem(props: ReplyItemProps) {
                 isAnonymous={replyAnonymous}
                 isRestaurantOwner={props.reply.isRestaurantOwner}
                 replyId={props.reply._id}
-                canEdit={props.reply.canEdit}
+                canEdit={canEdit}
                 onEdit={() => setIsEditing(true)}
                 onDelete={handleDelete}
             />

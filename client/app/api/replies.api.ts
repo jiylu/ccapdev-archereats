@@ -44,3 +44,8 @@ export const deleteReply = async (replyId: string) => {
     const res = await api.delete(`/replies/${replyId}`);
     return res.data;
 }
+
+export const getRepliesByPostId = async (postId: string) => {
+    const res = await api.get<Reply[]>(`/replies/getReplies/${postId}`);
+    return res.data;
+};

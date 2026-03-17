@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchUser } from "../../../api/user.api";
-import { createReply } from "../../../api/replies.api";
+import { createReply, getRepliesByPostId } from "../../../api/replies.api";
 import { likePost, unlikePost } from "../../../api/post.api";
 import type { Post } from "../../../types/post";
 import type { Reply } from "../../../types/reply";
@@ -24,7 +24,7 @@ export default function Comment(props: CommentProps) {
     const [replyOpen, setReplyOpen] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
-    const [replies, setReplies] = useState<Reply[]>(props.post.replies || []);
+    const [replies, setReplies] = useState<Reply[]>([]);
     const [isRestaurantOwner, setIsRestaurantOwner] = useState(false);
 
     const [likes, setLikes] = useState(props.post.likes || 0);
@@ -51,8 +51,19 @@ export default function Comment(props: CommentProps) {
     }, [props.post.user, props.post.isAnonymous]);
 
     useEffect(() => {
-        setReplies(props.post.replies || []);
-    }, [props.post.replies]);
+        const fetchReplies = async () => {
+            try {
+                const data = await getRepliesByPostId(props.post._id);
+                setReplies(data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        if (props.post._id) {
+            fetchReplies();
+        }
+    }, [props.post._id]);
 
     useEffect(() => {
         setLikes(props.post.likes || 0);
