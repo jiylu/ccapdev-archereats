@@ -15,8 +15,8 @@ export default function ProfileReviewsSection(props: props) {
             const entries = await Promise.all(
                 props.reviews
                     .map(async (r) => {
-                        console.log(r.restaurant._id)
-                        const restaurant = await getRestaurantById(r.restaurant._id);
+                        console.log(r.restaurant)
+                        const restaurant = await getRestaurantById(r.restaurant);
                         return [r.restaurant, restaurant.restaurantName]
                     })
             )
