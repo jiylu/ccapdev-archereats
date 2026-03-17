@@ -21,3 +21,13 @@ export const findPostReplies = async (postId: string): Promise<Reply[]> => {
     const res = await api.get(`/replies/getReplies/${postId}`);
     return res.data;
 };
+
+export const likeReply = async (id: string): Promise<Reply> => {
+    const res = await api.post(`/replies/${id}/like`);
+    return res.data;
+};
+
+export const unlikeReply = async (id: string): Promise<Reply> => {
+    const res = await api.post(`/replies/${id}/unlike`);
+    return res.data;
+};

@@ -57,12 +57,35 @@ export const getRepliesByPostId = async (req: Request<{ id: string }>, res: Resp
     }
 };
 
-export const likeReply = async (req: Request<{ id: string }>, res: Response) => {
+export const likeReply = async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const reply = await replyService.likeReply(req.params.id);
-        res.json(reply);
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const reply = await replyService.likeReply(req.params.id, req.user.id);
+        return res.status(200).json({
+            ...reply.toObject(),
+            likedBy: reply.likedBy.map((id) => id.toString())
+        });
     } catch (err) {
-        res.status(404).json({ message: (err as Error).message });
+        return res.status(404).json({ message: (err as Error).message });
+    }
+};
+
+export const unlikeReply = async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const reply = await replyService.unlikeReply(req.params.id, req.user.id);
+        return res.status(200).json({
+            ...reply.toObject(),
+            likedBy: reply.likedBy.map((id) => id.toString())
+        });
+    } catch (err) {
+        return res.status(404).json({ message: (err as Error).message });
     }
 };
 

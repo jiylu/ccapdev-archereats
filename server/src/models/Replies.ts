@@ -6,6 +6,7 @@ export interface IReply extends Document {
     content: string;
     isAnonymous: boolean;
     likes: number;
+    likedBy: mongoose.Types.ObjectId[];
     creationDate: Date;
     deleted: boolean;
 }
@@ -16,6 +17,7 @@ const ReplySchema: Schema = new Schema({
     content: { type: String, required: true },
     isAnonymous: { type: Boolean, default: false, required: true },
     likes: { type: Number, default: 0 },
+    likedBy: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     creationDate: { type: Date, default: Date.now },
     deleted: { type: Boolean, default: false }
 });

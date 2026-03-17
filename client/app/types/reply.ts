@@ -5,9 +5,9 @@ export interface Reply {
     content: string;
     isAnonymous: boolean;
     likes: number;
+    likedBy: string[];
     creationDate: string;
     canEdit?: boolean;
-
     isRestaurantOwner?: boolean;
     displayName?: string;
     displayAvatar?: string;

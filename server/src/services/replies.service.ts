@@ -2,6 +2,7 @@ import Reply, { IReply } from "models/Replies.js";
 import Post from "models/Post.js";
 import Restaurant from "models/Restaurant.js";
 import { ReplyInput } from "types/reply.js";
+import mongoose from "mongoose";
 
 export interface ReplyCreateInput {
     user: string;
@@ -77,12 +78,35 @@ export const getRepliesByPostIdService = async (postId: string): Promise<ReplyIn
     });
 };
 
-export const likeReply = async (replyId: string) => {
-    const reply = await Reply.findOne({ _id: replyId, deleted: false });
+export const likeReply = async (replyId: string, userId: string) => {
+    const reply = await Reply.findById(replyId);
     if (!reply) throw new Error("Reply not found");
 
-    reply.likes += 1;
-    return await reply.save();
+    const alreadyLiked = reply.likedBy.some(
+        (id) => id.toString() === userId
+    );
+
+    if (!alreadyLiked) {
+        reply.likedBy.push(new mongoose.Types.ObjectId(userId));
+        reply.likes = reply.likedBy.length;
+        await reply.save();
+    }
+
+    return reply;
+};
+
+export const unlikeReply = async (replyId: string, userId: string) => {
+    const reply = await Reply.findById(replyId);
+    if (!reply) throw new Error("Reply not found");
+
+    reply.likedBy = reply.likedBy.filter(
+        (id) => id.toString() !== userId
+    ) as any;
+
+    reply.likes = reply.likedBy.length;
+    await reply.save();
+
+    return reply;
 };
 
 export const deleteReply = async (replyId: string) => {
