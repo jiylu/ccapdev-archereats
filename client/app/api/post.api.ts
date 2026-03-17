@@ -41,3 +41,7 @@ export const findRestaurantPosts = async (id: string): Promise<Post[]> => {
     const res = await api.get(`/posts/getPosts/${id}`)
     return res.data
 }
+
+export const deletePost = async (id: string) => {
+    await api.patch(`/posts/deletePost/${id}`)
+}

@@ -1,3 +1,4 @@
+import { deletePost } from "../../../api/post.api";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../../components/ui/alert-dialog";
 
 
@@ -7,12 +8,11 @@ interface DeleteProps {
     postId: string;
 }
 
-export default function DeleteCommentAlert (props: DeleteProps) {
-    
-    // TODO:    
-    // const handleDelete = async () => {
-    //     return;
-    // }
+export default function DeleteCommentAlert (props: DeleteProps) {  
+    const handleDelete = async () => {
+        deletePost(props.postId)
+        window.location.reload(); 
+    }
     
     return (
         <AlertDialog open={props.open} onOpenChange={props.onOpenChange}>
@@ -25,7 +25,12 @@ export default function DeleteCommentAlert (props: DeleteProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-                    <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+                    <AlertDialogAction 
+                        variant="destructive"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

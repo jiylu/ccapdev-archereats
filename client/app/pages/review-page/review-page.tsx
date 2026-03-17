@@ -34,9 +34,10 @@ export default function ReviewPage() {
                 const imgUrls = restaurantData.images.
                             filter((img): img is string => typeof img === "string")
 
+                const visiblePosts = postsData.filter(post => !post.deleted)
                 setImgUrls(imgUrls);
                 setRestaurant(restaurantData);
-                setReviews(postsData)
+                setReviews(visiblePosts)
             } catch (err) {
                 console.log(err)
             } finally {

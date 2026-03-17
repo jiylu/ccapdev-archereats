@@ -43,6 +43,10 @@ export const getPosts = async () => {
     });
 };
 
+export const getPostById = async (id: string) => {
+    return await Post.findById(id)
+}
+
 export const getPostsByRestaurantIdService = async (restaurantId: string) => {
     const posts = await Post.find({ restaurant: restaurantId})
         .populate("user", "name")
@@ -69,18 +73,27 @@ export const likePost = async (postId: string) => {
     return await post.save();
 }
 
-export const replyToPost = async (postId: string, replyData: any) => {
-    const replyPost = new Post({
-        ...replyData,
-        isAnonymous: replyData.isAnonymous || false, // default false
-    });
-    await replyPost.save();
+export const deletePost = async (postId: string) => {
+    return await Post.findByIdAndUpdate(postId, { deleted: true }, { new: true } )
+}
 
-    const parentPost = await Post.findById(postId);
-    if (!parentPost) throw new Error("Parent post not found");
+export const editPost = async (postId: string, postData: PostCreateInput) => {
+    const post = await Post.findById(postId);
+    if (!post) throw new Error("Post not found");
 
-    parentPost.replies.push(replyPost._id);
-    await parentPost.save();
+    const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { 
+            rating: postData.rating, 
+            content: postData.content, 
+            ratePricing: postData.ratePricing,
+            waitTime: postData.waitTime,
+            recommended: postData.recommended
+        },
+        { new: true }
+    );
 
-    return replyPost;
+    if (!updatedPost) throw new Error("Failed to update post");
+
+    return updatedPost;
 }

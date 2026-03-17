@@ -28,6 +28,7 @@ const PostSchema: Schema = new Schema({
     ratePricing: { type: String, enum: ["P", "PP", "PPP"] },
     waitTime: { type: String, enum: ["No Wait", "15-30m", "1hr+"] },
     recommended: { type: Boolean, default: true },
+    deleted : { type: Boolean, default: false}
 });
 
 export default mongoose.model<IPost>('Post', PostSchema);

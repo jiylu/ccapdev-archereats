@@ -161,6 +161,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
 
             resetForm();
             onOpenChange(false);
+            window.location.reload(); 
             toast.success("Review submitted successfully!", { duration: 2000 });
         } catch (err: unknown) {
             console.error("Error creating post:", err);
