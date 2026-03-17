@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchUser } from "../../../api/user.api";
 import { createReply } from "../../../api/replies.api";
+import { likePost, unlikePost } from "../../../api/post.api";
 import type { Post } from "../../../types/post";
 import type { Reply } from "../../../types/reply";
 import type { User } from "../../../types/user";
@@ -26,6 +27,12 @@ export default function Comment(props: CommentProps) {
     const [replies, setReplies] = useState<Reply[]>(props.post.replies || []);
     const [isRestaurantOwner, setIsRestaurantOwner] = useState(false);
 
+    const [likes, setLikes] = useState(props.post.likes || 0);
+    const [liked, setLiked] = useState(
+        props.post.likedBy?.includes(user?._id || "") || false
+    );
+    const [likeLoading, setLikeLoading] = useState(false);
+
     useEffect(() => {
         const fetchUserComment = async () => {
             try {
@@ -42,6 +49,14 @@ export default function Comment(props: CommentProps) {
     useEffect(() => {
         setReplies(props.post.replies || []);
     }, [props.post.replies]);
+
+    useEffect(() => {
+        setLikes(props.post.likes || 0);
+    }, [props.post.likes]);
+    
+    useEffect(() => {
+        setLiked(props.post.likedBy?.includes(user?._id || "") || false);
+    }, [props.post.likedBy, user?._id]);
 
     useEffect(() => {
         const checkRestaurantOwner = async () => {
@@ -83,6 +98,34 @@ export default function Comment(props: CommentProps) {
         }
     };
 
+    const handleHelpfulClick = async () => {
+        if (!user) {
+            setLoginOpen(true);
+            return;
+        }
+
+        if (!props.post._id || likeLoading) return;
+
+        try {
+            setLikeLoading(true);
+
+            let updatedPost: Post;
+
+            if (liked) {
+                updatedPost = await unlikePost(props.post._id);
+            } else {
+                updatedPost = await likePost(props.post._id);
+            }
+
+            setLikes(updatedPost.likes || 0);
+            setLiked(updatedPost.likedBy?.includes(user._id) || false);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLikeLoading(false);
+        }
+    };
+
     return (
         <article
             key={props.post._id}
@@ -111,8 +154,13 @@ export default function Comment(props: CommentProps) {
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2">
-                <Button variant="outline" className="border-zinc-300 bg-white">
-                    Helpful ({props.post.likes})
+                <Button
+                    variant="outline"
+                    className="border-zinc-300 bg-white"
+                    onClick={handleHelpfulClick}
+                    disabled={likeLoading}
+                >
+                    {liked ? "Helpful ✓" : "Helpful"} ({likes})
                 </Button>
 
                 <Button

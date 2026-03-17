@@ -2,6 +2,7 @@ import Post, { IPost } from "models/Post.js";
 import Restaurant from "models/Restaurant.js";
 import "models/Replies.js";
 import { PostCreateInput } from "types/post.js";
+import mongoose from "mongoose";
 
 export const createPost = async (postData: PostCreateInput): Promise<IPost> => {
     const post = new Post({
@@ -45,6 +46,8 @@ export const getPosts = async (currentUserId?: string) => {
 
         p.user = p.user?._id || p.user;
         p.restaurant = p.restaurant?._id || p.restaurant;
+        p.likedBy = p.likedBy?.map((id: any) => id.toString()) || [];
+        p.likes = p.likes || 0;
 
         if (p.replies && p.replies.length > 0) {
             p.replies = p.replies.map((reply: any) => {
@@ -98,6 +101,8 @@ export const getPostsByRestaurantIdService = async (restaurantId: string, curren
 
         p.user = p.user?._id || p.user;
         p.restaurant = p.restaurant?._id || p.restaurant;
+        p.likedBy = p.likedBy?.map((id: any) => id.toString()) || [];
+        p.likes = p.likes || 0;
 
         if (p.replies && p.replies.length > 0) {
             p.replies = p.replies.map((reply: any) => {
@@ -127,11 +132,35 @@ export const getPostsByRestaurantIdService = async (restaurantId: string, curren
     });
 };
 
-export const likePost = async (postId: string) => {
+export const likePost = async (postId: string, userId: string) => {
     const post = await Post.findById(postId);
     if (!post) throw new Error("Post not found");
-    post.likes += 1;
-    return await post.save();
+
+    const alreadyLiked = post.likedBy.some(
+        (id) => id.toString() === userId
+    );
+
+    if (!alreadyLiked) {
+        post.likedBy.push(new mongoose.Types.ObjectId(userId));
+        post.likes = post.likedBy.length;
+        await post.save();
+    }
+
+    return post;
+};
+
+export const unlikePost = async (postId: string, userId: string) => {
+    const post = await Post.findById(postId);
+    if (!post) throw new Error("Post not found");
+
+    post.likedBy = post.likedBy.filter(
+        (id) => id.toString() !== userId
+    ) as any;
+
+    post.likes = post.likedBy.length;
+    await post.save();
+
+    return post;
 };
 
 export const deletePost = async (postId: string) => {

@@ -7,6 +7,7 @@ export interface Post {
     rating: number;
     content: string;
     likes: number;
+    likedBy: string[];
     pictures: string[];
     replies: Reply[];
     isAnonymous: boolean;
