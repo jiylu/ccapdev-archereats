@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import * as postService from 'services/post.service.js';
+import { decrementRestaurantRating, recalculateRestaurantRating } from 'services/restaurant.service.js';
 import { AuthenticatedRequest } from 'types/express.js';
 import { PostCreateInput } from "types/post.js"
 import { logger } from 'utils/logger.js';
@@ -78,12 +79,75 @@ export const likePost = async (req: Request<{id: string}>, res: Response) => {
         res.status(404).json({ message: (err as Error).message});
     }
 }
-
-export const replyToPost = async (req: Request<{ id: string }>, res:Response) => {
+export const deletePost = async (req: Request, res: Response) => {
+    logger.info("DELETEPOST CONTROLLER called")
     try {
-        const reply = await postService.replyToPost(req.params.id, req.body);
-        res.status(201).json(reply);
+        const { id } = req.params
+
+        if (!id || Array.isArray(id)) {
+            logger.info(`post id Parameter typeof: ${typeof(id)} `)
+            logger.error("Invalid paramters for deletePost.")
+            return res.status(400).json({ error: "Invalid parameters." })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            logger.warn("Invalid post ID provided", { id: req.params.id });
+            return res.status(404).json({ message: "Invalid postId" })
+        }
+
+        const deletedPost = await postService.deletePost(id)
+
+        if (deletedPost === null) {
+            return res.status(404).json({ message: "Cannot delete post. deletedPost value is null" })
+        }
+
+        await decrementRestaurantRating(deletedPost.restaurant.toString(), deletedPost.rating);
+        
+        logger.info(`Deleted post ${id}`);
+
+
+        return res.status(200).json(deletedPost);
     } catch (err) {
-        res.status(400).json({ message: (err as Error).message});
+        res.status(400).json({ message: (err as Error).message})
+    }
+}
+
+export const editPostController = async (req: Request, res: Response) => {
+    logger.info("EDITPOST CONTROLLER CALLED")
+
+    try {
+        const { id } = req.params
+
+        if (!id || Array.isArray(id)) {
+            logger.info(`post id Parameter typeof: ${typeof(id)} `)
+            logger.error("Invalid paramters for deletePost.")
+            return res.status(400).json({ error: "Invalid parameters." })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            logger.error("Invalid post ID provided", { id: req.params.id });
+            return res.status(404).json({ message: "Invalid postId" })
+        }
+
+        const oldPost = await postService.getPostById(id);
+        const oldRating = oldPost?.rating;
+
+        if (!oldPost) {
+            logger.error("editPost, oldPost is null")
+            return res.status(404).json( { message: "oldPost is null or not found" })
+        }
+
+        const updatedPost = await postService.editPost(id, req.body)
+
+        if (!updatedPost) {
+            logger.error("Cannot edit post", { id: req.params.id });
+            return res.status(404).json({ message: "Cannot edit post" })
+        }
+
+        recalculateRestaurantRating(req.body.restaurant, updatedPost.rating, oldRating)
+
+        return res.status(200).json();
+    } catch (err) {
+        res.status(400).json({ message: (err as Error).message})
     }
 }

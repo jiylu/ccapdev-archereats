@@ -119,3 +119,47 @@ export const updateRestaurantService = async (
     await restaurant.save();
     return restaurant;
 };
+
+export const decrementRestaurantRating = async (id: string, removedRating: number) => {
+    const restaurant = await Restaurant.findById(id)
+    if (!restaurant) {
+        throw new Error("decrementRestaurantRating service restaurant not found error.")
+    }
+
+    const oldCount = restaurant.amtRatings ?? 0
+    const oldAvg = restaurant.avgRating ?? 0
+
+    if (oldCount <= 1) {
+        restaurant.amtRatings = 0;
+        restaurant.avgRating = 0;
+    } else {
+        const newCount = oldCount - 1;
+        const newAvg = ((oldAvg*oldCount) - removedRating) / newCount
+
+        restaurant.amtRatings = newCount;
+        restaurant.avgRating = newAvg;
+    }
+
+    return await restaurant.save()
+}
+
+export const recalculateRestaurantRating = async (
+    id: string, 
+    newRating: number, 
+    oldRating: number
+) => {
+    const restaurant = await Restaurant.findById(id);
+    
+    if (!restaurant) throw new Error("Restaurant not found.");
+
+    logger.info(`recalculating ${id} oldRating: ${oldRating} newRating: ${newRating}`)
+    const count = restaurant.amtRatings ?? 0;
+    const oldAvg = restaurant.avgRating ?? 0;
+
+    if (count === 0) throw new Error("No ratings to update.");
+
+    restaurant.avgRating = ((oldAvg * count) - oldRating + newRating) / count;
+    logger.info(`recalculating ${id}`)
+
+    return await restaurant.save();
+};

@@ -31,8 +31,8 @@ export default function ReviewSection(props: ReviewSectionProps) {
     }
 
     const displayedReviews = useMemo(() => {
+        if (!props.reviews) return [];
         if (showAllReviews) return props.reviews;
-
         return props.reviews.slice(0, 3);
     }, [showAllReviews, props.reviews]);
 
@@ -57,10 +57,12 @@ export default function ReviewSection(props: ReviewSectionProps) {
                 </div>
 
                 <div className="mt-5 space-y-4">
-                    {displayedReviews.map((review) => (
-                        <Comment 
-                        post={review}
-                        />
+                    {displayedReviews
+                        .filter(review => !review.deleted)
+                        .map((review) => (
+                            <Comment 
+                            post={review}
+                            />
                     ))}
                 </div>
 

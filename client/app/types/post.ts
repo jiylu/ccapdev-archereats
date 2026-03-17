@@ -12,4 +12,5 @@ export interface Post {
     waitTime: string;
     recommended: boolean;
     creationDate: string;
+    deleted: boolean;
 }
