@@ -1,14 +1,36 @@
 import Navbar from "../../components/layout/navbar";
+import ProfileReviewsSection from "./profile-reviews-section";
 import ProfileHeader from "./profileheader";
-import ReviewsSection from "./reviews-section";
-import { useEffect } from "react";
+import { findRestaurantPosts } from "../../api/post.api";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import type { Post } from "../../types/post";
+import ReviewCard from "./profile-review-card";
+import ProfileFooter from "./profile-footer";
+
 
 export default function Profile() {
-
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
     const { user } = useAuth();
-
+    
     useEffect(() => {
+        const fetchUserPosts = async () => {
+            try {
+                const [fetchedPosts] = await Promise.all([
+                    findRestaurantPosts("69a932c633dab442a8b4bb15"),
+                ]);
+
+                setPosts(fetchedPosts)
+            } catch (err) {
+                console.error(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchUserPosts();
+
         document.title = "Profile | ArcherEats";
     }, []);
 
@@ -31,10 +53,10 @@ export default function Profile() {
                 bio={user.biography || "No biography yet."}
                 avatarUrl={user.avatar || "/default-avatar.svg"}
             />
-
-            <hr className="my-10 mx-6 md:mx-20 border-0 h-[2px] bg-gray-200 rounded" />
-
-            <ReviewsSection />
+            
+            <ProfileFooter 
+                reviews={posts}
+            />
         </div>
     );
 }
