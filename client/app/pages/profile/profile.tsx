@@ -16,7 +16,7 @@ export default function Profile() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
-    
+     
     useEffect(() => {
         const fetchUserPosts = async () => {
             try {
