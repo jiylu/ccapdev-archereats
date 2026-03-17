@@ -33,6 +33,10 @@ export default function Comment(props: CommentProps) {
     );
     const [likeLoading, setLikeLoading] = useState(false);
 
+    const handleReplyDeleted = (replyId: string) => {
+        setReplies((prev) => prev.filter((reply) => reply._id !== replyId));
+    };
+
     useEffect(() => {
         const fetchUserComment = async () => {
             try {
@@ -194,7 +198,11 @@ export default function Comment(props: CommentProps) {
             {showReplies && replies.length > 0 && (
                 <div className="mt-3">
                     {replies.map((reply) => (
-                        <ReplyItem key={reply._id} reply={reply} />
+                        <ReplyItem
+                            key={reply._id}
+                            reply={reply}
+                            onDeleted={handleReplyDeleted}
+                        />
                     ))}
                 </div>
             )}

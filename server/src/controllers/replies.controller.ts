@@ -89,33 +89,61 @@ export const unlikeReply = async (req: AuthenticatedRequest, res: Response) => {
     }
 };
 
-export const deleteReply = async (req: Request<{ id: string }>, res: Response) => {
-    logger.info("DELETEREPLY CONTROLLER called");
-
+export const updateReply = async (req: AuthenticatedRequest, res: Response) => {
     try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
         const { id } = req.params;
 
         if (!id || Array.isArray(id)) {
-            logger.info(`reply id Parameter typeof: ${typeof id}`);
-            logger.error("Invalid parameters for deleteReply.");
-            return res.status(400).json({ error: "Invalid parameters." });
+            return res.status(400).json({ message: "Invalid parameters." });
         }
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            logger.warn("Invalid reply ID provided", { id: req.params.id });
             return res.status(404).json({ message: "Invalid replyId" });
         }
 
-        const deletedReply = await replyService.deleteReply(id);
+        const data = req.body;
 
-        if (!deletedReply) {
-            return res.status(404).json({ message: "Cannot delete reply. deletedReply value is null" });
+        const updatedReply = await replyService.updateReply(id, req.user.id, {
+            content: data.content,
+            isAnonymous: data.isAnonymous,
+        });
+
+        return res.status(200).json(updatedReply);
+    } catch (err) {
+        return res.status(400).json({ message: (err as Error).message });
+    }
+};
+
+export const deleteReply = async (req: AuthenticatedRequest, res: Response) => {
+    logger.info("DELETEREPLY CONTROLLER called");
+
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
         }
 
-        logger.info(`Deleted reply ${id}`);
+        const { id } = req.params;
+
+        if (!id || Array.isArray(id)) {
+            logger.error("Invalid parameters for deleteReply.");
+            return res.status(400).json({ message: "Invalid parameters." });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            logger.warn("Invalid reply ID provided", { id });
+            return res.status(404).json({ message: "Invalid replyId" });
+        }
+
+        const deletedReply = await replyService.deleteReply(id, req.user.id);
+
         return res.status(200).json(deletedReply);
     } catch (err) {
-        res.status(400).json({ message: (err as Error).message });
+        console.error("deleteReply controller error:", err);
+        return res.status(400).json({ message: (err as Error).message });
     }
 };
 

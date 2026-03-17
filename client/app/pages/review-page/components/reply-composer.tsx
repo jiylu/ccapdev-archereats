@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../../../components/ui/button";
 import { Textarea } from "../../../components/ui/textarea";
@@ -10,6 +10,11 @@ interface ReplyComposerProps {
     onCancel: () => void;
     onSubmit?: (content: string, isAnonymous: boolean) => Promise<void> | void;
     disableAnonymous?: boolean;
+
+    initialContent?: string;
+    initialAnonymous?: boolean;
+    submitLabel?: string;
+    label?: string;
 }
 
 export default function ReplyComposer({
@@ -17,25 +22,34 @@ export default function ReplyComposer({
     onCancel,
     onSubmit,
     disableAnonymous = false,
+    initialContent = "",
+    initialAnonymous = false,
+    submitLabel = "Reply",
+    label = "Write a reply",
 }: ReplyComposerProps) {
     const [content, setContent] = useState("");
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    useEffect(() => {
+        if (open) {
+            setContent(initialContent);
+            setIsAnonymous(disableAnonymous ? false : initialAnonymous);
+        }
+    }, [open, initialContent, initialAnonymous, disableAnonymous]);
+
     const handleCancel = () => {
         setContent("");
-        setIsAnonymous(false);
+        setIsAnonymous(disableAnonymous? false: initialAnonymous);
         onCancel();
     };
 
-    const handleReply = async () => {
+    const handleSubmit = async () => {
         if (!content.trim()) return;
 
         try {
             setIsSubmitting(true);
             await onSubmit?.(content.trim(), disableAnonymous ? false : isAnonymous);
-            setContent("");
-            setIsAnonymous(false);
             onCancel();
         } catch (err) {
             console.error(err);
@@ -57,7 +71,7 @@ export default function ReplyComposer({
                     <div className="mt-3 rounded-xl border border-zinc-200 bg-white p-4">
                         <div className="space-y-2">
                             <Label htmlFor="reply-content" className="text-sm text-zinc-700">
-                                Write a reply
+                                {label}
                             </Label>
 
                             <Textarea
@@ -103,11 +117,11 @@ export default function ReplyComposer({
 
                             <Button
                                 type="button"
-                                onClick={handleReply}
+                                onClick={handleSubmit}
                                 disabled={!content.trim() || isSubmitting}
                                 className="bg-[#123c2f] text-white hover:bg-[#0f3127]"
                             >
-                                {isSubmitting ? "Replying..." : "Reply"}
+                                {isSubmitting ? `${submitLabel}...` : submitLabel}
                             </Button>
                         </div>
                     </div>

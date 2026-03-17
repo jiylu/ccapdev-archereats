@@ -7,15 +7,30 @@ import {
     DropdownMenuTrigger,
 } from "../../../../components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
-// import DeleteReplyAlert from "./delete-reply-alert";
+import DeleteReplyAlert from "./delete-reply-alert";
 
 interface ReplyActionsProps {
     replyId: string;
     onEdit?: () => void;
+    onDelete?: () => Promise<void> | void;
 }
 
 export default function ReplyActions(props: ReplyActionsProps) {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeleteConfirm = async () => {
+        try {
+            setIsDeleting(true);
+            await props.onDelete?.();
+            setIsDeleteDialogOpen(false);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
 
     return (
         <>
@@ -33,14 +48,18 @@ export default function ReplyActions(props: ReplyActionsProps) {
                     <DropdownMenuGroup>
                         <DropdownMenuItem
                             className="block w-full cursor-pointer rounded-md px-2 py-1 font-normal hover:bg-gray-200"
-                            onSelect={props.onEdit}
+                            onSelect={(e) => {
+                                e.preventDefault();
+                                props.onEdit?.();
+                            }}
                         >
                             Edit Reply
                         </DropdownMenuItem>
 
                         <DropdownMenuItem
                             className="block w-full cursor-pointer rounded-md px-2 py-1 font-normal hover:bg-gray-200"
-                            onSelect={() => {
+                            onSelect={(e) => {
+                                e.preventDefault();
                                 setIsDeleteDialogOpen(true);
                             }}
                         >
@@ -49,15 +68,13 @@ export default function ReplyActions(props: ReplyActionsProps) {
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
-
-            {/*
-            Later:
+            
             <DeleteReplyAlert
                 open={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
-                replyId={props.replyId}
+                onConfirm={handleDeleteConfirm}
+                loading={isDeleting}
             />
-            */}
         </>
     );
 }

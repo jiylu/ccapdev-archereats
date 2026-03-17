@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { fetchUser } from "../../../../api/user.api";
-import { likeReply, unlikeReply } from "../../../../api/replies.api";
+import { likeReply, unlikeReply, updateReply, deleteReply } from "../../../../api/replies.api";
  import type { Reply } from "../../../../types/reply";
 import type { User } from "../../../../types/user";
 import { Button } from "../../../../components/ui/button";
 import ReplyHeader from "./reply-header";
 import { useAuth } from "../../../../hooks/useAuth";
 import { LoginModal } from "../../../../components/auth/login-modal";
+import ReplyComposer from "../reply-composer";
 
 interface ReplyItemProps {
     reply: Reply;
+    onDeleted?: (replyId: string) => void;
 }
 
 export default function ReplyItem(props: ReplyItemProps) {
@@ -22,6 +24,10 @@ export default function ReplyItem(props: ReplyItemProps) {
         props.reply.likedBy?.includes(user?._id || "") || false
     );
     const [likeLoading, setLikeLoading] = useState(false);
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [replyContent, setReplyContent] = useState(props.reply.content);
+    const [replyAnonymous, setReplyAnonymous] = useState(props.reply.isAnonymous);
 
     useEffect(() => {
         const fetchReplyUser = async () => {
@@ -49,6 +55,11 @@ export default function ReplyItem(props: ReplyItemProps) {
     useEffect(() => {
         setLiked(props.reply.likedBy?.includes(user?._id || "") || false);
     }, [props.reply.likedBy, user?._id]);
+
+    useEffect(() => {
+        setReplyContent(props.reply.content);
+        setReplyAnonymous(props.reply.isAnonymous);
+    }, [props.reply.content, props.reply.isAnonymous]);
 
     const handleHelpfulClick = async () => {
         if (!user) {
@@ -78,6 +89,35 @@ export default function ReplyItem(props: ReplyItemProps) {
         }
     };
 
+    const handleEditSubmit = async (content: string, isAnonymous: boolean) => {
+        if (!props.reply._id) return;
+
+        try {
+            const updatedReply = await updateReply(props.reply._id, {
+                content,
+                isAnonymous,
+            });
+
+            setReplyContent(updatedReply.content);
+            setReplyAnonymous(updatedReply.isAnonymous);
+            setIsEditing(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleDelete = async () => {
+        if (!props.reply._id) return;
+
+        try {
+            await deleteReply(props.reply._id);
+            props.onDeleted?.(props.reply._id);
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
     const displayName = props.reply.isRestaurantOwner
         ? props.reply.displayName || "Restaurant"
         : props.reply.isAnonymous
@@ -96,26 +136,43 @@ export default function ReplyItem(props: ReplyItemProps) {
                 title={displayName}
                 avatar={displayAvatar}
                 date={props.reply.creationDate}
-                isAnonymous={props.reply.isAnonymous}
+                isAnonymous={replyAnonymous}
                 isRestaurantOwner={props.reply.isRestaurantOwner}
                 replyId={props.reply._id}
                 canEdit={props.reply.canEdit}
+                onEdit={() => setIsEditing(true)}
+                onDelete={handleDelete}
             />
 
-            <p className="mt-3 text-sm leading-relaxed text-zinc-700">
-                {props.reply.content}
-            </p>
+            {isEditing ? (
+                <ReplyComposer
+                    open={isEditing}
+                    onCancel={() => setIsEditing(false)}
+                    onSubmit={handleEditSubmit}
+                    disableAnonymous={props.reply.isRestaurantOwner || false}
+                    initialContent={replyContent}
+                    initialAnonymous={replyAnonymous}
+                    submitLabel="Save Changes"
+                    label="Edit reply"
+                />
+            ) : (
+                <p className="mt-3 text-sm leading-relaxed text-zinc-700">
+                    {replyContent}
+                </p>
+            )}
 
-            <div className="mt-3 flex gap-2">
-                <Button
-                    variant="outline"
-                    className="border-zinc-300 bg-white"
-                    onClick={handleHelpfulClick}
-                    disabled={likeLoading}
-                >
-                    {liked ? "Helpful ✓" : "Helpful"} ({likes})
-                </Button>
-            </div>
+            {!isEditing && (
+                <div className="mt-3 flex gap-2">
+                    <Button
+                        variant="outline"
+                        className="border-zinc-300 bg-white"
+                        onClick={handleHelpfulClick}
+                        disabled={likeLoading}
+                    >
+                        {liked ? "Helpful ✓" : "Helpful"} ({likes})
+                    </Button>
+                </div>
+            )}
 
             <LoginModal open={loginOpen} onOpenChange={setLoginOpen} />
         </div>
