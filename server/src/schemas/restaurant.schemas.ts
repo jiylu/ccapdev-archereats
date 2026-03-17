@@ -15,8 +15,11 @@ export const createRestaurantSchema = z.object({
     openingHour: z.string().min(1),
     closingHour: z.string().min(1),
     mobileNumber: z.string().min(1),
-    websites: z.array(z.string()).optional().transform(val => {
-        const filtered = val?.filter(s => s.trim() !== "");
-        return filtered?.length ? filtered : undefined;
-    }),                  
+    websites: z.union([z.string(), z.array(z.string())])
+        .optional()
+        .transform(val => {
+            const arr = typeof val === "string" ? [val] : val;
+            const filtered = arr?.filter(s => s.trim() !== "");
+            return filtered?.length ? filtered : undefined;
+        }),               
 });
