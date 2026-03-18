@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import StarRating from "../../components/ui/star-rating";
 
 interface ReviewCardProps {
@@ -9,8 +10,13 @@ interface ReviewCardProps {
 }
 
 export default function ReviewCard(props: ReviewCardProps) {
+    const linkTo = `/reviews/${props.restaurantId}`;
+
     return (
-        <div className="flex flex-col w-85 h-38 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <Link 
+            className="flex flex-col w-85 h-38 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200"
+            to={linkTo}
+        >
             <div className="flex items-start justify-between gap-2">
                 <span className="text-base text-emerald-900 font-bold leading-tight truncate">
                     {props.restaurantName}
@@ -31,6 +37,6 @@ export default function ReviewCard(props: ReviewCardProps) {
                     minute: '2-digit',
                 })}
             </span>
-        </div>
+        </Link>
     )
 }

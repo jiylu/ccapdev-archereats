@@ -28,9 +28,11 @@ export default function Directory () {
         }
 
         fetchRestaurants();
-        
-        document.title="Directory | ArcherEats";
     }, [])
+    
+	useEffect(() => {
+		document.title="Directory | ArcherEats";		
+    })
     
     if (loading) return <PageLoader />;
 
