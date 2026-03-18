@@ -10,7 +10,7 @@ interface ReviewCardProps {
 
 export default function ReviewCard(props: ReviewCardProps) {
     return (
-        <div className="flex flex-col max-w-100 h-38 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div className="flex flex-col w-85 h-38 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200">
             <div className="flex items-start justify-between gap-2">
                 <span className="text-base text-emerald-900 font-bold leading-tight truncate">
                     {props.restaurantName}

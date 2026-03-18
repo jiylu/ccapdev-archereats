@@ -6,6 +6,7 @@ import type { Restaurant } from "app/types/restaurant";
 import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectItem, SelectValue } from "../../components/ui/select";
 import { getAllRestaurants } from "../../api/restaurant.api";
 import PageLoader from "../../components/ui/loading";
+import Footer from "../../components/layout/footer";
 
 export default function Directory () {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([])
@@ -38,7 +39,7 @@ export default function Directory () {
             <Navbar />
             
             {/* page container */}
-            <div className="flex flex-1">
+            <div className="flex flex-1 mb-10">
                 <Filters />
                 <div className="flex w-full justify-center">
                     <div className="flex flex-col mt-4">
@@ -69,10 +70,11 @@ export default function Directory () {
                                 <RestaurantCard
                                     key={r._id || r.restaurantName}
                                     _id={r._id || "unknown"}
+                                    restaurantOwner={r.owner || "unknown"}
                                     restaurantName={r.restaurantName}
                                     imageUrl={imgUrls[0]} 
-                                    avgRating={r.avgRating}
-                                    amtRatings={r.amtRatings}
+                                    avgRating={r.avgRating || 0}
+                                    amtRatings={r.amtRatings || 0}
                                     tags={r.tags}
                                     minPrice={r.minPrice}
                                     maxPrice={r.maxPrice}
@@ -85,6 +87,8 @@ export default function Directory () {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     )
 }

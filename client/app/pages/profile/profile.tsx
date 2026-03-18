@@ -2,7 +2,6 @@ import Navbar from "../../components/layout/navbar";
 import ProfileHeader from "./profileheader";
 import { fetchPostsByUser } from "../../api/post.api";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
 import type { Post } from "../../types/post";
 import ProfileFooter from "./profile-footer";
 import PageLoader from "../../components/ui/loading";
@@ -13,7 +12,6 @@ import type { User } from "../../types/user";
 //TODO: Fetch reviews for user only
 //TODO: Make Restaurants Clickable -> Redirect to its Review Page 
 export default function Profile() {
-    const { user } = useAuth();
     const { username } = useParams<{ username: string }>();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
@@ -45,14 +43,6 @@ export default function Profile() {
     }, [username]);
 
     if (loading) return <PageLoader />;
-
-    if (!user) {
-        return (
-            <div className="min-h-screen bg-[#fffcf5]">
-                <Navbar />
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen bg-[#fffcf5]">
