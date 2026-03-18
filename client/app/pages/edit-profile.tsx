@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { checkUsernameAvailability, updateUser } from "../api/user.api";
 import { cn } from "../lib/utils";
 import { toast } from "sonner";
+import PageLoader from "../components/ui/loading";
+import { Loader, Loader2 } from "lucide-react";
 
 export default function EditProfile () {
     const { user, setAuth, token } = useAuth();
@@ -27,7 +29,10 @@ export default function EditProfile () {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [checkingUsername, setCheckingUsername] = useState(false);
     const [usernameChecked, setUsernameChecked] = useState(false);
-    
+    const [pageLoading, setPageLoading] = useState(true);
+    const [saveChangesLoading, setSaveChangesLoading] = useState(false);
+
+
     useEffect(() => {
         document.title="Edit Profile | ArcherEats";
 
@@ -42,6 +47,8 @@ export default function EditProfile () {
 
             setAvatarPreview(user.avatar || "/default-avatar.svg");
         }
+
+        setPageLoading(false);
     }, [user])
 
     const handleChange = (
@@ -150,6 +157,7 @@ export default function EditProfile () {
         }
 
         try {
+            setSaveChangesLoading(true)
             const payload = new FormData();
             payload.append("username", formData.username);
             payload.append("firstName", formData.firstName);
@@ -175,11 +183,14 @@ export default function EditProfile () {
                 err?.response?.data?.message || "Failed to update profile.";
 
             toast.error(message);
+        } finally {
+            setSaveChangesLoading(false)
         }
     };
 
     if(!user) return null;
-    
+    if (pageLoading) return <PageLoader />
+
     return (
         <>
             <div className="min-h-screen bg-[#fffcf5]">
@@ -319,13 +330,18 @@ export default function EditProfile () {
                                 onClick={handleSave}
                                 className="bg-[#22754d] hover:bg-[#32a970] text-white rounded-xl px-6"
                             >
-                                Save Changes
+                                {saveChangesLoading ? (
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                ) : (
+                                    "Save Changes"
+                                )}
                             </Button>
 
                             <Button
                                 variant="outline"
                                 onClick={() => navigate(`/profile/${user?.username}`)}
                                 className="text-[#123524] border-[#123524]/30 hover:bg-gray-100"
+                                disabled={saveChangesLoading}
                             >
                                 Cancel
                             </Button>
