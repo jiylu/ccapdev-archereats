@@ -166,7 +166,7 @@ export default function EditProfile () {
             setAuth(token, updatedUser);
 
             toast.success("Profile updated successfully!");
-            navigate("/profile");
+            navigate(`/profile/${user?.username}`);
 
         } catch (err: any) {
             console.error(err);
@@ -324,7 +324,7 @@ export default function EditProfile () {
 
                             <Button
                                 variant="outline"
-                                onClick={() => navigate("/profile")}
+                                onClick={() => navigate(`/profile/${user?.username}`)}
                                 className="text-[#123524] border-[#123524]/30 hover:bg-gray-100"
                             >
                                 Cancel

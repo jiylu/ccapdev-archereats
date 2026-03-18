@@ -156,6 +156,17 @@ export default function Comment(props: CommentProps) {
                 currentUser={user?._id}
                 commentOwner={props.post.user || ""}
                 postId={props.post._id}
+                restaurantId={props.post.restaurant}
+                post={{
+                    _id: props.post._id,
+                    rating: props.post.rating,
+                    content: props.post.content,
+                    isAnonymous: props.post.isAnonymous,
+                    ratePricing: props.post.ratePricing as "P" | "PP" | "PPP",
+                    waitTime: props.post.waitTime as "No Wait" | "15-30m" | "1hr+",
+                    recommended: props.post.recommended,
+                    pictures: props.post.pictures,
+                }}
             />
 
             <CommentMeta

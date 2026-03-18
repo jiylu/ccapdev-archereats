@@ -2,13 +2,26 @@ import { useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../../../components/ui/dropdown-menu";
 import DeleteCommentAlert from "./delete-comment-alert";
 import { Menu } from "lucide-react";
+import { WriteReviewModal } from "../../../components/layout/review-modal";
 
 interface CommentActionsProps {
     postId: string;
+    restaurantId: string;
+    post: {
+        _id: string;
+        rating: number;
+        content: string;
+        isAnonymous: boolean;
+        ratePricing?: "P" | "PP" | "PPP";
+        waitTime?: "No Wait" | "15-30m" | "1hr+";
+        recommended?: boolean;
+        pictures?: string[];
+    }
 }
 
 export default function CommentActions(props: CommentActionsProps) {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     
     return (
         <>
@@ -24,6 +37,7 @@ export default function CommentActions(props: CommentActionsProps) {
                     <DropdownMenuGroup>
                         <DropdownMenuItem
                             className="font-normal cursor-pointer block w-full hover:bg-gray-200 rounded-md px-2 py-1"
+                            onSelect={() => setIsEditModalOpen(true)}
                         >
                             Edit Review
                         </DropdownMenuItem>
@@ -40,6 +54,14 @@ export default function CommentActions(props: CommentActionsProps) {
 
                 </DropdownMenuContent>
             </DropdownMenu>
+
+            <WriteReviewModal
+                restaurantId={props.restaurantId}
+                open={isEditModalOpen}
+                onOpenChange={setIsEditModalOpen}
+                initialData={props.post}
+                isEdit={true}
+            />
 
             <DeleteCommentAlert
                 open={isDeleteDialogOpen} 

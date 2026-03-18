@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
     Dialog,
     DialogContent, 
@@ -12,13 +12,29 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Star, X } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { createPost } from "../../api/post.api";
+import { createPost, updatePost } from "../../api/post.api";
 import { toast } from "sonner";
+
+type RatePricingSymbol = "₱" | "₱₱" | "₱₱₱";
+type RatePricingValue = "P" | "PP" | "PPP";
+
+interface ReviewFormData {
+    _id?: string;
+    rating: number;
+    content: string; 
+    isAnonymous: boolean;
+    ratePricing?: RatePricingValue;
+    waitTime?: "No Wait" | "15-30m" | "1hr+";
+    recommended?: boolean;
+    pictures?: string[];
+}
 
 interface WriteReviewModalProps {
     restaurantId: string
     open: boolean
     onOpenChange: (open: boolean) => void
+    initialData?: ReviewFormData | null;
+    isEdit?: boolean;
 }
 
 interface FormErrors {
@@ -29,15 +45,17 @@ interface FormErrors {
     recommended?: string;
 };
 
-export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteReviewModalProps) {
+export function WriteReviewModal({ restaurantId, open, onOpenChange, initialData, isEdit }: WriteReviewModalProps) {
     const [rating, setRating] = useState(0)
     const [hoverRating, setHoverRating] = useState(0)
     const [content, setContent] = useState("")
     const [pictures, setPictures] = useState<File[]>([])
+    const [existingPictures, setExistingPictures] = useState<string[]>([])
     const [isAnonymous, setIsAnonymous] = useState(false)
-    const [ratePricing, setRatePricing] = useState<"₱" | "₱₱" | "₱₱₱" | undefined>()
+    const [ratePricing, setRatePricing] = useState<RatePricingSymbol | undefined>()
     const [waitTime, setWaitTime] = useState<"No Wait" | "15-30m" | "1hr+" | undefined>()
     const [recommended, setRecommended] = useState<boolean | undefined>()
+    
     
     const [errors, setErrors] = useState<FormErrors>({})
     const [touched, setTouched] = useState<{
@@ -55,6 +73,32 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
     })
 
     const fileInputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (!open) return;
+
+        if (initialData) {
+            setRating(initialData.rating ?? 0);
+            setHoverRating(0);
+            setContent(initialData.content ?? "");
+            setPictures([]);
+            setExistingPictures(initialData.pictures ?? []);
+            setIsAnonymous(initialData.isAnonymous ?? false);
+            setRatePricing(convertRatePricingToSymbol(initialData.ratePricing));
+            setWaitTime(initialData.waitTime ?? undefined);
+            setRecommended(initialData.recommended ?? undefined);
+            setErrors({});
+            setTouched({
+                rating: false,
+                content: false,
+                ratePricing: false,
+                waitTime: false,
+                recommended: false,
+            });
+        } else {
+            resetForm();
+        }
+    }, [open, initialData]);
 
     const validateField = (field: keyof FormErrors, value: any): string | undefined => {
         switch (field) {
@@ -130,14 +174,35 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
         setPictures((prev) => prev.filter((_, i) => i !== index))
     }
 
-    const convertRatePricing = (rate: string) => {
-        switch(rate) {
-            case "₱": return "P";
-            case "₱₱": return "PP";
-            case "₱₱₱": return "PPP";
-            default: return undefined;
+    const convertRatePricing = (
+        rate: RatePricingSymbol | ""
+    ): RatePricingValue | undefined => {
+        switch (rate) {
+            case "₱":
+                return "P";
+            case "₱₱":
+                return "PP";
+            case "₱₱₱":
+                return "PPP";
+            default:
+                return undefined;
         }
-    }
+    };
+
+    const convertRatePricingToSymbol = (
+        rate?: RatePricingValue
+    ): RatePricingSymbol | undefined => {
+        switch (rate) {
+            case "P":
+                return "₱";
+            case "PP":
+                return "₱₱";
+            case "PPP":
+                return "₱₱₱";
+            default:
+                return undefined;
+        }
+    };
 
     const handleSubmit = async () => {
         if (!restaurantId) return;
@@ -148,7 +213,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
         }
 
         try {
-            const post = await createPost({
+            const payload = {
                 restaurant: restaurantId,
                 rating,
                 content,
@@ -157,15 +222,26 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
                 waitTime: waitTime ?? undefined,
                 recommended: recommended ?? undefined,
                 pictures,
-            });
+                existingPictures,
+            };
+
+            if (isEdit && initialData?._id) {
+                await updatePost(initialData._id, payload);
+                toast.success("Review updated successfully!", { duration: 2000 });
+            } else {
+                await createPost(payload);
+                toast.success("Review submitted successfully!", { duration: 2000 });
+            }
 
             resetForm();
             onOpenChange(false);
-            window.location.reload(); 
-            toast.success("Review submitted successfully!", { duration: 2000 });
+            window.location.reload();
         } catch (err: unknown) {
-            console.error("Error creating post:", err);
-            toast.error("Failed to submit review. Please try again.", { duration: 2000 });
+            console.error("Error submitting review:", err);
+            toast.error(
+                isEdit ? "Failed to update review. Please try again." : "Failed to submit review. Please try again.",
+                { duration: 2000 }
+            );
         }
     };
 
@@ -174,6 +250,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
         setHoverRating(0)
         setContent("")
         setPictures([])
+        setExistingPictures([])
         setIsAnonymous(false)
         setRatePricing("₱")
         setWaitTime("No Wait")
@@ -188,6 +265,10 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
         })
     }
 
+    const handleRemoveExistingPicture = (index: number) => {
+        setExistingPictures((prev) => prev.filter((_, i) => i !== index))
+    }
+
     return (
         <Dialog open={open} 
             onOpenChange={(isOpen) => {
@@ -197,7 +278,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
             <DialogContent className="sm:max-w-[600px] bg-[#F4F6F5] rounded-xl p-6 max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold text-center">
-                        Write a Review
+                        {isEdit ? "Edit Review" : "Write a Review"}
                     </DialogTitle>
                 </DialogHeader>
 
@@ -281,17 +362,38 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
                 </div>
 
                 {/*picturesvideos*/}
-                {pictures.length > 0 && (
+                {(existingPictures.length > 0 || pictures.length > 0) && (
                     <div className="flex flex-wrap gap-2 mt-2">
+                        {existingPictures.map((img, index) => (
+                            <div key={`existing-${index}`} className="relative w-20 h-20 rounded-md overflow-hidden">
+                                <img
+                                    src={img}
+                                    alt={`existing-${index}`}
+                                    className="w-full h-full object-cover"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveExistingPicture(index)}
+                                    className="absolute top-1 right-1 bg-black bg-opacity-50 text-white rounded-full p-1 hover:bg-opacity-75"
+                                >
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        ))}
+
                         {pictures.map((file, index) => (
-                            <div key={index} className="relative w-20 h-20 rounded-md overflow-hidden">
-                                <img src={URL.createObjectURL(file)}
-                                alt={`preview-${index}`}
-                                className="w-full h-full object-cover"/>
-                                <button onClick={() => handleRemove(index)}
-                                className="absolute top-1 right-1 bg-black bg-opacity-50 text-white rounded-full p-1
-                                    hover:bg-opacity-75">
-                                        <X size={14}/>
+                            <div key={`new-${index}`} className="relative w-20 h-20 rounded-md overflow-hidden">
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    alt={`preview-${index}`}
+                                    className="w-full h-full object-cover"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemove(index)}
+                                    className="absolute top-1 right-1 bg-black bg-opacity-50 text-white rounded-full p-1 hover:bg-opacity-75"
+                                >
+                                    <X size={14} />
                                 </button>
                             </div>
                         ))}
@@ -398,7 +500,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange }: WriteRevi
                     </Button>
 
                     <Button onClick={handleSubmit} className="bg-[#123524] hover:bg-[#1E4D36] text-[#E3E8E6]">
-                        Submit
+                        {isEdit ? "Save Changes" : "Submit"}
                     </Button>
                 </div>
             </DialogContent>
