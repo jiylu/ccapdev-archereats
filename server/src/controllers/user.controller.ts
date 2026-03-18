@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { IUserInput } from "../models/User.js";
-import { addFavoriteRestaurantService, createUserService, fetchUserByIdService, removeFavoriteRestaurantService, updateUserByIdService, checkUsernameAvailabilityService, fecthUserByUsernameService } from "../services/user.service.js";
+import { addFavoriteRestaurantService, createUserService, fetchUserByIdService, removeFavoriteRestaurantService, updateUserByIdService, checkUsernameAvailabilityService, fecthUserByUsernameService, resetPasswordService } from "../services/user.service.js";
 import { createUserSchema } from "../schemas/user.schemas.js";
 import { ZodError } from "zod";  
 import { logger } from "utils/logger.js";
 import mongoose from "mongoose";
+import { AuthData } from "./auth.controller.js";
+import { authSchema, resetSchema } from "schemas/auth.schemas.js";
 
 export const createUser = async (req: Request<object, object, IUserInput>, res: Response) => {
     try {
@@ -155,6 +157,27 @@ export const fetchUserByUsername = async (req: Request, res: Response) => {
 
         logger.info(`${username} found`)
         return res.status(200).json(user)
+    } catch (err: unknown) {
+        return res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
+    }
+}
+
+export const resetPassword = async (req: Request<object, object, AuthData>, res: Response) => {
+    logger.info("POST resetPassword called", { body: req.body });
+
+    try {
+        const validatedData = resetSchema.parse(req.body)
+        const user = await resetPasswordService(validatedData)
+
+        if (!user) {
+            logger.error("Cannot reset password.")
+            return res.status(401).json({ message: "Cannot reset password. "})
+        }
+
+        logger.info("Successful reset password.")
+        res.status(200).json({ message: `Successful reset password for ${user._id}` })
     } catch (err: unknown) {
         return res.status(500).json({
             message: err instanceof Error ? err.message : err
