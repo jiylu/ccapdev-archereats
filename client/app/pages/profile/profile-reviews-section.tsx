@@ -48,7 +48,7 @@ export default function ProfileReviewsSection(props: props) {
                     {props.reviews.map((r) => (
                         <ReviewCard
                             key={r._id}
-                            restaurantId={r._id}
+                            restaurantId={r.restaurant}
                             restaurantName={restaurantNames[r.restaurant]}
                             postRating={r.rating}
                             content={r.content}
