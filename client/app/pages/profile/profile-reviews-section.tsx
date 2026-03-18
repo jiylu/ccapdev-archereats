@@ -44,17 +44,19 @@ export default function ProfileReviewsSection(props: props) {
                     <p className="text-sm">No reviews yet.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-2 gap-1 items-start">
-                    {props.reviews.map((r) => (
-                        <ReviewCard
-                            key={r._id}
-                            restaurantId={r.restaurant}
-                            restaurantName={restaurantNames[r.restaurant]}
-                            postRating={r.rating}
-                            content={r.content}
-                            date={r.creationDate}
-                        />
-                    ))}
+                <div className="grid grid-cols-2 gap-2 items-start">
+                    {props.reviews.map((r) => {
+                        return (
+                            <ReviewCard
+                                key={r._id}
+                                restaurantId={r.restaurant}
+                                restaurantName={restaurantNames[r.restaurant]}
+                                postRating={r.rating}
+                                content={r.content}
+                                date={r.creationDate}
+                            />
+                        );
+                    })}
                 </div>
             )}
         </div>
