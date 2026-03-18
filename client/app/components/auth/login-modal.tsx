@@ -8,6 +8,8 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "../../api/auth.api";
 import { useAuth } from "../../hooks/useAuth";
+import { useState } from "react";
+import { cn } from "../../lib/utils";
 
 interface LoginModalProps {
     open: boolean
@@ -23,8 +25,9 @@ const loginSchema = z.object({
 type FormData = z.infer<typeof loginSchema>
 
 export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalProps) {
-    const { setAuth } = useAuth();
-    const location = useLocation();
+	const { setAuth } = useAuth();
+    const [serverError, setServerError] = useState<string | null>(null)
+    const location = useLocation(); 
     const navigate = useNavigate();
 
     const { handleSubmit, formState: { errors, isSubmitting }, reset, control } = useForm<FormData>({
@@ -40,7 +43,8 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
             navigate(location.pathname === "/signup" ? "/directory": location.pathname)
             onOpenChange(false)
             onLoginSuccess?.()
-        } catch (err:unknown) {
+		} catch (err: unknown) {
+			setServerError("Invalid username, email, or password.")
             console.error(err);
         }
     }
@@ -62,7 +66,11 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
                                     name="login"
                                     control={control}
                                     render={({ field }) => 
-                                        <Input {...field} placeholder="Enter username or email" />
+										<Input
+											{...field}
+											placeholder="Enter username or email"
+											className={cn(errors.login && "border-red-500  focus-visible:ring-red-500")}
+										/>
                                     }
                                 />
                             </Field>
@@ -76,7 +84,7 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
                                         <Input 
                                             {...field} 
                                             placeholder="Enter password" 
-                                            required 
+                                            className={cn(errors.password && "border-red-500  focus-visible:ring-red-500")}
                                             type="password"
                                         />
                                     }
@@ -84,7 +92,11 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
                             </Field>
                         </FieldGroup>
                         
-                        <DialogFooter className="flex flex-col! mt-2">
+					<DialogFooter className="flex flex-col! mt-2">
+							{serverError && (
+							    <p className="text-sm text-red-500 mt-2 text-center">{serverError}</p>
+							)}
+
                             <span className="text-[0.75em]">Forgot Password?</span>
                             <Button 
                                 type="submit"

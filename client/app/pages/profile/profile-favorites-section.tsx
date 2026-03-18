@@ -45,11 +45,11 @@ export default function FavoritesSection(props: props) {
                 <div className="grid grid-cols-2 gap-3 items-start">
                     {favoriteRestaurants.map((r) => {
                         const imgUrls = r.images.filter((img): img is string => typeof img === "string");
+                        console.log(r._id)
                         return (
                             <FavoriteRestaurantCard
-                                key={r._id}
                                 imgUrl={imgUrls[0]}
-                                restaurantId={r._id || "unknown"}
+                                restaurantId={r._id}
                             />
                         );
                     })}
@@ -57,5 +57,4 @@ export default function FavoritesSection(props: props) {
             )}
         </div>
     )
-
 }
