@@ -5,6 +5,7 @@ import { decrementRestaurantRating, recalculateRestaurantRating } from 'services
 import { AuthenticatedRequest } from 'types/express.js';
 import { PostCreateInput } from "types/post.js"
 import { logger } from 'utils/logger.js';
+import { fetchUserByIdService } from 'services/user.service.js';
 
 export const createPost = async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -166,6 +167,36 @@ export const editPostController = async (req: Request, res: Response) => {
         recalculateRestaurantRating(req.body.restaurant, updatedPost.rating, oldRating)
         return res.status(200).json();
     } catch (err) {
+        res.status(400).json({ message: (err as Error).message})
+    }
+}
+
+export const fetchPostsByUser = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params
+
+        if (!userId || Array.isArray(userId)) {
+            logger.info(`userid Parameter typeof: ${typeof(userId)} `)
+            logger.error("Invalid paramters for fetchPostsByUser.")
+            return res.status(400).json({ error: "Invalid parameters." })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            logger.error("Invalid user ID provided", { id: req.params.id });
+            return res.status(404).json({ message: "Invalid postId" })
+        }
+
+        if (!await fetchUserByIdService(userId)) {
+            logger.error(`${userId} not found`)
+            return res.status(404).json({ message: "Invalid userId, userId not found" })
+        }
+
+        const posts = await postService.fetchPostsByUserService(userId)
+
+        return res.status(200).json(posts)
+
+    } catch (err) { 
+        logger.error(`fetchPostsByUser error ${err}`)
         res.status(400).json({ message: (err as Error).message})
     }
 }

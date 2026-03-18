@@ -2,6 +2,7 @@ import Restaurant from "models/Restaurant.js";
 import User, { IUserInput } from "../models/User.js";
 import bcrypt from "bcrypt";
 import cloudinary from "config/cloudinary.js";
+import { logger } from "utils/logger.js";
 
 export const createUserService = async (userData: IUserInput) => {
     if (await User.findOne({ email: userData.email })) throw new Error("Email already exists.");
@@ -117,4 +118,12 @@ export const updateUserByIdService = async (
 export const checkUsernameAvailabilityService = async (username: string) => {
     const existingUser = await User.findOne({ username });
     return !existingUser;
+}
+
+export const fecthUserByUsernameService = async (username: string) => {
+    const user = await User.findOne({ username }).select("-password")
+
+    if (!user) throw new Error("Username doesnt exist");
+
+    return user;
 }
