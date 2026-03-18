@@ -9,6 +9,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 
 export default function MenuButton() {
+  const { user } = useAuth();
   const { setAuth } = useAuth();
   
   const handleLogout = () => {
@@ -30,7 +31,7 @@ export default function MenuButton() {
           className="w-56 mt-2 rounded-xl shadow-lg"
         >
           <DropdownMenuItem asChild>
-            <a href="/profile">View Profile</a>
+            <a href={`/profile/${user?.username}`}>View Profile</a>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
