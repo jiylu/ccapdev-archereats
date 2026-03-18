@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IUserInput } from "../models/User.js";
-import { addFavoriteRestaurantService, createUserService, fetchUserByIdService, removeFavoriteRestaurantService, updateUserByIdService, checkUsernameAvailabilityService } from "../services/user.service.js";
+import { addFavoriteRestaurantService, createUserService, fetchUserByIdService, removeFavoriteRestaurantService, updateUserByIdService, checkUsernameAvailabilityService, fecthUserByUsernameService } from "../services/user.service.js";
 import { createUserSchema } from "../schemas/user.schemas.js";
 import { ZodError } from "zod";  
 import { logger } from "utils/logger.js";
@@ -131,6 +131,30 @@ export const checkUsernameAvailability = async (req: Request, res: Response) => 
         const isAvailable = await checkUsernameAvailabilityService(username);
 
         return res.status(200).json({ isAvailable });
+    } catch (err: unknown) {
+        return res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
+    }
+}
+
+export const fetchUserByUsername = async (req: Request, res: Response) => {
+    try {
+        const { username } = req.params;
+
+        if (!username || Array.isArray(username)) {
+            return res.status(400).json({ error: "Invalid parameters." });
+        }
+
+        const user = await fecthUserByUsernameService(username)
+
+        if (!user) {
+            logger.warn(`${username} not found`);
+            return res.status(404).json({ message: "Username not found" })
+        }
+
+        logger.info(`${username} found`)
+        return res.status(200).json(user)
     } catch (err: unknown) {
         return res.status(500).json({
             message: err instanceof Error ? err.message : err

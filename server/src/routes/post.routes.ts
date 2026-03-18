@@ -14,4 +14,6 @@ router.post("/:id/unlike", authMiddleware, postController.unlikePost); // url: l
 router.get("/getPosts/:id", authMiddleware, postController.getPostsByRestaurantId) //localhost:8080/api/posts/getPosts
 router.patch("/deletePost/:id", authMiddleware, postController.deletePost) //  localhost:8080/api/posts/deletePost/:id
 router.patch("/editPost/:id", postController.editPostController) // localhost:8080/api/posts/editPost/:id
+router.get("/get-posts/user/:userId", postController.fetchPostsByUser)// localhost:8080/api/posts/get-posts/user/:id
+
 export default router;

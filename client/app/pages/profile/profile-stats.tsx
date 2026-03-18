@@ -1,10 +1,9 @@
-import { Camera, Heart, MessageSquareText } from "lucide-react";
+import { Heart, MessageSquareText } from "lucide-react";
 import { StatItem } from "./profile-stat-item";
 
 interface profileStatsProps {
     reviewAmt: number;
     favoriteAmt: number;
-    photosAmt: number;
 }
 
 export function ProfileStats(props: profileStatsProps) {
@@ -13,8 +12,6 @@ export function ProfileStats(props: profileStatsProps) {
             <StatItem icon={MessageSquareText} label="Reviews" value={props.reviewAmt} />
             <div className="w-px h-8 bg-gray-200" />
             <StatItem icon={Heart} label="Favorites" value={props.favoriteAmt} />
-            <div className="w-px h-8 bg-gray-200" />
-            <StatItem icon={Camera} label="Photos" value={props.photosAmt} />
         </div>
     )
 }

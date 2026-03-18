@@ -189,3 +189,7 @@ export const editPost = async (postId: string, postData: PostCreateInput) => {
 
     return updatedPost;
 };
+
+export const fetchPostsByUserService = async (userId: string) => {
+    return await Post.find({ user: userId, deleted: false })
+}

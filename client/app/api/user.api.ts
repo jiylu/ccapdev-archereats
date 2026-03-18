@@ -43,4 +43,8 @@ export const checkUsernameAvailability = async (username: string): Promise<{ isA
     });
     return res.data;
 };
- 
+
+export const fetchUserByUsername = async (username: string): Promise<User> => {
+    const res = await api.get(`/users/username/${username}`)
+    return res.data
+} 

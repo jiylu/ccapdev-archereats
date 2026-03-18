@@ -55,3 +55,8 @@ export const unlikePost = async (id: string): Promise<Post> => {
     const res = await api.post(`/posts/${id}/unlike`);
     return res.data;
 };
+
+export const fetchPostsByUser = async (id: string): Promise<Post[]> => {
+    const res = await api.get(`/posts/get-posts/user/${id}`)
+    return res.data
+}

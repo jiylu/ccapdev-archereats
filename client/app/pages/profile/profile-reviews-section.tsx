@@ -14,10 +14,10 @@ export default function ProfileReviewsSection(props: props) {
     
     useEffect(() =>{
         const fetchNames = async () => {
+            console.log("fetchNames API CALL!!")
             const entries = await Promise.all(
                 props.reviews
                     .map(async (r) => {
-                        console.log(r.restaurant)
                         const restaurant = await getRestaurantById(r.restaurant);
                         return [r.restaurant, restaurant.restaurantName]
                     })
