@@ -11,8 +11,8 @@ export interface Post {
     pictures: string[];
     replies: Reply[];
     isAnonymous: boolean;
-    ratePricing: string;
-    waitTime: string;
+    ratePricing: "P" | "PP" | "PPP";
+    waitTime: "No Wait" | "15-30m" | "1hr+";
     recommended: boolean;
     creationDate: string;
     deleted: boolean;

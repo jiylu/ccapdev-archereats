@@ -1,12 +1,36 @@
+import cloudinary from "config/cloudinary.js";
 import Post, { IPost } from "models/Post.js";
 import Restaurant from "models/Restaurant.js";
 import "models/Replies.js";
 import { PostCreateInput } from "types/post.js";
 import mongoose from "mongoose";
+import { logger } from "utils/logger.js";
 
-export const createPost = async (postData: PostCreateInput): Promise<IPost> => {
+export const createPost = async (
+    postData: PostCreateInput,
+    files?: Express.Multer.File[]
+): Promise<IPost> => {
+    const pictureUrls: string[] = [];
+
+    if (files && files.length > 0) {
+        for (const file of files) {
+            logger.info("Uploading post image to Cloudinary");
+
+            const base64 = file.buffer.toString("base64");
+            const dataUri = `data:${file.mimetype};base64,${base64}`;
+
+            const result = await cloudinary.uploader.upload(dataUri, {
+                folder: "posts",
+                public_id: `post-${Date.now()}-${Math.round(Math.random() * 1e9)}`
+            });
+
+            pictureUrls.push(result.secure_url);
+        }
+    }
+
     const post = new Post({
         ...postData,
+        pictures: pictureUrls,
         isAnonymous: postData.isAnonymous || false,
     });
 
@@ -169,18 +193,42 @@ export const deletePost = async (postId: string) => {
     return await Post.findByIdAndUpdate(postId, { deleted: true }, { new: true });
 };
 
-export const editPost = async (postId: string, postData: PostCreateInput) => {
+export const editPost = async (
+    postId: string,
+    postData: PostCreateInput,
+    files?: Express.Multer.File[]
+) => {
     const post = await Post.findById(postId);
     if (!post) throw new Error("Post not found");
+
+    const uploadedPictureUrls: string[] = [];
+
+    if (files && files.length > 0) {
+        for (const file of files) {
+            logger.info("Uploading updated post image to Cloudinary");
+
+            const base64 = file.buffer.toString("base64");
+            const dataUri = `data:${file.mimetype};base64,${base64}`;
+
+            const result = await cloudinary.uploader.upload(dataUri, {
+                folder: "posts",
+                public_id: `post-${postId}-${Date.now()}-${Math.round(Math.random() * 1e9)}`
+            });
+
+            uploadedPictureUrls.push(result.secure_url);
+        }
+    }
 
     const updatedPost = await Post.findByIdAndUpdate(
         postId,
         {
             rating: postData.rating,
             content: postData.content,
+            isAnonymous: postData.isAnonymous,
             ratePricing: postData.ratePricing,
             waitTime: postData.waitTime,
-            recommended: postData.recommended
+            recommended: postData.recommended,
+            pictures: [...(postData.pictures || []), ...uploadedPictureUrls],
         },
         { new: true }
     );
@@ -191,5 +239,5 @@ export const editPost = async (postId: string, postData: PostCreateInput) => {
 };
 
 export const fetchPostsByUserService = async (userId: string) => {
-    return await Post.find({ user: userId, deleted: false })
-}
+    return await Post.find({ user: userId, deleted: false });
+};

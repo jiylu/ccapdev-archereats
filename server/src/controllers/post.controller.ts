@@ -14,7 +14,7 @@ export const createPost = async (req: AuthenticatedRequest, res: Response) => {
         }
 
         const data = req.body;
-        const pictures = (req.files as Express.Multer.File[] | undefined)?.map(f => f.path) || [];
+        const files = req.files as Express.Multer.File[] | undefined;
 
         const postPayload: PostCreateInput = {
             user: req.user.id!,
@@ -25,14 +25,14 @@ export const createPost = async (req: AuthenticatedRequest, res: Response) => {
             ratePricing: data.ratePricing as "P" | "PP" | "PPP" | undefined,
             waitTime: data.waitTime as "No Wait" | "15-30m" | "1hr+" | undefined,
             recommended: data.recommended !== undefined ? data.recommended === "true" : undefined,
-            pictures
+            pictures: []
         };
 
-        const post = await postService.createPost(postPayload);
-        res.status(201).json(post);
+        const post = await postService.createPost(postPayload, files);
+        return res.status(201).json(post);
     } catch (err) {
         console.error(err);
-        res.status(400).json({ message: (err as Error).message });
+        return res.status(400).json({ message: (err as Error).message });
     }
 };
 
@@ -131,45 +131,78 @@ export const deletePost = async (req: Request, res: Response) => {
     }
 }
 
-export const editPostController = async (req: Request, res: Response) => {
-    logger.info("EDITPOST CONTROLLER CALLED")
+export const editPostController = async (req: AuthenticatedRequest, res: Response) => {
+    logger.info("EDITPOST CONTROLLER CALLED");
 
     try {
-        const { id } = req.params
+        const { id } = req.params;
+
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
 
         if (!id || Array.isArray(id)) {
-            logger.info(`post id Parameter typeof: ${typeof(id)} `)
-            logger.error("Invalid paramters for deletePost.")
-            return res.status(400).json({ error: "Invalid parameters." })
+            logger.info(`post id Parameter typeof: ${typeof id}`);
+            logger.error("Invalid parameters for editPost.");
+            return res.status(400).json({ error: "Invalid parameters." });
         }
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             logger.error("Invalid post ID provided", { id: req.params.id });
-            return res.status(404).json({ message: "Invalid postId" })
+            return res.status(404).json({ message: "Invalid postId" });
         }
 
         const oldPost = await postService.getPostById(id);
 
         if (!oldPost) {
-            logger.error("editPost, oldPost is null")
-            return res.status(404).json({ message: "oldPost is null or not found" })
+            logger.error("editPost, oldPost is null");
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        if (oldPost.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Forbidden" });
         }
 
         const oldRating = oldPost.rating;
+        const files = req.files as Express.Multer.File[] | undefined;
+        const existingPictures = req.body.existingPictures
+            ? JSON.parse(req.body.existingPictures)
+            : oldPost.pictures;
 
-        const updatedPost = await postService.editPost(id, req.body)
+        const postPayload: PostCreateInput = {
+            user: oldPost.user.toString(),
+            restaurant: req.body.restaurant || oldPost.restaurant.toString(),
+            rating: req.body.rating !== undefined ? Number(req.body.rating) : oldPost.rating,
+            content: req.body.content ?? oldPost.content,
+            isAnonymous: req.body.isAnonymous !== undefined
+                ? req.body.isAnonymous === "true"
+                : oldPost.isAnonymous,
+            ratePricing: req.body.ratePricing ?? oldPost.ratePricing,
+            waitTime: req.body.waitTime ?? oldPost.waitTime,
+            recommended: req.body.recommended !== undefined
+                ? req.body.recommended === "true"
+                : oldPost.recommended,
+            pictures: existingPictures
+        };
+
+        const updatedPost = await postService.editPost(id, postPayload, files);
 
         if (!updatedPost) {
             logger.error("Cannot edit post", { id: req.params.id });
-            return res.status(404).json({ message: "Cannot edit post" })
+            return res.status(404).json({ message: "Cannot edit post" });
         }
 
-        recalculateRestaurantRating(req.body.restaurant, updatedPost.rating, oldRating)
-        return res.status(200).json();
+        await recalculateRestaurantRating(
+            postPayload.restaurant,
+            updatedPost.rating,
+            oldRating
+        );
+
+        return res.status(200).json(updatedPost);
     } catch (err) {
-        res.status(400).json({ message: (err as Error).message})
+        res.status(400).json({ message: (err as Error).message });
     }
-}
+};
 
 export const fetchPostsByUser = async (req: Request, res: Response) => {
     try {
