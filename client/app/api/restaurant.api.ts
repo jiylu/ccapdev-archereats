@@ -22,10 +22,6 @@ export const uploadRestaurant = async (restaurantData: RestaurantInput) => {
             formData.append(key, val.toString());
         }
     });
-
-    for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-    }
     
     await api.post(
         "/restaurants/createRestaurant",
@@ -82,6 +78,5 @@ export const updateRestaurant = async (id: string, restaurantData: Restaurant) =
 
 export const getRestaurantById = async (id: string) => {
     const res = await api.get<Restaurant>(`/restaurants/${id}`);
-    console.log(res.data)
     return res.data;
 };
