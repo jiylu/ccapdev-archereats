@@ -127,6 +127,7 @@ export const deletePost = async (req: Request, res: Response) => {
 
         return res.status(200).json(deletedPost);
     } catch (err) {
+        logger.info(err)
         res.status(400).json({ message: (err as Error).message})
     }
 }

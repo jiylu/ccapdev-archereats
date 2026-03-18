@@ -10,7 +10,7 @@ interface DeleteProps {
 
 export default function DeleteCommentAlert (props: DeleteProps) {  
     const handleDelete = async () => {
-        deletePost(props.postId)
+        await deletePost(props.postId)
         window.location.reload(); 
     }
     

@@ -43,11 +43,16 @@ export default function ReviewPage() {
             } finally {
                 setLoading(false)
             }
-            document.title = `${restaurant?.restaurantName} | ArcherEats`;
         }
 
         fetchRestaurant();
-    }, [id, restaurant?.restaurantName]);
+    }, [id]);
+
+    useEffect(() => {
+        if (restaurant?.restaurantName) {
+            document.title = `${restaurant.restaurantName} | ArcherEats`;
+        }
+    }, [restaurant?.restaurantName]);
 
     if (loading) return <PageLoader />;
 
