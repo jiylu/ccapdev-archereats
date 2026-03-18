@@ -77,11 +77,11 @@ export default function Landing () {
                 {/** Main Section Here */}
                 <section className="relative h-[540px] overflow-hidden">
                     {/**Background Image Here */}
-                    <img src="/building.jpeg" alt="Building" className="absolute inset-0 w-full h-full object-cover"/>
+                    <img src="/building-noborder.jpeg" alt="Building" className="absolute inset-0 w-full h-full object-cover"/>
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
 
                     <div className="relative z-10 flex flex-col justify-center h-full px-8 md:px-16 lg:px-24">
-                        <h1 style={{ fontFamily: "Roboto, sans-serif" }} className="text-white font-extrabold text-3xl md:text-5xl leading-tight max-w-xl drop-shadow-lg">
+                        <h1 style={{ fontFamily: "Roboto, sans-serif", color: "beige"}} className="font-extrabold text-3xl md:text-5xl leading-tight max-w-xl drop-shadow-lg">
                             Discover and Experience DLSU's Diners through ArcherEats 
                         </h1>
                         <p className="font-['Roboto',sans-serif] mt-[20px] text-[12px] text-[#eeeeee] pt-[180px]">
