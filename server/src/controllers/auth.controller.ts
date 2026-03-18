@@ -19,7 +19,8 @@ export const loginUser = async (req: Request<object, object, AuthData>, res: Res
         const validatedData = authSchema.parse(req.body);
         const userData = await authService(validatedData);
         
-        if (!userData) {
+		if (!userData) {
+			logger.error("Invalid login")
             return res.status(401).json({ message: "Invalid login" });
         }
         
@@ -33,11 +34,13 @@ export const loginUser = async (req: Request<object, object, AuthData>, res: Res
         logger.info("Auth successful for", { user })
         res.status(200).json({ token, user })
     } catch (err: unknown) {
-        if (err instanceof ZodError) {
+		if (err instanceof ZodError) {
+			logger.error(err.issues)
             return res.status(400).json({ message: err.issues.map(issue => issue.message) });
         }
 
-        if (err instanceof Error) {
+		if (err instanceof Error) {
+			logger.error(err.message)
             return res.status(400).json({ message: err.message });
         }
 
