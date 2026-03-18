@@ -12,7 +12,7 @@ export default function ProfileFooter(props: ProfileFooterProps) {
     
     return (
         <div className="flex w-full pl-30 mt-5 gap-10 justify-center">
-            <div className="flex w-210">
+            <div className="flex w-175">
                 <ProfileReviewsSection 
                     reviews={props.reviews}
                 />

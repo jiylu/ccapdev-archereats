@@ -30,7 +30,7 @@ export default function ProfileReviewsSection(props: props) {
     }, [props.reviews])
     
     return (
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col">
             <div className="flex items-center gap-3 mb-5">
                 <h1 className="text-2xl font-bold text-[#123524] tracking-tight">Reviews</h1>
                 <Badge className="text-xs font-semibold text-emerald-700 bg-emerald-50">
@@ -44,7 +44,7 @@ export default function ProfileReviewsSection(props: props) {
                     <p className="text-sm">No reviews yet.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-2 gap-3 items-start">
+                <div className="grid grid-cols-2 gap-1 items-start">
                     {props.reviews.map((r) => (
                         <ReviewCard
                             key={r._id}
