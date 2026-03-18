@@ -108,7 +108,7 @@ export default function Landing () {
                         </a>
                     </div>
 
-                    <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide">
+                    <div className="flex gap-5 overflow-x-auto mb-10 pb-4 scrollbar-hide">
                         {eateries.map((restaurant) => (
                         <div key={restaurant._id} className="shrink-0">
                             <RestaurantCard
