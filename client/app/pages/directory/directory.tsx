@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectI
 import { getAllRestaurants } from "../../api/restaurant.api";
 import PageLoader from "../../components/ui/loading";
 import Footer from "../../components/layout/footer";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationNext, PaginationPrevious } from "../../components/ui/pagination";
 
 export default function Directory () {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([])
@@ -36,6 +37,8 @@ export default function Directory () {
     
     if (loading) return <PageLoader />;
 
+    const pageAmt = Math.ceil(restaurants.length / 10)
+
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
@@ -46,7 +49,7 @@ export default function Directory () {
                 <div className="flex w-full justify-center">
                     <div className="flex flex-col mt-4">
                         <div className="flex mb-3 justify-between items-center">
-                            <span className="font-semibold">Showing {restaurants.length} Restaurants</span>
+                            <span className="font-semibold">Showing {restaurants.length} of {restaurants.length} Restaurants</span>
                             <div className="flex items-center">
                                 <span className="mr-2.5 whitespace-nowrap font-semibold">Sort By:</span>
                                 <Select>
@@ -64,7 +67,7 @@ export default function Directory () {
                             </div>  
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-3 mb-10">
                         {restaurants.map((r) => {
                             const imgUrls = r.images.filter((img): img is string => typeof img === "string");
 
@@ -86,8 +89,36 @@ export default function Directory () {
                             );
                         })}
                         </div>
+
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious className="cursor-pointer" />
+                                </PaginationItem>
+
+                                {Array.from({ length: pageAmt }, (_, i) => (
+                                    <PaginationItem key={i}>
+                                        <button
+                                            className="px-3 py-1 text-sm rounded-md hover:bg-gray-200"
+                                        >
+                                        {i + 1}
+                                        </button>
+                                    </PaginationItem>
+                                ))}
+
+                                <PaginationItem>
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                                
+                                <PaginationItem>
+                                    <PaginationNext className="cursor-pointer"/>
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
                     </div>
                 </div>
+
+
             </div>
 
             <Footer />
