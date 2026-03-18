@@ -13,6 +13,7 @@ import ReplyComposer from "./reply-composer";
 import ReplyItem from "./reply/reply-item";
 import { getRestaurantById } from "../../../api/restaurant.api";
 import { LoginModal } from "../../../components/auth/login-modal";
+import CommentPhotoGallery from "../ui/comment-photo-gallery";
 
 interface CommentProps {
     post: Post
@@ -178,6 +179,8 @@ export default function Comment(props: CommentProps) {
             <p className="mt-3 text-sm leading-relaxed text-zinc-700">
                 {props.post.content}
             </p>
+
+            <CommentPhotoGallery pictures={props.post.pictures || []} />
 
             <div className="mt-4 flex flex-wrap gap-2">
                 <Button
