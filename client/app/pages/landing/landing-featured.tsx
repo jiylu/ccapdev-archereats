@@ -71,7 +71,7 @@ export default function FeaturedSection (props: FeaturedSectionProps) {
                         className="w-full mb-10"
                     >
                         <CarouselContent className="-ml-4">
-                            {props.restaurants.map((restaurant, index) => (
+                            {featuredRestaurants.map((restaurant, index) => (
                                 <motion.div
                                     key={restaurant._id}
                                     initial={{ opacity: 0, y: 20 }}
