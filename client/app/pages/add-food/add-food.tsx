@@ -1,4 +1,5 @@
 import Navbar from "../../components/layout/navbar";
+import Footer from "../../components/layout/footer";
 import AddFoodHeader from "./add-food-header";
 import AddFoodDetails from "./add-food-details";
 import AddFoodDesc from "./add-food-desc";
@@ -223,6 +224,7 @@ export default function AddFood() {
                     </button>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

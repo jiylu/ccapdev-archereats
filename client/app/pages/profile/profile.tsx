@@ -1,4 +1,5 @@
 import Navbar from "../../components/layout/navbar";
+import Footer from "../../components/layout/footer";
 import ProfileHeader from "./profileheader";
 import { fetchPostsByUser } from "../../api/post.api";
 import { useEffect, useState } from "react";
@@ -61,6 +62,9 @@ export default function Profile() {
                 />
             </>
             )}
+            <div className="mt-20">
+                <Footer />
+            </div>
         </div>
     );
 }

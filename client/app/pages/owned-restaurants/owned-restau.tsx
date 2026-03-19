@@ -1,4 +1,5 @@
 import Navbar from "../../components/layout/navbar";
+import Footer from "../../components/layout/footer";
 import { useEffect, useState } from "react";
 import OwnedCard from "./owned-card";
 import { getOwnedRestaurants } from "../../api/restaurant.api";
@@ -49,6 +50,9 @@ export default function OwnedRestaurants () {
 
                 </div>
             </section>
+            <div className="mt-50">
+                <Footer />
+            </div>
         </div>
     )
 }
