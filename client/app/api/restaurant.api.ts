@@ -80,3 +80,13 @@ export const getRestaurantById = async (id: string) => {
     const res = await api.get<Restaurant>(`/restaurants/${id}`);
     return res.data;
 };
+
+export const deleteRestaurant = async (id: string) => {
+    const res = await api.delete(`/restaurants/deleteRestaurant/${id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    });
+
+    return res.data;
+};

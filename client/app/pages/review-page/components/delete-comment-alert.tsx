@@ -20,7 +20,7 @@ export default function DeleteCommentAlert (props: DeleteProps) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently your review for this restaurant.
+                        This action cannot be undone. This will permanently delete your review for this restaurant.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

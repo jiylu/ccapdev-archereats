@@ -17,6 +17,7 @@ export interface IRestaurantInput {
     closingHour: string;
     mobileNumber: string;
     websites?: string[];
+    isDeleted?: boolean;
 }
 
 export interface IRestaurant extends IRestaurantInput, Document {}
@@ -37,6 +38,7 @@ const restaurantSchema = new mongoose.Schema({
     closingHour: { type: String, required: true},
     mobileNumber: { type: String, required: true},
     websites: { type: [String], default: []},
+    isDeleted: { type: Boolean, default: false },
 }, {timestamps: true});
 
 export default mongoose.model<IRestaurant>('Restaurant', restaurantSchema);
