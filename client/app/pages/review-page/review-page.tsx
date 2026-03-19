@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Navbar from "../../components/layout/navbar";
+import Footer from "../../components/layout/footer";
 import type { Post } from "../../types/post";
 import RestaurantOverview from "./components/restaurant-overview";
 import HeroImage from "./components/hero-banner";
@@ -80,6 +81,7 @@ export default function ReviewPage() {
                     reviews={reviews}
                 />
             </main>
+            <Footer />
         </div>
     );
 }

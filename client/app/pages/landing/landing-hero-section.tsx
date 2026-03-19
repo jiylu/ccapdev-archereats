@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import Searchbar from "../../components/layout/searchbar";
 
 export default function HeroSection () {
     return (
-         <section className="relative h-[540px] overflow-hidden">
+         <section className="relative h-[600px] overflow-hidden">
             <motion.img
                 src="/building-noborder.jpeg"
                 alt="Building"
@@ -22,13 +23,17 @@ export default function HeroSection () {
                 >
                     Discover and Experience DLSU's Diners through ArcherEats
                 </motion.h1>
+
+                <div className="mt-6 w-full max-w-2xl">
+                    <Searchbar variant="hero" />
+                </div>
                 <motion.p
                     className="font-['Roboto',sans-serif] mt-[20px] text-[12px] text-[#eeeeee] pt-[180px]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.8 }}
                 >
-                    Building <br />
+                    St. La Salle Hall <br />
                     nobodycallsmeclarke on Instagram
                 </motion.p>
             </div>
