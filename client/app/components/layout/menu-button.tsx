@@ -7,22 +7,46 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
 } from "../../components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
 
 export default function MenuButton() {
+  const { user } = useAuth();
   const { setAuth } = useAuth();
-  
+  const navigate = useNavigate();
   const handleLogout = () => {
     setAuth(null);
+    navigate('/')
   }
+
+  const avatarSrc =
+    user?.avatar && user.avatar.trim() !== ""
+      ? user.avatar
+      : "/default-avatar.svg";
 
   return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex flex-col gap-1 p-2 text-white transition-colors duration-200 hover:text-black">
-              <span className="w-5 h-0.5 bg-current rounded-full transition-colors duration-200" />
-              <span className="w-5 h-0.5 bg-current rounded-full transition-colors duration-200" />
-              <span className="w-5 h-0.5 bg-current rounded-full transition-colors duration-200" />
-          </button>
+          <button
+            className="
+              flex items-center gap-3 p-2 rounded-full
+              transition-all duration-200
+              hover:bg-white/20 hover:scale-105 active:scale-95
+            "
+          >
+            {/* Avatar */}
+            <img
+              src={avatarSrc}
+              alt="User avatar"
+              className="w-10 h-10 rounded-full object-cover border border-white"
+            />
+
+            {/* Menu icon */}
+            <div className="flex flex-col gap-1">
+              <span className="w-5 h-0.5 bg-white rounded-full" />
+              <span className="w-5 h-0.5 bg-white rounded-full" />
+              <span className="w-5 h-0.5 bg-white rounded-full" />
+            </div>
+          </button> 
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
@@ -30,15 +54,11 @@ export default function MenuButton() {
           className="w-56 mt-2 rounded-xl shadow-lg"
         >
           <DropdownMenuItem asChild>
-            <a href="/profile">View Profile</a>
+            <a href={`/profile/${user?.username}`}>View Profile</a>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
             <a href="/add-food">Add Food Establishment</a>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <a href="/favorites">Favorites</a>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>

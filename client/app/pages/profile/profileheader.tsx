@@ -1,39 +1,60 @@
 import { Button } from "../../components/ui/button";
-import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ProfileStats } from "./profile-stats";
+import type { User } from "../../types/user";
+import { useAuth } from "../../hooks/useAuth";
 
 interface ProfileHeaderProps {
-    name: string;
-    username: string;
-    status: string;
-    bio: string;
-    avatarUrl?: string;
+    profileUser: User
+    postAmt: number
 }
 
-const ProfileHeader: FC<ProfileHeaderProps> = ({ name, username, status, bio, avatarUrl }) => {
+export default function ProfileHeader (props: ProfileHeaderProps) {
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     return (
-        <div className="flex mt-12 ml-12 md:m1-32 lg:ml-30">
-            <img src={avatarUrl}
-            alt = "Profile Picture"
-            className = "w-52 h-52 rounded-full object-cover border border-gray-300"/>
-            <div className="ml-10 mt-5 flex flex-col text-[#123524]">
-                <div className="flex items-center gap-6">
-                    <h1 className="text-4xl md:text-5xl font-bold">{name}</h1>
-                    <Button 
-                        size = "sm"
-                        variant = "outline"
-                        className = "text-[#123524] border-[#123524]/30 hover:bg-[#123524]/5"
-                        onClick={() => navigate('/edit-profile')}> Edit Profile </Button>
+        <div className="flex pt-10 pb-12 w-full bg-[#f1f2ed] justify-center">
+            <div className="flex gap-10 max-w-3xl w-full px-6">
+                <div className="shrink-0">
+                    <img
+                        src={props.profileUser.avatar}
+                        alt="Profile Picture"
+                        className="w-36 h-36 rounded-2xl object-cover shadow-md border-2 border-white"
+                    />
                 </div>
-                <h2 className="text-lg md:text-xl opacity-75">{username}</h2>
-                <h2 className="text-lg md:text-xl">{status}</h2>
-                <h2 className="text-lg md:text-xl font-bold mt-2">Biography</h2>
-                <p className="text-base md:text-lg max-w-lg leading-relaxed mt-1">{bio}</p>
+
+                <div className="flex flex-col justify-center text-[#123524] gap-1">
+                    
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-3xl font-bold tracking-tight">{`${props.profileUser.firstName + " " + props.profileUser.lastName}`}</h1>
+                        {props.profileUser._id === user?._id && (
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="text-xs text-[#123524] border-[#123524]/25 hover:bg-[#123524]/5 rounded-full px-4"
+                                onClick={() => navigate('/edit-profile')}
+                            >
+                                Edit Profile
+                            </Button>
+                        )}
+
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm text-[#123524]/60">
+                        <span>@{props.profileUser.username}</span>
+                        <span className="w-1 h-1 rounded-full bg-[#123524]/30" />
+                        <span className="text-emerald-700 font-medium">{props.profileUser.isStudent ? "Student" : "Non-student"}</span>
+                    </div>
+
+                    <p className="text-sm text-[#123524]/75 leading-relaxed mt-1 max-w-md">{props.profileUser.biography || "No biography yet."}</p>
+
+                    <ProfileStats
+                        reviewAmt={props.postAmt}
+                        favoriteAmt={props.profileUser.favoriteRestaurants.length}
+                    />
+                </div>
             </div>
         </div>
     );
 }
-
-export default ProfileHeader;

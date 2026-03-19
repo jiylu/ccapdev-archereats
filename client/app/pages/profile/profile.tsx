@@ -1,28 +1,70 @@
 import Navbar from "../../components/layout/navbar";
+import Footer from "../../components/layout/footer";
 import ProfileHeader from "./profileheader";
-import ReviewsSection from "./reviews-section";
-import { useEffect } from "react"; 
+import { fetchPostsByUser } from "../../api/post.api";
+import { useEffect, useState } from "react";
+import type { Post } from "../../types/post";
+import ProfileFooter from "./profile-footer";
+import PageLoader from "../../components/ui/loading";
+import { useParams } from "react-router-dom";
+import { fetchUserByUsername } from "../../api/user.api";
+import type { User } from "../../types/user";
 
-export default function Profile () {
+//TODO: Fetch reviews for user only
+//TODO: Make Restaurants Clickable -> Redirect to its Review Page 
+export default function Profile() {
+    const { username } = useParams<{ username: string }>();
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [profileUser, setProfileUser] = useState<User>();
     
     useEffect(() => {
-        document.title="Profile | ArcherEats";
-    }, [])
+        const fetchUserPosts = async () => {
+            if (!username) return;
+            
+            try {
+            const fetchedUser = await fetchUserByUsername(username);
+            setProfileUser(fetchedUser);
+
+            // Use fetchedUser directly, not profileUser
+            const fetchedPosts = await fetchPostsByUser(fetchedUser._id);
+            setPosts(fetchedPosts);
+            console.log("Fetched posts:", fetchedPosts);
+            
+            } catch (err) {
+                console.error(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchUserPosts();
+
+        document.title = "Profile | ArcherEats";
+    }, [username]);
+
+    if (loading) return <PageLoader />;
 
     return (
-        <>
-            <div className="min-h-screen bg-[#fffcf5]">
-                <Navbar />
-                <ProfileHeader      // Temporary hardcoded data, will be replaced with dynamic data from backend
-                    name="Juan Dela Cruz"
-                    username="@juandelacruz"
-                    status="Student"
-                    bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    avatarUrl="/default-avatar.svg"
+        <div className="min-h-screen bg-[#fffcf5]">
+            <Navbar />
+
+            {profileUser && (
+            <>
+                <ProfileHeader 
+                    profileUser={profileUser} 
+                    postAmt={posts.length}
                 />
-                <hr className="my-10 mx-6 md:mx-20 border-0 h-[2px] bg-gray-200 rounded" />
-                <ReviewsSection />
+
+                <ProfileFooter 
+                    reviews={posts} 
+                    user={profileUser} 
+                />
+            </>
+            )}
+            <div className="mt-20">
+                <Footer />
             </div>
-        </>
-    )
+        </div>
+    );
 }

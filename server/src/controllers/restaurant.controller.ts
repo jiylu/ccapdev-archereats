@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
-import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService } from "services/restaurant.service.js";
+import { createRestaurantSchema } from "schemas/restaurant.schemas.js";
+import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService, updateRestaurantService } from "services/restaurant.service.js";
 import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
@@ -9,12 +10,15 @@ export const createRestaurant = async (req: Request<object, object, IRestaurantI
 
     try {
         const files = req.files as Express.Multer.File[] | undefined;
-        console.log("req.files:", req.files);
-        // attach owner from auth middleware
+        // logger.info("req.files:", req.files);
+
+        const validatedData = createRestaurantSchema.parse(req.body);
         const ownerId = (req as any).user?.id;
+        
+        // attach owner from auth middleware
         if (!ownerId) return res.status(401).json({ message: "User not authenticated" });
 
-        const newRestaurant = await createRestaurantService({ ...req.body, owner: ownerId }, files);
+        const newRestaurant = await createRestaurantService({ ...validatedData, owner: ownerId }, files);
         logger.info(`Created ${newRestaurant._id} successfully.`);
         res.status(201).json(newRestaurant);
     } catch (err: unknown) {
@@ -55,7 +59,7 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
             return res.status(404).json({ message: "Restaurant not found" })
         }
 
-        logger.info("Restaurant found", {restaurant: restaurant})
+        logger.info("Restaurant found", {restaurant: restaurant.restaurantName})
         res.status(200).json(restaurant)
     } catch (err: unknown) {
         logger.error("Error fetching restaurant by ID", { error: err instanceof Error ? err.message : err, id: req.params.id });
@@ -81,3 +85,66 @@ export const getRestaurantByName = async(req: Request<{name: string}>, res: Resp
         res.status(500).json({ message: err instanceof Error ? err.message : err})
     }
 }
+
+export const getOwnedRestaurants = async (req: Request, res: Response) => {
+    logger.info("GET /ownedRestaurants called");
+
+    try {
+        const ownerId = (req as any).user?.id;
+
+        if (!ownerId) {
+            return res.status(401).json({ message: "User not authenticated"});
+        }
+
+        const restaurants = await getOwnedRestaurantsService(ownerId);
+        res.status(200).json(restaurants);
+
+    } catch (err: unknown) {
+        logger.error("Error fetching owned restaurants", { error: err instanceof Error ? err.message : err });
+
+        res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
+    }
+}
+
+export const updateRestaurant = async (req: Request<{ id: string }>, res: Response) => {
+    logger.info("PUT /updateRestaurant/:id called", { id: req.params.id, body: req.body });
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+        return res.status(404).json({ message: "Invalid restaurant ID" });
+    }
+
+    try {
+        const ownerId = (req as any).user?.id;
+        if (!ownerId) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+
+        const files = req.files as Express.Multer.File[] | undefined;
+
+        const updatedRestaurant = await updateRestaurantService(
+            req.params.id,
+            ownerId,
+            req.body,
+            files
+        );
+
+        if (!updatedRestaurant) {
+            return res.status(404).json({ message: "Restaurant not found or unauthorized" });
+        }
+
+        logger.info("Restaurant updated successfully", { id: req.params.id });
+        res.status(200).json(updatedRestaurant);
+    } catch (err: unknown) {
+        logger.error("Error updating restaurant", {
+            error: err instanceof Error ? err.message : err,
+            id: req.params.id
+        });
+
+        res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
+    }
+};

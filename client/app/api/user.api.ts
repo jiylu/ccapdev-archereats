@@ -28,3 +28,23 @@ export const unfavoriteRestaurant = async (userId: string, restaurantId: string)
     return res.data;
 }
 
+export const updateUser = async (userId: string, formData: FormData): Promise<User> => {
+    const res = await api.patch<User>(`/users/${userId}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    return res.data;
+};
+
+export const checkUsernameAvailability = async (username: string): Promise<{ isAvailable: boolean }> => {
+    const res = await api.get("/users/check-username", {
+        params: { username }
+    });
+    return res.data;
+};
+
+export const fetchUserByUsername = async (username: string): Promise<User> => {
+    const res = await api.get(`/users/username/${username}`)
+    return res.data
+} 

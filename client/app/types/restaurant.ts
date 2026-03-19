@@ -4,9 +4,9 @@ export interface Restaurant {
     address: string,
     description: string,
     googleMapsLink: string,
-    images: string[],
-    avgRating: number,
-    amtRatings: number,
+    images: (File | string)[],
+    avgRating?: number,
+    amtRatings?: number,
     tags: string[]
     minPrice: number,
     maxPrice: number,
@@ -14,4 +14,7 @@ export interface Restaurant {
     closingHour: string,
     mobileNumber: string,
     websites: string[]
+    owner?: string;
 }
+
+export type RestaurantInput = Omit<Restaurant, "_id" | "avgRating" | "amtRatings" | "owner">;

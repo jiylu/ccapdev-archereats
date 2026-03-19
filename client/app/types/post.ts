@@ -1,0 +1,19 @@
+import type { Reply } from "./reply";
+
+export interface Post {
+    _id: string;
+    user: string;
+    restaurant: string;
+    rating: number;
+    content: string;
+    likes: number;
+    likedBy: string[];
+    pictures: string[];
+    replies: Reply[];
+    isAnonymous: boolean;
+    ratePricing: "P" | "PP" | "PPP";
+    waitTime: "No Wait" | "15-30m" | "1hr+";
+    recommended: boolean;
+    creationDate: string;
+    deleted: boolean;
+}

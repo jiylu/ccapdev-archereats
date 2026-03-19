@@ -1,10 +1,36 @@
+import cloudinary from "config/cloudinary.js";
 import Post, { IPost } from "models/Post.js";
 import Restaurant from "models/Restaurant.js";
+import "models/Replies.js";
 import { PostCreateInput } from "types/post.js";
+import mongoose from "mongoose";
+import { logger } from "utils/logger.js";
 
-export const createPost = async (postData: PostCreateInput): Promise<IPost> => {
+export const createPost = async (
+    postData: PostCreateInput,
+    files?: Express.Multer.File[]
+): Promise<IPost> => {
+    const pictureUrls: string[] = [];
+
+    if (files && files.length > 0) {
+        for (const file of files) {
+            logger.info("Uploading post image to Cloudinary");
+
+            const base64 = file.buffer.toString("base64");
+            const dataUri = `data:${file.mimetype};base64,${base64}`;
+
+            const result = await cloudinary.uploader.upload(dataUri, {
+                folder: "posts",
+                public_id: `post-${Date.now()}-${Math.round(Math.random() * 1e9)}`
+            });
+
+            pictureUrls.push(result.secure_url);
+        }
+    }
+
     const post = new Post({
         ...postData,
+        pictures: pictureUrls,
         isAnonymous: postData.isAnonymous || false,
     });
 
@@ -24,44 +50,194 @@ export const createPost = async (postData: PostCreateInput): Promise<IPost> => {
     return post;
 };
 
-export const getPosts = async () => {
+export const getPosts = async (currentUserId?: string) => {
     const posts = await Post.find()
         .populate("user", "name")
         .populate("restaurant", "name")
         .populate({
             path: "replies",
-            populate: { path: "user", select: "name" } // populate reply authors
+            populate: [
+                { path: "user", select: "firstName lastName avatar" },
+                {
+                    path: "post",
+                    populate: { path: "restaurant", select: "restaurantName images owner" }
+                }
+            ]
         });
 
     return posts.map(post => {
-        const p: any = post.toObject();
-        if (p.isAnonymous) p.user = null; // mask post author
+        const p = post.toObject() as any;
+
+        p.user = p.user?._id || p.user;
+        p.restaurant = p.restaurant?._id || p.restaurant;
+        p.likedBy = p.likedBy?.map((id: any) => id.toString()) || [];
+        p.likes = p.likes || 0;
+
         if (p.replies && p.replies.length > 0) {
-            p.replies = p.replies.map((reply: any) => reply.isAnonymous ? { ...reply, user: null } : reply);
+            p.replies = p.replies.map((reply: any) => {
+                const replyUserId = reply.user?._id?.toString() || reply.user?.toString() || "";
+                const restaurant = reply.post?.restaurant;
+                const restaurantOwnerId = restaurant?.owner?.toString() || "";
+                const isRestaurantOwner = replyUserId === restaurantOwnerId;
+                const canEdit = replyUserId === currentUserId;
+
+                return {
+                    _id: reply._id.toString(),
+                    user: reply.isAnonymous && !isRestaurantOwner ? null : replyUserId,
+                    post: typeof reply.post === "object" ? reply.post._id.toString() : reply.post?.toString(),
+                    content: reply.content,
+                    isAnonymous: isRestaurantOwner ? false : reply.isAnonymous,
+                    likes: reply.likes,
+                    likedBy: reply.likedBy?.map((id: any) => id.toString()) || [],
+                    creationDate: reply.creationDate,
+                    canEdit,
+                    isRestaurantOwner,
+                    displayName: isRestaurantOwner ? restaurant?.restaurantName : undefined,
+                    displayAvatar: isRestaurantOwner ? restaurant?.images?.[0] || "/default-avatar.svg" : undefined,
+                };
+            });
         }
+
         return p;
     });
 };
 
-export const likePost = async (postId: string) => {
+export const getPostById = async (id: string) => {
+    return await Post.findById(id);
+};
+
+export const getPostsByRestaurantIdService = async (restaurantId: string, currentUserId?: string) => {
+    const posts = await Post.find({ restaurant: restaurantId })
+        .populate("user", "name")
+        .populate("restaurant", "name")
+        .populate({
+            path: "replies",
+            populate: [
+                { path: "user", select: "firstName lastName avatar" },
+                {
+                    path: "post",
+                    populate: { path: "restaurant", select: "restaurantName images owner" }
+                }
+            ]
+        });
+
+    return posts.map(post => {
+        const p = post.toObject() as any;
+
+        p.user = p.user?._id || p.user;
+        p.restaurant = p.restaurant?._id || p.restaurant;
+        p.likedBy = p.likedBy?.map((id: any) => id.toString()) || [];
+        p.likes = p.likes || 0;
+
+        if (p.replies && p.replies.length > 0) {
+            p.replies = p.replies.map((reply: any) => {
+                const replyUserId = reply.user?._id?.toString() || reply.user?.toString() || "";
+                const restaurant = reply.post?.restaurant;
+                const restaurantOwnerId = restaurant?.owner?.toString() || "";
+                const isRestaurantOwner = replyUserId === restaurantOwnerId;
+                const canEdit = replyUserId === currentUserId;
+
+                return {
+                    _id: reply._id.toString(),
+                    user: reply.isAnonymous && !isRestaurantOwner ? null : replyUserId,
+                    post: typeof reply.post === "object" ? reply.post._id.toString() : reply.post?.toString(),
+                    content: reply.content,
+                    isAnonymous: isRestaurantOwner ? false : reply.isAnonymous,
+                    likes: reply.likes,
+                    likedBy: reply.likedBy?.map((id: any) => id.toString()) || [],
+                    creationDate: reply.creationDate,
+                    canEdit,
+                    isRestaurantOwner,
+                    displayName: isRestaurantOwner ? restaurant?.restaurantName : undefined,
+                    displayAvatar: isRestaurantOwner ? restaurant?.images?.[0] || "/default-avatar.svg" : undefined,
+                };
+            });
+        }
+
+        return p;
+    });
+};
+
+export const likePost = async (postId: string, userId: string) => {
     const post = await Post.findById(postId);
     if (!post) throw new Error("Post not found");
-    post.likes += 1;
-    return await post.save();
-}
 
-export const replyToPost = async (postId: string, replyData: any) => {
-    const replyPost = new Post({
-        ...replyData,
-        isAnonymous: replyData.isAnonymous || false, // default false
-    });
-    await replyPost.save();
+    const alreadyLiked = post.likedBy.some(
+        (id) => id.toString() === userId
+    );
 
-    const parentPost = await Post.findById(postId);
-    if (!parentPost) throw new Error("Parent post not found");
+    if (!alreadyLiked) {
+        post.likedBy.push(new mongoose.Types.ObjectId(userId));
+        post.likes = post.likedBy.length;
+        await post.save();
+    }
 
-    parentPost.replies.push(replyPost._id);
-    await parentPost.save();
+    return post;
+};
 
-    return replyPost;
-}
+export const unlikePost = async (postId: string, userId: string) => {
+    const post = await Post.findById(postId);
+    if (!post) throw new Error("Post not found");
+
+    post.likedBy = post.likedBy.filter(
+        (id) => id.toString() !== userId
+    ) as any;
+
+    post.likes = post.likedBy.length;
+    await post.save();
+
+    return post;
+};
+
+export const deletePost = async (postId: string) => {
+    return await Post.findByIdAndUpdate(postId, { deleted: true }, { new: true });
+};
+
+export const editPost = async (
+    postId: string,
+    postData: PostCreateInput,
+    files?: Express.Multer.File[]
+) => {
+    const post = await Post.findById(postId);
+    if (!post) throw new Error("Post not found");
+
+    const uploadedPictureUrls: string[] = [];
+
+    if (files && files.length > 0) {
+        for (const file of files) {
+            logger.info("Uploading updated post image to Cloudinary");
+
+            const base64 = file.buffer.toString("base64");
+            const dataUri = `data:${file.mimetype};base64,${base64}`;
+
+            const result = await cloudinary.uploader.upload(dataUri, {
+                folder: "posts",
+                public_id: `post-${postId}-${Date.now()}-${Math.round(Math.random() * 1e9)}`
+            });
+
+            uploadedPictureUrls.push(result.secure_url);
+        }
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        {
+            rating: postData.rating,
+            content: postData.content,
+            isAnonymous: postData.isAnonymous,
+            ratePricing: postData.ratePricing,
+            waitTime: postData.waitTime,
+            recommended: postData.recommended,
+            pictures: [...(postData.pictures || []), ...uploadedPictureUrls],
+        },
+        { new: true }
+    );
+
+    if (!updatedPost) throw new Error("Failed to update post");
+
+    return updatedPost;
+};
+
+export const fetchPostsByUserService = async (userId: string) => {
+    return await Post.find({ user: userId, deleted: false });
+};

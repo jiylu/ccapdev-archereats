@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import { Card, CardContent } from "../../components/ui/card";
 import { cn } from "../../lib/utils";
 
@@ -9,49 +9,42 @@ type Props = {
 };
 
 export default function AddFoodPhotos({ restaurantData, setRestaurantData, errors }: Props) {
-    const [previews, setPreviews] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Cleanup preview URLs on unmount
-    useEffect(() => {
-        return () => previews.forEach(url => URL.revokeObjectURL(url));
-    }, [previews]);
+    const images: (File | string)[] = restaurantData.images || [];
 
     const handleFiles = (files: FileList | null) => {
         if (!files) return;
 
-        const currentFiles: File[] = restaurantData.images || [];
-        const totalAllowed = 6 - currentFiles.length;
+        const totalAllowed = 6 - images.length;
         const newFiles: File[] = [];
-        const newPreviews: string[] = [];
 
         for (let i = 0; i < files.length && i < totalAllowed; i++) {
-            const file = files[i];
-            newFiles.push(file);
-            newPreviews.push(URL.createObjectURL(file));
+            newFiles.push(files[i]);
         }
 
-        setPreviews(prev => [...prev, ...newPreviews]);
         setRestaurantData({
             ...restaurantData,
-            images: [...currentFiles, ...newFiles],
+            images: [...images, ...newFiles],
         });
     };
 
     const removePhoto = (index: number) => {
-        const currentFiles: File[] = restaurantData.images || [];
-        const newFiles = currentFiles.filter((_, i) => i !== index);
-        const newPreviews = previews.filter((_, i) => i !== index);
+        const newImages = images.filter((_: File | string, i: number) => i !== index);
 
-        setPreviews(newPreviews);
         setRestaurantData({
             ...restaurantData,
-            images: newFiles,
+            images: newImages,
         });
     };
 
     const triggerFileSelect = () => {
         fileInputRef.current?.click();
+    };
+
+    const getImageSrc = (image: File | string) => {
+        if (typeof image === "string") return image;
+        return URL.createObjectURL(image);
     };
 
     return (
@@ -66,7 +59,7 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData, error
                     </p>
                 </div>
 
-                <div 
+                <div
                     className={cn(
                         "border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50",
                         errors?.images ? "border-red-500" : "border-gray-300"
@@ -79,11 +72,11 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData, error
                         multiple
                         hidden
                         ref={fileInputRef}
-                        onChange={e => handleFiles(e.target.files)}
+                        onChange={(e) => handleFiles(e.target.files)}
                     />
                     <p className="text-gray-500">Click or drag & drop images here</p>
                     <p className="text-gray-400 text-sm mt-1">
-                        {restaurantData.images?.length || 0}/6 uploaded
+                        {images.length}/6 uploaded
                     </p>
                 </div>
 
@@ -91,12 +84,12 @@ export default function AddFoodPhotos({ restaurantData, setRestaurantData, error
                     <p className="text-sm text-red-500 mt-1">{errors.images}</p>
                 )}
 
-                {previews.length > 0 && (
+                {images.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
-                        {previews.map((url, index) => (
+                        {images.map((image: File | string, index: number) => (
                             <div key={index} className="relative group">
                                 <img
-                                    src={url}
+                                    src={getImageSrc(image)}
                                     alt={`Preview ${index + 1}`}
                                     className="w-full h-32 sm:h-36 object-cover rounded-lg"
                                 />
