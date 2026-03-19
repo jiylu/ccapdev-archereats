@@ -1,5 +1,4 @@
 import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
-import { Switch } from "../../components/ui/switch";
 import { Checkbox } from "../../components/ui/checkbox"
 import { Label } from "../../components/ui/label";
 import { Star } from "lucide-react";
@@ -7,34 +6,58 @@ import { Separator } from "../../components/ui/separator";
 import { Button } from "../../components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "../../components/ui/toggle-group";
 
+type FiltersProps = {
+    filters: {
+        priceRange: string[];
+        minRating: number;
+        cuisines: string[];
+        food: string[];
+        tags: string[];
+    };
+    setFilters: React.Dispatch<React.SetStateAction<any>>;
+};
 
-export default function Filters() {
+export default function Filters({ filters, setFilters }: FiltersProps)  {
     return (
         <aside className="w-63 min-h-screen bg-white border-r border-gray-100 shadow-[1px_0_8px_rgba(0,0,0,0.04)]">
             <div className="flex flex-col p-6 gap-7">
 
                 <div className="flex items-center justify-between">
                     <span className="text-lg font-bold tracking-tight text-gray-900">Filters</span>
-                    <Button variant="ghost" size="sm" className="text-xs text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 px-2 h-7">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                            setFilters(prev => ({
+                                ...prev,
+                                priceRange: [],
+                                minRating: 0,
+                                cuisines: [],
+                                food: [],
+                                tags: [],
+                            }))
+                        }
+                        className="text-xs text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 px-2 h-7"
+                    >
                         Reset all
                     </Button>
                 </div>
 
                 <Separator />
 
-                <div className="flex justify-between items-center">
-                    <div>
-                        <Label htmlFor="open-now" className="text-sm font-semibold text-gray-800 cursor-pointer">Open Now</Label>
-                        <p className="text-xs text-gray-400 mt-0.5">Only show open eateries</p>
-                    </div>
-                    <Switch className="data-[state=checked]:bg-[#1E4D36]" id="open-now" />
-                </div>
-
-                <Separator />
-
                 <div className="flex flex-col gap-3">
                     <span className="text-sm font-semibold text-gray-800">Price Range</span>
-                    <ToggleGroup type="multiple" className="justify-start gap-2">
+                    <ToggleGroup 
+                        type="multiple" 
+                        className="justify-start gap-2"
+                        value={filters.priceRange}
+                        onValueChange={(value) =>
+                            setFilters((prev: typeof filters) => ({
+                                ...prev,
+                                priceRange: value
+                            }))
+                        }
+                    >
                         {["₱", "₱₱", "₱₱₱"].map((price) => (
                             <ToggleGroupItem
                                 key={price}
@@ -51,7 +74,13 @@ export default function Filters() {
 
                 <div className="flex flex-col gap-3">
                     <span className="text-sm font-semibold text-gray-800">Minimum Rating</span>
-                    <RadioGroup className="gap-2">
+                    <RadioGroup
+                        value={filters.minRating.toString()}
+                        onValueChange={(value) =>
+                            setFilters((prev: typeof filters) => ({ ...prev, minRating: Number(value) }))
+                        }
+                        className="gap-2"
+                    >
                         {["4", "3", "2", "1"].map((val) => (
                             <div key={val} className="flex items-center gap-3">
                                 <RadioGroupItem
@@ -77,10 +106,19 @@ export default function Filters() {
                 <div className="flex flex-col gap-3">
                     <span className="text-sm font-semibold text-gray-800">Cuisine</span>
                     <div className="flex flex-col gap-2.5">
-                        {["Filipino", "Chinese", "American", "Italian", "Mexican", "Mediterranean"].map((cuisine) => (
+                        {["Filipino", "Chinese", "American", "Italian", "Mexican", "Mediterranean", "Japanese"].map((cuisine) => (
                             <div key={cuisine} className="flex items-center gap-3">
                                 <Checkbox
                                     id={cuisine.toLowerCase()}
+                                    checked={filters.cuisines.includes(cuisine)}
+                                    onCheckedChange={(checked) => {
+                                        setFilters((prev: typeof filters) => ({
+                                            ...prev,
+                                            cuisines: checked
+                                                ? [...prev.cuisines, cuisine]
+                                                : prev.cuisines.filter(c => c !== cuisine)
+                                        }));
+                                    }}
                                     className="border-2 border-gray-300 rounded data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]"
                                 />
                                 <Label
@@ -92,16 +130,70 @@ export default function Filters() {
                             </div>
                         ))}
                     </div>
-                    <Button variant="ghost" size="lg" className="text-xs text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 w-fit px-0 h-auto">
-                        Show more
-                    </Button>
-                </div>
                     <Separator />
-                    <Button
-                        className="w-full bg-[#1E4D36] hover:bg-[#006937] text-white font-semibold rounded-xl transition-colors duration-200"
-                     >
-                        Apply Filters
-                    </Button>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                    <span className="text-sm font-semibold text-gray-800">Food</span>
+                    <div className="flex flex-col gap-2.5">
+                        {["Burger", "Fries", "Wings", "Chicken", "Sisig", "Noodle", "Coffee", "Tacos", "Burrito", "Shawarma", "Sushi"].map((food) => (
+                            <div key={food} className="flex items-center gap-3">
+                                <Checkbox
+                                    id={food.toLowerCase()}
+                                    checked={filters.food.includes(food)}
+                                    onCheckedChange={(checked) => {
+                                        setFilters((prev: typeof filters) => ({
+                                            ...prev,
+                                            food: checked
+                                                ? [...prev.food, food]
+                                                : prev.food.filter(c => c !== food)
+                                        }));
+                                    }}
+                                    className="border-2 border-gray-300 rounded data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]"
+                                />
+                                <Label
+                                    htmlFor={food.toLowerCase()}
+                                    className="text-sm text-gray-600 cursor-pointer hover:text-gray-900 transition-colors"
+                                >
+                                    {food}
+                                </Label>
+                            </div>
+                        ))}
+                    </div>
+                    <Separator />
+                </div>
+
+                <div className="flex flex-col gap-3">
+                    <span className="text-sm font-semibold text-gray-800">Tags</span>
+                    <div className="flex flex-col gap-2.5">
+                        {["Comfort Food", "Student Friendly", "Fast Food", "Cheesy", "Aesthetic", "Casual Dining", "Bar", "Alcoholic Drinks", "Dessert", "Grilled", "Budget"].map((tag) => (
+                            <div key={tag} className="flex items-center gap-3">
+                                <Checkbox
+                                    id={tag.toLowerCase()}
+                                    checked={filters.tags.includes(tag)}
+                                    onCheckedChange={(checked) => {
+                                        setFilters((prev: typeof filters) => ({
+                                            ...prev,
+                                            tags: checked
+                                                ? [...prev.tags, tag]
+                                                : prev.tags.filter(c => c !== tag)
+                                        }));
+                                    }}
+                                    className="border-2 border-gray-300 rounded data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]"
+                                />
+                                <Label
+                                    htmlFor={tag.toLowerCase()}
+                                    className="text-sm text-gray-600 cursor-pointer hover:text-gray-900 transition-colors"
+                                >
+                                    {tag}
+                                </Label>
+                            </div>
+                        ))}
+                    </div>
+                    <Separator />
+                </div>
+
+
             </div>
         </aside>
     );
