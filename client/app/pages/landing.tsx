@@ -112,17 +112,17 @@ export default function Landing () {
                         {eateries.map((restaurant) => (
                         <div key={restaurant._id} className="shrink-0">
                             <RestaurantCard
-                            _id={restaurant._id}
-                            restaurantName={restaurant.restaurantName}
-                            imageUrl={restaurant.imageUrl}
-                            avgRating={restaurant.avgRating}
-                            amtRatings={restaurant.amtRatings}
-                            tags={restaurant.tags}
-                            minPrice={restaurant.minPrice}
-                            maxPrice={restaurant.maxPrice}
-                            openingHour={restaurant.openingHour}
-                            closingHour={restaurant.closingHour}
-                            />
+                                    _id={restaurant._id}
+                                    restaurantName={restaurant.restaurantName}
+                                    imageUrl={restaurant.imageUrl}
+                                    avgRating={restaurant.avgRating}
+                                    amtRatings={restaurant.amtRatings}
+                                    tags={restaurant.tags}
+                                    minPrice={restaurant.minPrice}
+                                    maxPrice={restaurant.maxPrice}
+                                    openingHour={restaurant.openingHour}
+                                    closingHour={restaurant.closingHour} 
+                                    restaurantOwner={""}                            />
                         </div>
                         ))}
                     </div>
