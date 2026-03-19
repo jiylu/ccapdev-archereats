@@ -1,4 +1,3 @@
-import type { Post } from "../../../types/post";
 import StarRating from "../../../components/ui/star-rating";
 import CommentActions from "../components/comment-actions";
 

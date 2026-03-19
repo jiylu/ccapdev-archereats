@@ -59,7 +59,7 @@ export const getRestaurantById = async (req: Request<{id: string}>, res: Respons
             return res.status(404).json({ message: "Restaurant not found" })
         }
 
-        logger.info("Restaurant found", {restaurant: restaurant})
+        logger.info("Restaurant found", {restaurant: restaurant.restaurantName})
         res.status(200).json(restaurant)
     } catch (err: unknown) {
         logger.error("Error fetching restaurant by ID", { error: err instanceof Error ? err.message : err, id: req.params.id });

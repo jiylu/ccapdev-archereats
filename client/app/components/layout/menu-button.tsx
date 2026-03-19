@@ -7,13 +7,15 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
 } from "../../components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
 
 export default function MenuButton() {
   const { user } = useAuth();
   const { setAuth } = useAuth();
-  
+  const navigate = useNavigate();
   const handleLogout = () => {
     setAuth(null);
+    navigate('/')
   }
 
   const avatarSrc =

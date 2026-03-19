@@ -3,6 +3,7 @@ import User, { IUserInput } from "../models/User.js";
 import bcrypt from "bcrypt";
 import cloudinary from "config/cloudinary.js";
 import { logger } from "utils/logger.js";
+import { AuthData } from "controllers/auth.controller.js";
 
 export const createUserService = async (userData: IUserInput) => {
     if (await User.findOne({ email: userData.email })) throw new Error("Email already exists.");
@@ -127,3 +128,24 @@ export const fecthUserByUsernameService = async (username: string) => {
 
     return user;
 }
+
+export const resetPasswordService = async (data: AuthData) => {
+    const user = await User.findOne({
+        $or: [
+            { username: data.login },
+            { email: data.login}
+        ]
+    })
+
+    if (!user) throw new Error("User not found.");
+
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        { password: hashedPassword },
+        { new: true }
+    )
+
+    return updatedUser;
+} 
