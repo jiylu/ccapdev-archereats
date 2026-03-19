@@ -15,9 +15,11 @@ type FiltersProps = {
         tags: string[];
     };
     setFilters: React.Dispatch<React.SetStateAction<any>>;
+    onPageChange: (page: number) => void;
+
 };
 
-export default function Filters({ filters, setFilters }: FiltersProps)  {
+export default function Filters({ filters, setFilters, onPageChange }: FiltersProps)  {
     return (
         <aside className="w-63 min-h-screen bg-white border-r border-gray-100 shadow-[1px_0_8px_rgba(0,0,0,0.04)]">
             <div className="flex flex-col p-6 gap-7">
@@ -27,16 +29,11 @@ export default function Filters({ filters, setFilters }: FiltersProps)  {
                     <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                            setFilters(prev => ({
-                                ...prev,
-                                priceRange: [],
-                                minRating: 0,
-                                cuisines: [],
-                                food: [],
-                                tags: [],
-                            }))
-                        }
+                        onClick={() => {
+                            setFilters((prev: typeof filters) => ({ ...prev, priceRange: [], minRating: 0, cuisines: [], food: [], tags: [] }))
+                            onPageChange(1)
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
                         className="text-xs text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 px-2 h-7"
                     >
                         Reset all
@@ -51,12 +48,11 @@ export default function Filters({ filters, setFilters }: FiltersProps)  {
                         type="multiple" 
                         className="justify-start gap-2"
                         value={filters.priceRange}
-                        onValueChange={(value) =>
-                            setFilters((prev: typeof filters) => ({
-                                ...prev,
-                                priceRange: value
-                            }))
-                        }
+                        onValueChange={(value) => {
+                            setFilters((prev: typeof filters) => ({ ...prev, priceRange: value }))
+                            onPageChange(1)
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
                     >
                         {["₱", "₱₱", "₱₱₱"].map((price) => (
                             <ToggleGroupItem
@@ -76,9 +72,12 @@ export default function Filters({ filters, setFilters }: FiltersProps)  {
                     <span className="text-sm font-semibold text-gray-800">Minimum Rating</span>
                     <RadioGroup
                         value={filters.minRating.toString()}
-                        onValueChange={(value) =>
+                        onValueChange={(value) => {
                             setFilters((prev: typeof filters) => ({ ...prev, minRating: Number(value) }))
-                        }
+                            onPageChange(1)
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+
                         className="gap-2"
                     >
                         {["4", "3", "2", "1"].map((val) => (
@@ -114,10 +113,10 @@ export default function Filters({ filters, setFilters }: FiltersProps)  {
                                     onCheckedChange={(checked) => {
                                         setFilters((prev: typeof filters) => ({
                                             ...prev,
-                                            cuisines: checked
-                                                ? [...prev.cuisines, cuisine]
-                                                : prev.cuisines.filter(c => c !== cuisine)
-                                        }));
+                                            cuisines: checked ? [...prev.cuisines, cuisine] : prev.cuisines.filter(c => c !== cuisine)
+                                        }))
+                                        onPageChange(1)
+                                        window.scrollTo({ top: 0, behavior: "smooth" });
                                     }}
                                     className="border-2 border-gray-300 rounded data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]"
                                 />
@@ -144,11 +143,12 @@ export default function Filters({ filters, setFilters }: FiltersProps)  {
                                     onCheckedChange={(checked) => {
                                         setFilters((prev: typeof filters) => ({
                                             ...prev,
-                                            food: checked
-                                                ? [...prev.food, food]
-                                                : prev.food.filter(c => c !== food)
-                                        }));
+                                            food: checked ? [...prev.food, food] : prev.food.filter(f => f !== food)
+                                        }))
+                                        onPageChange(1)
+                                        window.scrollTo({ top: 0, behavior: "smooth" });
                                     }}
+
                                     className="border-2 border-gray-300 rounded data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]"
                                 />
                                 <Label
@@ -174,10 +174,10 @@ export default function Filters({ filters, setFilters }: FiltersProps)  {
                                     onCheckedChange={(checked) => {
                                         setFilters((prev: typeof filters) => ({
                                             ...prev,
-                                            tags: checked
-                                                ? [...prev.tags, tag]
-                                                : prev.tags.filter(c => c !== tag)
-                                        }));
+                                            tags: checked ? [...prev.tags, tag] : prev.tags.filter(t => t !== tag)
+                                        }))
+                                        onPageChange(1)
+                                        window.scrollTo({ top: 0, behavior: "smooth" });
                                     }}
                                     className="border-2 border-gray-300 rounded data-[state=checked]:bg-[#1E4D36] data-[state=checked]:border-[#1E4D36]"
                                 />
