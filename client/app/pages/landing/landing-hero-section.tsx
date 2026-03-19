@@ -24,9 +24,15 @@ export default function HeroSection () {
                     Discover and Experience DLSU's Diners through ArcherEats
                 </motion.h1>
 
-                <div className="mt-6 w-full max-w-2xl">
+                <motion.div
+                    className="mt-6 w-full max-w-2xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                >
                     <Searchbar variant="hero" />
-                </div>
+                </motion.div>
+                
                 <motion.p
                     className="font-['Roboto',sans-serif] mt-[20px] text-[12px] text-[#eeeeee] pt-[180px]"
                     initial={{ opacity: 0 }}
