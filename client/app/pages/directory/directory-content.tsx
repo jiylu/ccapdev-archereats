@@ -6,6 +6,15 @@ interface DirectoryContentProps {
 }
 
 export default function DirectoryContent (props: DirectoryContentProps) {
+    if (props.restaurants.length === 0) {
+        return (
+            <div className="min-h-[600px] flex flex-col items-center justify-center text-gray-400 gap-2 mt-6">
+                <span className="text-lg font-semibold">No restaurants found</span>
+                <span className="text-sm">Try adjusting your filters</span>
+            </div>
+        );
+    }
+    
     return (
             <div className="grid grid-cols-2 gap-3 mb-10">
             {props.restaurants.map((r) => {

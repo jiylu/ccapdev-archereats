@@ -36,7 +36,7 @@ export default function PaginationControls( { currentPage, pageAmt, onPageChange
 
     return (
         <Pagination>
-            <PaginationContent>
+            <PaginationContent className="min-h-[40px] items-center">
                 <PaginationItem>
                     <PaginationPrevious size={30} className="cursor-pointer" onClick={handlePrevious} />
                 </PaginationItem>

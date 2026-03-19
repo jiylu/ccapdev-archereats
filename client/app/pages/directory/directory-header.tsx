@@ -7,9 +7,9 @@ interface DirectoryHeaderProps {
 }
 
 
-export default function DirectoryHeader (props: DirectoryHeaderProps) {
+export default function DirectoryHeader (props: DirectoryHeaderProps) { 
     return (
-        <div className="flex mb-3 justify-between items-center">
+        <div className="flex mb-3 justify-between items-center w-full">
             <span className="font-semibold">Showing {props.currentPage} of {props.pageAmt} page(s)</span>
             <div className="flex items-center">
                 <span className="mr-2.5 whitespace-nowrap font-semibold">Sort By:</span>

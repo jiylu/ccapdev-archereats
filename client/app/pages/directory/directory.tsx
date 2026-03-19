@@ -120,13 +120,13 @@ export default function Directory () {
                 />
 
                 <div className="flex w-full justify-center">
-                    <div className="flex flex-col mt-4">
+                    <div className="flex flex-col mt-4 w-full max-w-5xl"> 
                         <DirectoryHeader 
                             currentPage={currentPage}
                             pageAmt={pageAmt}
                             setSortOption={(value) => setSortOption(value)}
                         />
-
+                        
                         <DirectoryContent 
                             restaurants={currentRestaurants}
                         />
