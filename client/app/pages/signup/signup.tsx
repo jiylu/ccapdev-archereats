@@ -1,5 +1,6 @@
 import SignupForm from "../../components/auth/signup-form";
 import Navbar from "../../components/layout/navbar";
+import Footer from "../../components/layout/footer";
 import { useEffect } from "react";
 
 export default function Signup () {
@@ -22,7 +23,9 @@ export default function Signup () {
                 <div className="flex justify-center">
                     <SignupForm />
                 </div>
-
+            <div className="mt-20">
+                <Footer />
+            </div>
         </div>
     )
 }

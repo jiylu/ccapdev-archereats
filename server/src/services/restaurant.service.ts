@@ -26,23 +26,25 @@ export const createRestaurantService = async (
 
     const newRestaurant = await Restaurant.create({
         ...restaurantData,
-        images: imageUrls
+        images: imageUrls,
+        isDeleted: false
     });
 
     return await newRestaurant.save();
 };
 
 export const getAllRestaurantService = async () => {
-    return await Restaurant.find();
+    return await Restaurant.find({ isDeleted: false });
 };
 
 export const getRestaurantByIdService = async (id: string) => {
-    return await Restaurant.findById(id);
-}
+    return await Restaurant.findOne({ _id: id, isDeleted: false });
+};
 
 export const getRestaurantByNameService = async (name: string) => {
     return await Restaurant.find({
-        restaurantName: { $regex: `^${name}$`, $options: "i" }
+        restaurantName: { $regex: `^${name}$`, $options: "i" },
+        isDeleted: false
     });
 };
 
@@ -120,46 +122,75 @@ export const updateRestaurantService = async (
     return restaurant;
 };
 
-export const decrementRestaurantRating = async (id: string, removedRating: number) => {
-    const restaurant = await Restaurant.findById(id)
+export const deleteRestaurantService = async (
+    restaurantId: string,
+    ownerId: string
+) => {
+    const restaurant = await Restaurant.findOneAndUpdate(
+        {
+            _id: restaurantId,
+            owner: ownerId,
+            isDeleted: false
+        },
+        {
+            isDeleted: true
+        },
+        {
+            new: true
+        }
+    );
+
+    return restaurant;
+};
+
+export const decrementRestaurantRating = async (
+    id: string,
+    removedRating: number
+) => {
+    const restaurant = await Restaurant.findOne({ _id: id, isDeleted: false });
+
     if (!restaurant) {
-        throw new Error("decrementRestaurantRating service restaurant not found error.")
+        throw new Error("decrementRestaurantRating service restaurant not found error.");
     }
 
-    const oldCount = restaurant.amtRatings ?? 0
-    const oldAvg = restaurant.avgRating ?? 0
+    const oldCount = restaurant.amtRatings ?? 0;
+    const oldAvg = restaurant.avgRating ?? 0;
 
     if (oldCount <= 1) {
         restaurant.amtRatings = 0;
         restaurant.avgRating = 0;
     } else {
         const newCount = oldCount - 1;
-        const newAvg = ((oldAvg*oldCount) - removedRating) / newCount
+        const newAvg = ((oldAvg * oldCount) - removedRating) / newCount;
 
         restaurant.amtRatings = newCount;
         restaurant.avgRating = newAvg;
     }
 
-    return await restaurant.save()
-}
+    return await restaurant.save();
+};
 
 export const recalculateRestaurantRating = async (
-    id: string, 
-    newRating: number, 
+    id: string,
+    newRating: number,
     oldRating: number
 ) => {
-    const restaurant = await Restaurant.findById(id);
-    
-    if (!restaurant) throw new Error("Restaurant not found.");
+    const restaurant = await Restaurant.findOne({ _id: id, isDeleted: false });
 
-    logger.info(`recalculating ${id} oldRating: ${oldRating} newRating: ${newRating}`)
+    if (!restaurant) {
+        throw new Error("Restaurant not found.");
+    }
+
+    logger.info(`recalculating ${id} oldRating: ${oldRating} newRating: ${newRating}`);
     const count = restaurant.amtRatings ?? 0;
     const oldAvg = restaurant.avgRating ?? 0;
 
-    if (count === 0) throw new Error("No ratings to update.");
+    if (count === 0) {
+        throw new Error("No ratings to update.");
+    }
 
     restaurant.avgRating = ((oldAvg * count) - oldRating + newRating) / count;
-    logger.info(`recalculating ${id}`)
+    logger.info(`recalculating ${id}`);
 
     return await restaurant.save();
 };

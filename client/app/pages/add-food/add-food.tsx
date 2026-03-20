@@ -14,6 +14,8 @@ import {
     getRestaurantById,
 } from "../../api/restaurant.api";
 import type { Restaurant } from "../../types/restaurant";
+import { Button } from "../../components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function AddFood() {
     const navigate = useNavigate();
@@ -22,6 +24,7 @@ export default function AddFood() {
 
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
+    const [saveChangesLoading, setSaveChangesLoading] = useState(false);
 
     const initialData: Restaurant = {
         restaurantName: "",
@@ -126,6 +129,8 @@ export default function AddFood() {
         }
 
         try {
+            setSaveChangesLoading(true);
+
             if (isEditMode && id) {
                 const updatePayload = {
                     ...restaurantData,
@@ -160,6 +165,8 @@ export default function AddFood() {
         } catch (err) {
             console.error(err);
             toast.error("Failed to save food establishment. Please try again.", { duration: 2000 });
+        } finally {
+            setSaveChangesLoading(false);
         }
     };
 
@@ -208,20 +215,31 @@ export default function AddFood() {
                     errors={errors}
                 />
 
-                <div className="flex justify-center">
-                    <button
+                <div className="flex justify-center gap-4">
+                    <Button
+                        type="button"
                         onClick={handleSubmit}
-                        className="bg-[#00b25d] hover:bg-[#0e2a1d] text-white px-6 py-2 rounded-lg"
+                        disabled={saveChangesLoading}
+                        className="bg-[#22754d] hover:bg-[#32a970] text-white rounded-xl px-6 min-w-[140px] flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                        {isEditMode ? "Save Changes" : "Save"}
-                    </button>
+                        {saveChangesLoading ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : isEditMode ? (
+                            "Save Changes"
+                        ) : (
+                            "Save"
+                        )}
+                    </Button>
 
-                    <button
+                    <Button
+                        type="button"
+                        variant="outline"
                         onClick={handleReset}
-                        className="border border-[#123524]/30 text-[#123524] hover:bg-gray-100 px-6 py-2 rounded-lg ml-4 transition-colors duration-200"
+                        disabled={saveChangesLoading}
+                        className="text-[#123524] border-[#123524]/30 hover:bg-gray-100 rounded-xl px-6 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         Reset
-                    </button>
+                    </Button>
                 </div>
             </div>
             <Footer />

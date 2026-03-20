@@ -88,7 +88,7 @@ export default function RestaurantCard(props: RestaurantCardProps) {
 
     return (
         <div
-            className="group relative flex max-w-130 h-50 bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+            className="group relative flex max-w-130 max-h-60 bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100"
             id={props._id}
         >
             <Link to={linkTo} className="relative shrink-0 w-44 block overflow-hidden">

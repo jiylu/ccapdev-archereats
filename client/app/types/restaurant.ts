@@ -15,6 +15,7 @@ export interface Restaurant {
     mobileNumber: string,
     websites: string[]
     owner?: string;
+    isDeleted?: boolean;
 }
 
 export type RestaurantInput = Omit<Restaurant, "_id" | "avgRating" | "amtRatings" | "owner">;

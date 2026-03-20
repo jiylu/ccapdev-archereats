@@ -7,6 +7,7 @@ import { logger } from "utils/logger.js";
 import mongoose from "mongoose";
 import { AuthData } from "./auth.controller.js";
 import { authSchema, resetSchema } from "schemas/auth.schemas.js";
+import User from "models/User.js";
 
 export const createUser = async (req: Request<object, object, IUserInput>, res: Response) => {
     try {
@@ -177,10 +178,47 @@ export const resetPassword = async (req: Request<object, object, AuthData>, res:
         }
 
         logger.info("Successful reset password.")
-        res.status(200).json({ message: `Successful reset password for ${user._id}` })
+        return res.status(200).json({
+            message: `Successful reset password for ${user._id}`,
+        });
+    } catch (err: unknown) {
+        if (err instanceof ZodError) {
+            return res.status(400).json({
+                message: err.issues.map((issue) => issue.message).join(", "),
+            });
+        }
+
+        if (err instanceof Error) {
+            if (err.message === "User not found.") {
+                return res.status(404).json({ message: err.message });
+            }
+
+            return res.status(400).json({ message: err.message });
+        }
+
+        return res.status(500).json({ message: "Unknown error occurred" });
+    }
+}
+
+export const checkLoginExists = async (req: Request, res: Response) => {
+    try {
+        const { login } = req.query;
+
+        if (!login || typeof login !== "string") {
+            return res.status(400).json({ message: "Username or email is required." });
+        }
+
+        const user = await User.findOne({
+            $or: [
+                { username: login },
+                { email: login }
+            ]
+        });
+
+        return res.status(200).json({ exists: !!user });
     } catch (err: unknown) {
         return res.status(500).json({
             message: err instanceof Error ? err.message : err
         });
     }
-}
+};

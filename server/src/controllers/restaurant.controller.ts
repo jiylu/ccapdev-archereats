@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { IRestaurantInput } from "models/Restaurant.js";
 import mongoose from "mongoose";
 import { createRestaurantSchema } from "schemas/restaurant.schemas.js";
-import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService, updateRestaurantService } from "services/restaurant.service.js";
+import { createRestaurantService, getAllRestaurantService, getRestaurantByIdService, getRestaurantByNameService, getOwnedRestaurantsService, updateRestaurantService, deleteRestaurantService } from "services/restaurant.service.js";
 import { logger } from "utils/logger.js"; 
 
 export const createRestaurant = async (req: Request<object, object, IRestaurantInput>, res: Response) => {
@@ -139,6 +139,48 @@ export const updateRestaurant = async (req: Request<{ id: string }>, res: Respon
         res.status(200).json(updatedRestaurant);
     } catch (err: unknown) {
         logger.error("Error updating restaurant", {
+            error: err instanceof Error ? err.message : err,
+            id: req.params.id
+        });
+
+        res.status(500).json({
+            message: err instanceof Error ? err.message : err
+        });
+    }
+};
+
+export const deleteRestaurant = async (req: Request<{ id: string }>, res: Response) => {
+    logger.info("DELETE /deleteRestaurant/:id called", { id: req.params.id });
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        logger.warn("Invalid restaurant ID provided", { id: req.params.id });
+        return res.status(404).json({ message: "Invalid restaurant ID" });
+    }
+
+    try {
+        const ownerId = (req as any).user?.id;
+
+        if (!ownerId) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+
+        const deletedRestaurant = await deleteRestaurantService(req.params.id, ownerId);
+
+        if (!deletedRestaurant) {
+            logger.warn("Restaurant not found or unauthorized", { 
+                id: req.params.id,
+                ownerId
+            });
+            return res.status(404).json({ message: "Restaurant not found or unauthorized" });
+        }
+
+        logger.info("Restaurant soft deleted successfully", { id: req.params.id });
+        res.status(200).json({
+            message: "Restaurant deleted successfully",
+            restaurant: deletedRestaurant
+        });
+    } catch (err: unknown) {
+        logger.error("Error deleting restaurant", {
             error: err instanceof Error ? err.message : err,
             id: req.params.id
         });
