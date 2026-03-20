@@ -498,7 +498,10 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange, initialData
 
                 {/* Cancel and Submit */}
                 <div className="flex justify-end gap-3 mt-6">
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    <Button 
+                        variant="outline" 
+                        onClick={() => onOpenChange(false)}
+                        disabled={loading}>
                         Cancel
                     </Button>
 
