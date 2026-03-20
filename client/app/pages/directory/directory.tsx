@@ -1,19 +1,20 @@
 import Navbar from "../../components/layout/navbar";
 import Filters from "./filters";
 import { useEffect, useState } from "react";
-import type { Restaurant } from "app/types/restaurant";
-import { getAllRestaurants } from "../../api/restaurant.api";
-import PageLoader from "../../components/ui/loading";
 import Footer from "../../components/layout/footer";
 import PaginationControls from "./pagination-controls";
 import DirectoryContent from "./directory-content";
 import DirectoryHeader from "./directory-header";
+import { useSearchParams } from "react-router-dom";
+import { useRestaurants } from "../../hooks/useRestaurants";
+import PageLoader from "../../components/ui/loading";
 
 export default function Directory () {
-    const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+    const { restaurants, loading } = useRestaurants();
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(true);
     const [sortOption, setSortOption] = useState<string>("");
+    const [searchParams] = useSearchParams();
+    const searchQuery = searchParams.get("q") ?? ""
     const [filters, setFilters] = useState({
         priceRange: [] as string[],
         minRating: 0,
@@ -22,31 +23,10 @@ export default function Directory () {
         tags: [] as string[], 
     })
     
-
-    useEffect(() => {
-        const fetchRestaurants = async () => {
-            try {
-                const [data] = await Promise.all([
-                    getAllRestaurants(),
-                ]);
-
-                setRestaurants(data);
-            } catch (err) {
-                console.log(err);
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchRestaurants();
-    }, [])
-    
 	useEffect(() => {
 		document.title="Directory | ArcherEats";		
     })
     
-    if (loading) return <PageLoader />;
-
     const getPriceCategory = (price: number) => {
         if (price <= 200) return "₱";
         if (price <= 500) return "₱₱";
@@ -60,6 +40,10 @@ export default function Directory () {
             ...filters.tags
         ]
         
+        if (searchQuery && !r.restaurantName.toLowerCase().includes(searchQuery.toLowerCase())) {
+            return false;
+        }
+
         if ((r.avgRating ?? 0) < filters.minRating) {
             return false;
         }  
@@ -106,6 +90,9 @@ export default function Directory () {
     const currentRestaurants = sortedRestaurants.slice(start, end);
 
     // max sa pagination
+
+    if (loading) return <PageLoader />;
+
 
     return (
         <div className="flex flex-col min-h-screen">
