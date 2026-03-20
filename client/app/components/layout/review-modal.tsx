@@ -10,7 +10,7 @@ import { cn } from "../../lib/utils";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { Star, X } from "lucide-react";
+import { Loader2, Star, X } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { createPost, updatePost } from "../../api/post.api";
 import { toast } from "sonner";
@@ -55,7 +55,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange, initialData
     const [ratePricing, setRatePricing] = useState<RatePricingSymbol | undefined>()
     const [waitTime, setWaitTime] = useState<"No Wait" | "15-30m" | "1hr+" | undefined>()
     const [recommended, setRecommended] = useState<boolean | undefined>()
-    
+    const [loading, setLoading] = useState(false);
     
     const [errors, setErrors] = useState<FormErrors>({})
     const [touched, setTouched] = useState<{
@@ -213,6 +213,7 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange, initialData
         }
 
         try {
+            setLoading(true)
             const payload = {
                 restaurant: restaurantId,
                 rating,
@@ -242,6 +243,8 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange, initialData
                 isEdit ? "Failed to update review. Please try again." : "Failed to submit review. Please try again.",
                 { duration: 2000 }
             );
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -500,7 +503,11 @@ export function WriteReviewModal({ restaurantId, open, onOpenChange, initialData
                     </Button>
 
                     <Button onClick={handleSubmit} className="bg-[#123524] hover:bg-[#1E4D36] text-[#E3E8E6]">
-                        {isEdit ? "Save Changes" : "Submit"}
+                            {loading ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                                isEdit ? "Save Changes" : "Submit"
+                            )}
                     </Button>
                 </div>
             </DialogContent>
