@@ -4,12 +4,14 @@ import type { Post } from "../../types/post"
 import ReviewCard from "./profile-review-card"
 import { useEffect, useState } from "react";
 import { Badge } from "../../components/ui/badge";
+import { useAuth } from "../../hooks/useAuth";
 
 interface props {
     reviews: Post[]
 }
 
 export default function ProfileReviewsSection(props: props) {
+    const { user } = useAuth()
     const [restaurantNames, setRestaurantNames] = useState<Record<string,string>>({});
     
     useEffect(() =>{
@@ -46,6 +48,8 @@ export default function ProfileReviewsSection(props: props) {
             ) : (
                 <div className="grid grid-cols-2 gap-2 items-start">
                     {props.reviews.map((r) => {
+                        if (r.isAnonymous && (user?._id != r.user)) return; 
+
                         return (
                             <ReviewCard
                                 key={r._id}
