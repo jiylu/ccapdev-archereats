@@ -10,6 +10,7 @@ import { loginUser } from "../../api/auth.api";
 import { useAuth } from "../../hooks/useAuth";
 import { useState } from "react";
 import { cn } from "../../lib/utils";
+import ForgotPasswordModal from "./forgot-password-modal";
 
 interface LoginModalProps {
     open: boolean
@@ -27,6 +28,7 @@ type FormData = z.infer<typeof loginSchema>
 export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalProps) {
 	const { setAuth } = useAuth();
     const [serverError, setServerError] = useState<string | null>(null)
+    const [openForgotPassword, setOpenForgotPassword] = useState(false);
     const location = useLocation(); 
     const navigate = useNavigate();
 
@@ -48,8 +50,19 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
             console.error(err);
         }
     }
+
+    const handleOpenForgotPassword = () => {
+        onOpenChange(false);
+        setOpenForgotPassword(true);
+    };
+
+    const handleBackToLogin = () => {
+        setOpenForgotPassword(false);
+        onOpenChange(true);
+    };
     
     return (
+        <>
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="flex items-center flex-col">
                     <DialogHeader>
@@ -97,7 +110,13 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
 							    <p className="text-sm text-red-500 mt-2 text-center">{serverError}</p>
 							)}
 
-                            <span className="text-[0.75em]">Forgot Password?</span>
+                            <button
+                                type="button"
+                                onClick={handleOpenForgotPassword}
+                                className="text-[0.75em] underline text-[#1E4D36] hover:text-[#006937] cursor-pointer"
+                            >
+                                Forgot Password?
+                            </button>
                             <Button 
                                 type="submit"
                                 variant="outline" 
@@ -117,5 +136,11 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
                     </form>             
             </DialogContent>   
         </Dialog>
+        <ForgotPasswordModal
+                open={openForgotPassword}
+                onOpenChange={setOpenForgotPassword}
+                onBackToLogin={handleBackToLogin}
+            />
+        </>
     );
 } 
