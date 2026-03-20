@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import StarRating from "../../../components/ui/star-rating";
 import CommentActions from "../components/comment-actions";
 
@@ -22,6 +23,7 @@ interface CommentHeaderProps {
         recommended?: boolean;
         pictures?: string[];
     };
+    username: string;
 }
 
 export default function CommentHeader(props: CommentHeaderProps) {
@@ -34,11 +36,21 @@ export default function CommentHeader(props: CommentHeaderProps) {
                     className="h-11 w-11 rounded-full border border-zinc-200"
                 />
                 <div>
-                    <h3 className="font-semibold text-zinc-900">
-                        {props.isAnonymous
-                            ? "Anonymous User"
-                            : `${props.firstName} ${props.lastName}`}
-                    </h3>
+                    {props.isAnonymous ? (
+                        <h3 className="font-semibold text-zinc-900">
+                            Anonymous User
+                        </h3>
+                    ) : (
+                        <Link 
+                            className="font-semibold text-zinc-900"
+                            to={`/profile/${props.username}`}
+                        >
+                            {props.isAnonymous
+                                ? "Anonymous User"
+                                : `${props.firstName} ${props.lastName}`}
+                        </Link>
+                    )}
+
                     <p className="text-xs text-zinc-500">
                         {new Date(props.date).toLocaleString("en-US", {
                             month: "short",

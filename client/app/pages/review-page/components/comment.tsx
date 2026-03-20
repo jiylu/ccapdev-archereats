@@ -168,6 +168,7 @@ export default function Comment(props: CommentProps) {
                     recommended: props.post.recommended,
                     pictures: props.post.pictures,
                 }}
+                username={postUser?.username || ""}
             />
 
             <CommentMeta
