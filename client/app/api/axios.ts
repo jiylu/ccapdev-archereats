@@ -1,7 +1,10 @@
 import axios from "axios";
 
+const prod = import.meta.env.VITE_PROD === "true";
+const baseUrl = prod ? import.meta.env.VITE_PRODUCTION_URL : import.meta.env.VITE_DEVELOPMENT_URL
+
 const api = axios.create({
-    baseURL: "http://localhost:8080/api"
+    baseURL: baseUrl
 });
 
 api.interceptors.request.use((config) => {
