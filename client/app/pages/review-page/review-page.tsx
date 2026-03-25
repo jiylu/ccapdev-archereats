@@ -77,7 +77,7 @@ export default function ReviewPage() {
 
                 <ReviewSection 
                     restaurantId={id}
-                    owner={restaurant.owner}
+                    owner={restaurant.owner || "undefined"}
                     reviews={reviews}
                 />
             </main>

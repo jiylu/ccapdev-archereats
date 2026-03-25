@@ -13,8 +13,8 @@ export default function RestaurantOverview (props: RestaurantOverviewProps) {
             <div className="flex flex-col gap-4">
                 <RestaurantHeader 
                     restaurantName={props.restaurant.restaurantName}
-                    avgRating={props.restaurant.avgRating}
-                    amtRatings={props.restaurant.amtRatings}
+                    avgRating={props.restaurant.avgRating || 0}
+                    amtRatings={props.restaurant.amtRatings || 0}
                     maxPrice={props.restaurant.maxPrice}
                     minPrice={props.restaurant.minPrice}
                     tags={props.restaurant.tags}

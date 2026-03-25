@@ -19,11 +19,12 @@ export default function FeaturedSection (props: FeaturedSectionProps) {
         if (!props.restaurants) return;
 
         const sorted = [...props.restaurants].sort((a, b) => {
-            if (b.avgRating !== a.avgRating) return b.avgRating - a.avgRating;
+            const ratingA = a.avgRating ?? 0;
+            const ratingB = b.avgRating ?? 0;
+            if (ratingB !== ratingA) return ratingB - ratingA;
 
-            return b.amtRatings - a.amtRatings;
+            return (b.amtRatings ?? 0) - (a.amtRatings ?? 0);
         });
-
 
         const timer = setTimeout(() => {
             setFeaturedRestaurants(sorted.slice(0, 9));
@@ -87,7 +88,7 @@ export default function FeaturedSection (props: FeaturedSectionProps) {
                                             restaurantId={restaurant._id || "undefined"}
                                             restaurantName={restaurant.restaurantName}
                                             rating={restaurant.avgRating || 0}
-                                            imgUrl={restaurant.images[0]}
+                                            imgUrl={restaurant.images[0] as string}
                                         />
                                     </CarouselItem>
                                 </motion.div>

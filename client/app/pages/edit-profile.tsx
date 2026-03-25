@@ -10,7 +10,7 @@ import { checkUsernameAvailability, updateUser } from "../api/user.api";
 import { cn } from "../lib/utils";
 import { toast } from "sonner";
 import PageLoader from "../components/ui/loading";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export default function EditProfile () {
     const { user, setAuth, token } = useAuth();
