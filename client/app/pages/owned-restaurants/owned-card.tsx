@@ -26,7 +26,7 @@ export default function OwnedCard({
             <Card className="w-[320px] pt-0 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
                 <div className="relative h-[170px]">
                     <img
-                        src={restaurant.images?.[0]}
+                        src={restaurant.images?.[0] as string}
                         alt={restaurant.restaurantName}
                         className={`w-full h-full object-cover ${
                             restaurant.isDeleted ? "grayscale opacity-70" : ""

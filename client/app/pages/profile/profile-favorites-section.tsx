@@ -49,7 +49,7 @@ export default function FavoritesSection(props: props) {
                         return (
                             <FavoriteRestaurantCard
                                 imgUrl={imgUrls[0]}
-                                restaurantId={r._id}
+                                restaurantId={r._id || "undefined"}
                             />
                         );
                     })}

@@ -38,7 +38,7 @@ export default function PaginationControls( { currentPage, pageAmt, onPageChange
         <Pagination>
             <PaginationContent className="min-h-[40px] items-center">
                 <PaginationItem>
-                    <PaginationPrevious size={30} className="cursor-pointer" onClick={handlePrevious} />
+                    <PaginationPrevious size="lg" className="cursor-pointer" onClick={handlePrevious} />
                 </PaginationItem>
 
                 {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
@@ -76,7 +76,7 @@ export default function PaginationControls( { currentPage, pageAmt, onPageChange
                 )}
 
                 <PaginationItem>
-                    <PaginationNext size={30} className="cursor-pointer" onClick={handleNext} />
+                    <PaginationNext size="lg" className="cursor-pointer" onClick={handleNext} />
                 </PaginationItem>
             </PaginationContent>
         </Pagination>
