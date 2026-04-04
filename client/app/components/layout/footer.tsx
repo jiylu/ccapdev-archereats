@@ -51,29 +51,20 @@ export default function Footer() {
                 </div>
 
                 <div className="flex flex-col gap-5.5 text-[18px]">
-                    <Link to="/" className="text-white no-underline transition-opacity duration-300 hover:opacity-70">
+                    <Link to="/" className="text-white no-underline transition-opacity duration-300 hover:opacity-70 mt-10.5">
                         Home
-                    </Link>
-                    <a
-                        href="https://github.com/jiylu/ccapdev-archereats"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:opacity-70"
-                    >
-                        Github
-                    </a>
-                    <Link to="/" className="text-white no-underline transition-opacity duration-300 hover:opacity-70">
-                        Contact Us
                     </Link>
                 </div>
 
                 <div className="flex flex-col gap-5.5 text-[18px]">
-                    <Link to="/" className="text-white no-underline transition-opacity duration-300 hover:opacity-70">
-                        Privacy Policy
-                    </Link>
-                    <Link to="/" className="text-white no-underline transition-opacity duration-300 hover:opacity-70">
-                        Cookie Policy
-                    </Link>
+                    <a
+                        href="https://github.com/jiylu/ccapdev-archereats"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:opacity-70 mt-10.5"
+                    >
+                        GitHub
+                    </a>
                 </div>
             </div>
         </footer>
