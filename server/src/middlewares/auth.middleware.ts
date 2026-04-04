@@ -9,7 +9,7 @@ export interface AuthenticatedRequest extends Request {
 
 export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const header = req.headers['authorization']
-    const token = header && header.split(' ')[1]
+    const token = req.cookies?.token ?? (header && header.split(' ')[1])
 
     logger.info("authMiddleware called.", {header: header, token: token})
 

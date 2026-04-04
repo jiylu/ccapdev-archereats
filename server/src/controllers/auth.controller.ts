@@ -32,7 +32,15 @@ export const loginUser = async (req: Request<object, object, AuthData>, res: Res
         )
 
         logger.info("Auth successful for", { user })
-        res.status(200).json({ token, user })
+        
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        res.status(200).json({ user })
     } catch (err: unknown) {
 		if (err instanceof ZodError) {
 			logger.error(err.issues)
