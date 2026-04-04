@@ -38,9 +38,9 @@ export function LoginModal ({ open, onOpenChange, onLoginSuccess }: LoginModalPr
 
     const onSubmit = async (data: FormData) => {
         try {
-            const { user, token } = await loginUser(data);
+            const { user } = await loginUser(data);
             
-            setAuth(token, user)
+            setAuth(user)
             reset()
             navigate(location.pathname === "/signup" ? "/directory": location.pathname)
             onOpenChange(false)

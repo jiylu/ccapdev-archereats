@@ -13,7 +13,7 @@ interface ReviewSectionProps {
 }
 
 export default function ReviewSection(props: ReviewSectionProps) {
-    const { user, token } = useAuth();
+    const { user } = useAuth();
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [openReview, setOpenReview] = useState(false);
     const [openLogin, setOpenLogin] = useState(false)
@@ -22,7 +22,7 @@ export default function ReviewSection(props: ReviewSectionProps) {
         console.log(props.restaurantId)
         console.log(`current userid: ${user?._id}`)
         console.log(`owner id: ${props.owner}`)
-        if (!token) {
+        if (!user) {
             setOpenLogin(true)
             return
         }

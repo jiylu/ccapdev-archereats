@@ -25,7 +25,7 @@ interface RestaurantCardProps {
 }
 
 export default function RestaurantCard(props: RestaurantCardProps) {
-    const { user, token } = useAuth();
+    const { user } = useAuth();
     const { setAuth } = useAuth();
     const [openReview, setOpenReview] = useState(false)
     const [openLogin, setOpenLogin] = useState(false)
@@ -40,7 +40,7 @@ export default function RestaurantCard(props: RestaurantCardProps) {
     }
 
     const handleWriteReview = () => {
-        if (!token) {
+        if (!user) {
             setOpenLogin(true)
             return
         }
@@ -48,7 +48,7 @@ export default function RestaurantCard(props: RestaurantCardProps) {
     }
 
     const handleFavoriteRestaurant = async () => {
-        if (!token || !user) {
+        if (!user) {
             setOpenLogin(true);
             return;
         }
@@ -73,7 +73,7 @@ export default function RestaurantCard(props: RestaurantCardProps) {
                 })
             }
 
-            setAuth(token, newUser);
+            setAuth(newUser);
         } catch (err: unknown) {
             toast.error("Failed to add restaurant to favorites.")
             console.error(err);

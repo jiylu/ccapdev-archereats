@@ -41,13 +41,13 @@ export default function SignupForm () {
     const onSubmit = async (data: FormData) => {
         const { confirmpassword, ...payload } = data; // remove password confirm
         try {
-            const user = await registerUser(payload);
-            const { token } = await loginUser({login: user.email, password: data.password})
+            const newUser = await registerUser(payload);
+            const { user } = await loginUser({login: newUser.email, password: data.password})
             
             toast.success("Sign-Up Successful! Welcome to ArcherEats!");
 
             reset();
-            setAuth(token, user)
+            setAuth(user)
             navigate("/directory");
         } catch (err:unknown) {
             console.error(err);

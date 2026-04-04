@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useState } from "react";
 
 export default function Navbar () {
-    const { token } = useAuth();
+    const { user } = useAuth();
     const [openLogin, setOpenLogin] = useState(false)
     const location = useLocation();
     const isLandingPage = location.pathname === "/";
@@ -21,7 +21,7 @@ export default function Navbar () {
                 {!isLandingPage && <Searchbar />}
                 <div className="flex items-center gap-6 shrink-0 text-white text-[1.15rem] font-medium">
                     <Link to='/directory' className="transition-colors duration-200 hover:text-black">Directory</Link>
-                    {!token && (
+                    {!user && (
                         <>
                         <span 
                             className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer"
@@ -37,12 +37,12 @@ export default function Navbar () {
                         </>
                     )}
 
-                    {!token && 
+                    {!user && 
                         <Link to='/signup' className="cursor-pointer text-white transition-colors duration-200 hover:text-black cursor-pointer">
                             Sign Up
                         </Link>
                     }
-                    {token && <MenuButton />}
+                    {user && <MenuButton />}
                 </div>
             </div>
         </nav>

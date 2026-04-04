@@ -13,7 +13,7 @@ import PageLoader from "../components/ui/loading";
 import { Loader2 } from "lucide-react";
 
 export default function EditProfile () {
-    const { user, setAuth, token } = useAuth();
+    const { user, setAuth } = useAuth();
     const navigate = useNavigate();
     const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -172,7 +172,7 @@ export default function EditProfile () {
 
             const updatedUser = await updateUser(user._id, payload);
 
-            setAuth(token, updatedUser);
+            setAuth(updatedUser);
 
             toast.success("Profile updated successfully!");
             navigate(`/profile/${user?.username}`);
