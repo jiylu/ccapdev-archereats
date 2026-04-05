@@ -175,7 +175,7 @@ export default function EditProfile () {
             setAuth(updatedUser);
 
             toast.success("Profile updated successfully!");
-            navigate(`/profile/${user?.username}`);
+            navigate(`/profile/${updatedUser?.username}`);
 
         } catch (err: any) {
             console.error(err);
