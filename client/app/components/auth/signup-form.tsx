@@ -34,7 +34,7 @@ type FormData = z.infer<typeof registerSchema>;
 export default function SignupForm () {
     const navigate = useNavigate();
     const { setAuth } = useAuth();
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, control } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, control, setError } = useForm<FormData>({
         resolver: zodResolver(registerSchema)
     })
 
@@ -49,9 +49,23 @@ export default function SignupForm () {
             reset();
             setAuth(user)
             navigate("/directory");
-        } catch (err:unknown) {
+        } catch (err: any) {
             console.error(err);
-            toast.error("Sign-Up Failed! Please try again.");
+
+            const message =
+                err?.response?.data?.message || "";
+
+            if (message.toLowerCase().includes("email")) {
+                setError("email", { message: "Email already exists" });
+                toast.error("Email already exists");
+            } 
+            else if (message.toLowerCase().includes("username")) {
+                setError("username", { message: "Username already taken" });
+                toast.error("Username already taken");
+            } 
+            else {
+                toast.error("Sign-Up Failed!");
+            }
         }
     }
 
