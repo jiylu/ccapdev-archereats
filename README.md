@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# ArcherEats
 
-Currently, two official plugins are available:
+A restaurant review web application for CCAPDEV focusing on restaurants around the vicinity of De La Salle University Manila.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Client:** React, ShadcnUI, Framer Motion, TailwindCSS
 
-## Expanding the ESLint configuration
+**Server:** Node, Express
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Database:** MongoDB
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Installation
+Before installing ArcherEats, make sure you have the following installed:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Node.js (v16 or higher recommended)**
+- **Git**
+- **MongoDB** 
+
+Follow these steps to set up ArcherEats on your local machine:
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/jiylu/ccapdev-archereats.git
+cd ccapdev-archereats
+```
+#### 2. Install the dependencies 
+For the **root** folder
+```bash
+npm i
+```
+    
+For the **client** folder (starting at the root folder)
+```bash
+cd client
+npm i
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+For the **server** folder (starting at the root folder)
+```bash
+cd server
+npm i
 ```
+
+
+#### 3. Set Up Environment Variables
+Make an .env at the root of the client folder
+```
+VITE_DEVELOPMENT_URL="http://localhost:8080/api"
+```
+
+Make an .env at the root of the server folder
+```
+DB_URL=(YOUR MONGODB URI)
+PORT=8080
+JWT_SECRET=(YOUR JWT SECRET)
+CLOUDINARY_CLOUD_NAME=(YOUR CLOUDINARY CLOUD NAME)
+CLOUDINARY_API_KEY=(YOUR CLOUDINARY API KEY)
+CLOUDINARY_API_SECRET=(YOUR CLOUDINARY API SECRET)
+NODE_ENV="dev"
+CLIENT_URL="http://localhost:5173"
+```
+
+#### 4. Run the application
+Make sure you are in the project root and run the following command:
+```bash
+npm run dev
+```
+
+#### 5. Open in Browser
+```
+http://localhost:5173/
+```
+
+## Disclaimer
+
+This project **requires** a Cloudinary account for image upload and storage functionality.
+
+ArcherEats uses Cloudinary to handle restaurant images, user uploads, and media assets. Without proper Cloudinary credentials, features involving image uploads will not work correctly.
+
+#### What You Need
+
+You must create a Cloudinary account and obtain the following:
+
+```
+CLOUDINARY_CLOUD_NAME
+CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET
+```
+
+You can get these from your Cloudinary dashboard after signing up.
+
+#### Note
+
+The application may still run without Cloudinary, but image-related features will be disabled or may cause errors.
+Make sure your .env file is properly configured before running the app.
