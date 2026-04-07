@@ -11,6 +11,7 @@ export default function Landing() {
 
 	useEffect(() => {
 		document.title = "Landing | ArcherEats";
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	});
 
 	if (loading) return <PageLoader />;
