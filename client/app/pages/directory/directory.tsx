@@ -82,7 +82,7 @@ export default function Directory () {
         return 0;
     })
 
-    const itemsPerPage = 6;
+    const itemsPerPage = 12;
     const pageAmt = Math.ceil(filteredRestaurants.length / itemsPerPage);
     
     const start = (currentPage - 1) * itemsPerPage;
