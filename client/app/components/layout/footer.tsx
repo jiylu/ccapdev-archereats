@@ -69,6 +69,12 @@ export default function Footer() {
                         >
                             Home
                         </Link>
+                        <Link
+                            to="/about-us"
+                            className="text-white/60 no-underline transition-colors duration-200 hover:text-white"
+                        >
+                            About Us
+                        </Link>
                         <span className="text-white/20">|</span>
                         <a
                             href="https://github.com/jiylu/ccapdev-archereats"

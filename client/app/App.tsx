@@ -9,6 +9,7 @@ import EditProfile from "./pages/edit-profile";
 import OwnedRestaurants from "./pages/owned-restaurants/owned-restau";
 import { Toaster } from "./components/ui/sonner";
 import { PublicRoute } from "./components/routes/public-route";
+import AboutUs from "./pages/about-us";
 
 function App() {
 	return (
@@ -31,6 +32,7 @@ function App() {
 					}
 				/>
 				<Route path="/edit-profile" element={<EditProfile />} />
+				<Route path="/about-us" element={<AboutUs />} />
 			</Routes>
 		</>
 	);
