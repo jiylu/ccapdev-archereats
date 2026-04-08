@@ -71,7 +71,7 @@ export default function AboutUs() {
             <section className="max-w-3xl mx-auto px-6 pb-16 text-center">
                 <div className="bg-white border border-[#123524]/10 rounded-2xl p-8 shadow-sm">
                     <h2 className="text-2xl font-extrabold text-[#123524] mb-3">
-                        🍽️ About the Project
+                        About the Project
                     </h2>
                     <p className="text-[#123524]/70 leading-relaxed text-base">
                         ArcherEats is a food establishment review platform built for our <span className="font-semibold text-[#123524]">CCAPDEV</span> course project.
@@ -128,6 +128,103 @@ export default function AboutUs() {
                             </div>
                         </div>
                     ))}
+                </div>
+            </section>
+
+            {/* Dependencies Section */}
+            <section className="max-w-5xl mx-auto px-6 pb-24">
+                <h2 className="text-3xl font-extrabold text-[#123524] text-center mb-3">
+                    Libraries & Dependencies
+                </h2>
+                <p className="text-center text-[#123524]/60 text-sm mb-10">
+                    All NPM packages and third-party libraries used in this project.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Production Dependencies */}
+                    <div className="bg-white border border-[#123524]/10 rounded-2xl p-6 shadow-sm">
+                        <div className="flex items-center gap-2 mb-5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#22754d]" />
+                            <h3 className="text-lg font-extrabold text-[#123524]">Dependencies</h3>
+                            <span className="ml-auto text-xs font-semibold text-[#22754d] bg-[#22754d]/10 px-2.5 py-1 rounded-full">
+                                Production
+                            </span>
+                        </div>
+                        <ul className="space-y-2.5">
+                            {[
+                                { name: "@base-ui/react", version: "^1.2.0", desc: "Unstyled, accessible UI primitives" },
+                                { name: "@hookform/resolvers", version: "^5.2.2", desc: "Validation resolvers for React Hook Form" },
+                                { name: "@tailwindcss/vite", version: "^4.1.18", desc: "Tailwind CSS Vite plugin" },
+                                { name: "axios", version: "^1.13.6", desc: "Promise-based HTTP client" },
+                                { name: "class-variance-authority", version: "^0.7.1", desc: "CSS class variance utility (CVA)" },
+                                { name: "clsx", version: "^2.1.1", desc: "Conditional className utility" },
+                                { name: "embla-carousel-react", version: "^8.6.0", desc: "Lightweight carousel library" },
+                                { name: "framer-motion", version: "^12.38.0", desc: "Animation library for React" },
+                                { name: "lucide-react", version: "^0.564.0", desc: "Icon library for React" },
+                                { name: "next-themes", version: "^0.4.6", desc: "Theme management for React apps" },
+                                { name: "radix-ui", version: "^1.4.3", desc: "Accessible UI component primitives" },
+                                { name: "react", version: "^19.2.0", desc: "Core React library" },
+                                { name: "react-dom", version: "^19.2.0", desc: "React DOM rendering" },
+                                { name: "react-hook-form", version: "^7.71.2", desc: "Performant form state management" },
+                                { name: "react-router-dom", version: "^7.13.0", desc: "Client-side routing for React" },
+                                { name: "react-spinners", version: "^0.17.0", desc: "Loading spinner components" },
+                                { name: "sonner", version: "^2.0.7", desc: "Toast notification library" },
+                                { name: "tailwind-merge", version: "^3.4.0", desc: "Merge Tailwind CSS classes safely" },
+                                { name: "tailwindcss", version: "^4.1.18", desc: "Utility-first CSS framework" },
+                                { name: "zod", version: "^4.3.6", desc: "TypeScript-first schema validation" },
+                            ].map((pkg) => (
+                                <li key={pkg.name} className="flex items-start justify-between gap-3 text-sm">
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="font-mono font-semibold text-[#123524] truncate">{pkg.name}</span>
+                                        <span className="text-[#123524]/50 text-xs leading-snug">{pkg.desc}</span>
+                                    </div>
+                                    <span className="shrink-0 text-xs font-medium text-[#22754d] bg-[#22754d]/10 px-2 py-0.5 rounded-md font-mono mt-0.5">
+                                        {pkg.version}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Dev Dependencies */}
+                    <div className="bg-white border border-[#123524]/10 rounded-2xl p-6 shadow-sm">
+                        <div className="flex items-center gap-2 mb-5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#123524]/40" />
+                            <h3 className="text-lg font-extrabold text-[#123524]">Dev Dependencies</h3>
+                            <span className="ml-auto text-xs font-semibold text-[#123524]/50 bg-[#123524]/10 px-2.5 py-1 rounded-full">
+                                Development
+                            </span>
+                        </div>
+                        <ul className="space-y-2.5">
+                            {[
+                                { name: "@eslint/js", version: "^9.39.1", desc: "ESLint JavaScript config" },
+                                { name: "@types/node", version: "^24.10.13", desc: "TypeScript types for Node.js" },
+                                { name: "@types/react", version: "^19.2.7", desc: "TypeScript types for React" },
+                                { name: "@types/react-dom", version: "^19.2.3", desc: "TypeScript types for React DOM" },
+                                { name: "@vitejs/plugin-react", version: "^5.1.1", desc: "React plugin for Vite" },
+                                { name: "babel-plugin-react-compiler", version: "^1.0.0", desc: "React compiler Babel plugin" },
+                                { name: "eslint", version: "^9.39.1", desc: "JavaScript/TypeScript linter" },
+                                { name: "eslint-plugin-react-hooks", version: "^7.0.1", desc: "ESLint rules for React Hooks" },
+                                { name: "eslint-plugin-react-refresh", version: "^0.4.24", desc: "ESLint plugin for React Refresh" },
+                                { name: "globals", version: "^16.5.0", desc: "Global variables reference list" },
+                                { name: "shadcn", version: "^3.8.4", desc: "Reusable component library CLI" },
+                                { name: "tw-animate-css", version: "^1.4.0", desc: "Tailwind CSS animation utilities" },
+                                { name: "typescript", version: "~5.9.3", desc: "Typed JavaScript superset" },
+                                { name: "typescript-eslint", version: "^8.48.0", desc: "ESLint support for TypeScript" },
+                                { name: "vite", version: "^7.3.1", desc: "Next-generation frontend build tool" },
+                            ].map((pkg) => (
+                                <li key={pkg.name} className="flex items-start justify-between gap-3 text-sm">
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="font-mono font-semibold text-[#123524] truncate">{pkg.name}</span>
+                                        <span className="text-[#123524]/50 text-xs leading-snug">{pkg.desc}</span>
+                                    </div>
+                                    <span className="shrink-0 text-xs font-medium text-[#123524]/50 bg-[#123524]/5 px-2 py-0.5 rounded-md font-mono mt-0.5">
+                                        {pkg.version}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </section>
 
